@@ -1,0 +1,1300 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style></head><body>
+<title>Multi-Observable Scoring Framework</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
+
+<style>
+/* ============================================================
+   Tokens. Complete light palette on bare :root
+   ============================================================ */
+:root{
+  --ground:#f4f6f6;
+  --surface:#ffffff;
+  --surface-sunk:#eef1f1;
+  --rule:#dde3e3;
+  --rule-soft:#e9eded;
+  --ink:#161b1c;
+  --ink-2:#3c4647;
+  --muted:#65706f;
+  --faint:#8d9897;
+  --accent:#12806c;
+  --accent-soft:#e2f2ee;
+  --shadow:0 1px 2px rgba(18,32,30,.05), 0 8px 24px -16px rgba(18,32,30,.18);
+  --grid:#e4e9e9;
+  --nodata:#e8ecec;
+
+  --m-rdf:#9ad83c;
+  --m-vdos:#47c06e;
+  --m-density:#1ea087;
+  --m-orientation:#267f8e;
+  --m-sfg:#355c8c;
+  --m-friction:#45347f;
+
+  --struct:#1a6b3c;
+  --dyn:#08519c;
+
+  --font-ui:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
+  --font-num:"IBM Plex Mono","SF Mono",Menlo,monospace;
+  --font-head:"Spectral",Georgia,"Times New Roman",serif;
+
+  --rail:320px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0e1314;
+    --surface:#161c1d;
+    --surface-sunk:#111718;
+    --rule:#2a3334;
+    --rule-soft:#222a2b;
+    --ink:#e7eceb;
+    --ink-2:#c3cccb;
+    --muted:#8f9b9a;
+    --faint:#6d7877;
+    --accent:#35baa0;
+    --accent-soft:#16302b;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.7);
+    --grid:#242d2e;
+    --nodata:#222a2b;
+    --struct:#5cc98a;
+    --dyn:#6aa9e8;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0e1314;
+  --surface:#161c1d;
+  --surface-sunk:#111718;
+  --rule:#2a3334;
+  --rule-soft:#222a2b;
+  --ink:#e7eceb;
+  --ink-2:#c3cccb;
+  --muted:#8f9b9a;
+  --faint:#6d7877;
+  --accent:#35baa0;
+  --accent-soft:#16302b;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.7);
+  --grid:#242d2e;
+  --nodata:#222a2b;
+  --struct:#5cc98a;
+  --dyn:#6aa9e8;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:var(--font-ui);
+  font-size:14px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+button{font-family:inherit;font-size:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+
+.layout{display:flex;align-items:flex-start;min-height:100vh}
+
+/* ============================================================
+   Console (left rail)
+   ============================================================ */
+.console{
+  width:var(--rail);flex:0 0 var(--rail);
+  position:sticky;top:0;max-height:100vh;overflow-y:auto;
+  background:var(--surface);
+  border-right:1px solid var(--rule);
+  padding:22px 20px 40px;
+}
+.brand{display:flex;flex-direction:column;gap:2px;padding-bottom:16px;border-bottom:1px solid var(--rule)}
+.brand .kicker{
+  font-family:var(--font-num);font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent);font-weight:500;
+}
+.brand h1{font-family:var(--font-head);font-size:25px;font-weight:600;letter-spacing:-.01em;line-height:1.15}
+.brand .sub{font-size:12.5px;color:var(--muted);margin-top:5px}
+
+.block{padding:18px 0;border-bottom:1px solid var(--rule)}
+.block:last-child{border-bottom:none}
+.block-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:11px}
+.block-title{
+  font-family:var(--font-num);font-size:10px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--muted);font-weight:500;
+}
+.block-note{font-size:11px;color:var(--faint)}
+
+/* weight composition strip */
+.compbar{display:flex;height:7px;border-radius:1px;overflow:hidden;background:var(--surface-sunk);margin-bottom:14px}
+.compbar span{transition:flex-grow .25s ease}
+
+/* sliders */
+.sliders{display:flex;flex-direction:column;gap:2px}
+.srow{display:grid;grid-template-columns:11px 1fr 42px;align-items:center;gap:9px;padding:5px 0}
+.srow.off{opacity:.42}
+.swatch{width:11px;height:11px;border-radius:2px}
+.srow .lbl{display:flex;flex-direction:column;gap:3px;min-width:0}
+.srow .name{
+  font-family:var(--font-num);font-size:11px;font-weight:500;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--ink-2);
+}
+.srow .pct{
+  font-family:var(--font-num);font-size:13px;text-align:right;
+  font-variant-numeric:tabular-nums;color:var(--ink);font-weight:500;
+}
+input[type=range]{
+  -webkit-appearance:none;appearance:none;width:100%;height:14px;background:transparent;margin:0;cursor:grab;
+}
+input[type=range]::-webkit-slider-runnable-track{height:3px;background:var(--rule);border-radius:2px}
+input[type=range]::-moz-range-track{height:3px;background:var(--rule);border-radius:2px}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:13px;height:13px;border-radius:50%;
+  background:var(--surface);border:2.5px solid var(--thumb,var(--accent));margin-top:-5px;
+}
+input[type=range]::-moz-range-thumb{
+  width:13px;height:13px;border-radius:50%;box-sizing:border-box;
+  background:var(--surface);border:2.5px solid var(--thumb,var(--accent));
+}
+
+/* chips / buttons */
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{
+  background:var(--surface-sunk);border:1px solid var(--rule);border-radius:999px;
+  padding:4px 10px;font-size:11.5px;color:var(--ink-2);transition:all .15s;
+}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.chip[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* group editor */
+.groups{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gcol{border:1px solid var(--rule);border-radius:3px;padding:8px;min-height:74px}
+.gcol h4{
+  font-family:var(--font-num);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+  margin:0 0 7px;font-weight:600;
+}
+.gcol.s h4{color:var(--struct)}
+.gcol.d h4{color:var(--dyn)}
+.gitem{
+  display:flex;align-items:center;gap:6px;width:100%;text-align:left;
+  background:none;border:none;padding:3px 2px;border-radius:2px;
+  font-family:var(--font-num);font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2);
+}
+.gitem:hover{background:var(--surface-sunk);color:var(--ink)}
+.gitem i{width:7px;height:7px;border-radius:1px;flex:0 0 7px}
+.gitem s{margin-left:auto;font-family:var(--font-ui);font-size:12px;color:var(--faint);text-decoration:none}
+.gitem:hover s{color:var(--accent)}
+
+/* reference list */
+.refs{display:flex;flex-direction:column;gap:1px}
+.ref{
+  display:flex;align-items:center;gap:8px;width:100%;text-align:left;
+  padding:7px 8px;border:1px solid transparent;border-radius:3px;background:none;font-size:12.5px;
+}
+.ref:hover:not([disabled]){background:var(--surface-sunk)}
+.ref[aria-pressed=true]{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
+.ref[disabled]{cursor:not-allowed;color:var(--faint)}
+.ref .dot{width:6px;height:6px;border-radius:50%;background:var(--faint);flex:0 0 6px}
+.ref[aria-pressed=true] .dot{background:var(--accent)}
+.ref .tag{
+  margin-left:auto;font-family:var(--font-num);font-size:9px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--faint);
+}
+.refnote{margin-top:10px;font-size:11.5px;line-height:1.5;color:var(--faint)}
+.refnote code{font-family:var(--font-num);font-size:10.5px;color:var(--muted)}
+.filedrop{margin-top:10px;font-size:11.5px;color:var(--muted)}
+.filedrop label{
+  display:inline-block;border:1px dashed var(--rule);border-radius:3px;padding:7px 10px;
+  width:100%;text-align:center;cursor:pointer;color:var(--ink-2);
+}
+.filedrop label:hover{border-color:var(--accent);color:var(--accent)}
+.filedrop input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+
+/* ============================================================
+   Main column
+   ============================================================ */
+.main{flex:1 1 auto;min-width:0;padding:26px 30px 90px;display:flex;flex-direction:column;gap:22px}
+
+.intro{max-width:70ch;display:flex;flex-direction:column;gap:9px}
+.intro .papertitle{
+  font-family:var(--font-head);font-style:italic;font-size:13px;line-height:1.45;
+  color:var(--muted);max-width:62ch;
+}
+.intro h2{font-family:var(--font-head);font-size:20px;font-weight:600;margin-top:1px}
+.intro p{color:var(--muted);font-size:13.5px}
+.intro code{font-family:var(--font-num);font-size:12.5px;color:var(--ink-2);background:var(--surface-sunk);padding:1px 4px;border-radius:2px}
+
+.panel{
+  background:var(--surface);border:1px solid var(--rule);border-radius:4px;
+  box-shadow:var(--shadow);overflow:hidden;
+}
+.panel > .bar{height:2px;background:var(--accent)}
+.phead{display:flex;align-items:flex-start;gap:12px;padding:15px 18px 12px}
+.plet{
+  font-family:var(--font-num);font-size:10.5px;font-weight:600;letter-spacing:.06em;
+  color:var(--faint);border:1px solid var(--rule);border-radius:2px;
+  padding:1px 5px;margin-top:3px;flex:0 0 auto;
+}
+.ptitle{display:flex;flex-direction:column;gap:2px;min-width:0}
+.ptitle h3{font-family:var(--font-head);font-size:17.5px;font-weight:600}
+.ptitle .cap{font-size:12.5px;color:var(--muted);max-width:74ch}
+.ptools{margin-left:auto;display:flex;gap:5px;flex:0 0 auto;align-items:center}
+.pbody{padding:0 14px 16px;overflow-x:auto}
+.pbody svg{display:block}
+
+/* legends */
+.legend{display:flex;flex-wrap:wrap;gap:4px 16px;padding:2px 18px 15px;font-size:11.5px;color:var(--muted)}
+.legend .li{display:flex;align-items:center;gap:6px}
+.legend .li i{width:10px;height:10px;border-radius:2px}
+
+/* table */
+.tablewrap{overflow-x:auto;padding:0 6px 8px}
+table{border-collapse:separate;border-spacing:0;width:100%;min-width:760px}
+th,td{padding:0;font-variant-numeric:tabular-nums}
+thead th{
+  font-family:var(--font-num);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;
+  font-weight:600;color:var(--muted);padding:0 6px 7px;vertical-align:bottom;text-align:center;
+}
+thead th .w{display:block;font-size:9px;color:var(--faint);letter-spacing:.04em;margin-top:2px}
+thead th.gm{min-width:68px;white-space:nowrap}
+thead tr.grouprow th{
+  font-size:10px;letter-spacing:.12em;padding-bottom:6px;white-space:nowrap;
+}
+thead tr.grouprow th.hdr-sum{letter-spacing:.06em}
+.hdr-struct{color:var(--struct);border-bottom:2px solid var(--struct)}
+.hdr-dyn{color:var(--dyn);border-bottom:2px solid var(--dyn)}
+.hdr-sum{color:var(--muted);border-bottom:2px solid var(--rule)}
+td.name{
+  text-align:right;padding:0 11px 0 4px;font-size:12px;font-weight:600;white-space:nowrap;
+}
+td.rank{
+  text-align:right;padding-right:7px;font-family:var(--font-num);font-size:10.5px;color:var(--faint);
+  width:34px;
+}
+td.cell{text-align:center;padding:2px}
+td.cell div{
+  font-family:var(--font-num);font-size:11px;font-weight:600;
+  padding:5px 3px;border-radius:2px;min-width:46px;
+}
+td.sep,th.sep{width:9px;padding:0}
+tbody tr{transition:background .15s}
+tbody tr:hover{background:var(--surface-sunk)}
+tr.famtop td{border-top:1px solid var(--rule)}
+tr.isref td.name{font-style:italic}
+td.obar{padding:2px 4px 2px 8px;min-width:170px}
+.ob{display:flex;align-items:center;gap:7px}
+.ob .track{flex:1 1 auto;height:12px;background:var(--surface-sunk);border-radius:1px;position:relative;overflow:hidden}
+.ob .fill{position:absolute;inset:0 auto 0 0;border-radius:1px;transition:width .3s ease}
+.ob .val{font-family:var(--font-num);font-size:11.5px;font-weight:600;width:38px;text-align:right}
+td.delta{
+  font-family:var(--font-num);font-size:11px;text-align:center;width:46px;color:var(--faint);
+}
+.delta.up{color:#1a8f5f}
+.delta.down{color:#b4562f}
+:root[data-theme=dark] .delta.up{color:#4fc98d}
+:root[data-theme=dark] .delta.down{color:#e28a5f}
+
+.cbar{display:flex;align-items:center;gap:10px;padding:8px 18px 16px;font-size:11px;color:var(--muted)}
+.cbar .ramp{height:9px;flex:0 0 220px;border-radius:1px;border:1px solid var(--rule)}
+
+/* standard-error note under the overall-score panel */
+.semnote{
+  padding:0 18px 15px;margin-top:-6px;font-size:11.5px;color:var(--faint);max-width:78ch;
+}
+
+/* footer */
+.foot{
+  max-width:74ch;font-size:12px;color:var(--faint);line-height:1.55;
+  border-top:1px solid var(--rule);padding-top:14px;
+}
+.foot i{color:var(--muted)}
+
+/* tooltip */
+#tip{
+  position:fixed;z-index:50;pointer-events:none;opacity:0;transition:opacity .1s;
+  background:var(--ink);color:var(--ground);border-radius:3px;padding:7px 9px;
+  font-size:11.5px;line-height:1.45;max-width:250px;box-shadow:0 6px 20px -8px rgba(0,0,0,.5);
+}
+#tip .t{font-weight:700;margin-bottom:3px}
+#tip .r{display:flex;justify-content:space-between;gap:14px;font-family:var(--font-num);font-size:10.5px}
+#tip .r span:last-child{font-variant-numeric:tabular-nums}
+
+.themebtn{
+  position:fixed;right:14px;top:12px;z-index:40;background:var(--surface);
+  border:1px solid var(--rule);border-radius:3px;padding:5px 9px;font-size:11px;color:var(--muted);
+}
+.themebtn:hover{color:var(--accent);border-color:var(--accent)}
+
+svg text{font-family:var(--font-num)}
+.axis{fill:var(--muted);font-size:10px}
+.axislab{fill:var(--ink-2);font-size:11.5px;font-family:var(--font-ui);font-weight:500}
+.ticklab{fill:var(--muted);font-size:10px}
+.gridline{stroke:var(--grid);stroke-width:1}
+.barval{font-size:9px;font-weight:600;fill:#fff}
+.hit{fill:transparent;cursor:crosshair}
+
+@media (max-width:1080px){
+  .layout{flex-direction:column}
+  .console{
+    width:100%;flex:none;position:static;max-height:none;
+    border-right:none;border-bottom:1px solid var(--rule);
+  }
+  .main{padding:20px 16px 70px;width:100%}
+  .block{padding:14px 0}
+  .consolegrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0 28px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none !important;animation:none !important}
+}
+</style>
+
+<button class="themebtn" id="themebtn">theme</button>
+<div id="tip" role="status" aria-live="polite"></div>
+
+<div class="layout">
+  <aside class="console">
+    <div class="brand">
+      <span class="kicker">Graphene-water interface</span>
+      <h1>Multi-Observable Scoring Framework</h1>
+      <p class="sub">Weight the six observables and every score on the page
+      follows.</p>
+    </div>
+
+    <div class="consolegrid">
+      <div class="block">
+        <div class="block-head">
+          <span class="block-title">Observable weights</span>
+          <span class="block-note" id="wsum"></span>
+        </div>
+        <div class="compbar" id="compbar" aria-hidden="true"></div>
+        <div class="sliders" id="sliders"></div>
+        <div class="chips" id="presets" style="margin-top:13px"></div>
+      </div>
+
+      <div class="block">
+        <div class="block-head">
+          <span class="block-title">Score grouping</span>
+          <span class="block-note">click to move</span>
+        </div>
+        <div class="groups">
+          <div class="gcol s"><h4>Structure</h4><div id="gs"></div></div>
+          <div class="gcol d"><h4>Dynamics</h4><div id="gd"></div></div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-head">
+          <span class="block-title">Reference</span>
+        </div>
+        <div class="refs" id="refs"></div>
+        <p class="refnote">Each score is computed directly from the simulated
+        observables, so scoring against a different reference requires the
+        analysis to be re-run. Use <code>export_web_data.py</code> and load the
+        <code>scores.json</code> it writes.</p>
+        <div class="filedrop">
+          <label for="jsonfile" id="jsonlabel">Load a <code>scores.json</code></label>
+          <input type="file" id="jsonfile" accept=".json,application/json">
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <section class="intro">
+      <p class="papertitle">How Good Is DFT for Solid-Liquid Interfaces? A
+      Comparison With the Random-Phase Approximation for Water on Graphene</p>
+      <h2>Interactive companion to Figure 4</h2>
+      <p>The overall score for a given XC approximation is obtained by
+      averaging its individual scores across all six categories of observables,
+      each entering with equal weight. Equal weighting is a deliberate choice
+      rather than a result. In many applications one may only be interested in
+      a functional's ability to reproduce a particular structural, dynamical,
+      or spectroscopic property, and the ranking shifts accordingly. Setting
+      the weights in the console recomputes the individual scores, the overall
+      score, and the structure and dynamics scores, reproducing Figure 4B, 4C,
+      4D and Figure S11 of the Supporting Information.</p>
+    </section>
+
+    <!-- ===== fig 4c : overall score ===== -->
+    <section class="panel">
+      <div class="bar" style="background:var(--accent)"></div>
+      <div class="phead">
+        <span class="plet">Fig. 4C</span>
+        <div class="ptitle">
+          <h3>Overall Score</h3>
+          <p class="cap">Overall score for each XC approximation, obtained by
+          averaging over all individual observable scores and sorted from best
+          to worst. Hatching indicates the dispersion correction and error bars
+          give the propagated standard error.</p>
+        </div>
+        <div class="ptools" id="overalltools"></div>
+      </div>
+      <div class="pbody"><svg id="svg-overall" role="img"></svg></div>
+      <div class="legend" id="leg-disp"></div>
+      <p class="semnote" id="semnote"></p>
+    </section>
+
+    <!-- ===== fig 4d : 2D map ===== -->
+    <section class="panel">
+      <div class="bar" style="background:linear-gradient(90deg,var(--struct),var(--dyn))"></div>
+      <div class="phead">
+        <span class="plet">Fig. 4D</span>
+        <div class="ptitle">
+          <h3>Structure and Dynamics Scores</h3>
+          <p class="cap">Dynamics score plotted against structure score for all
+          XC approximations considered, each averaged over the observables
+          assigned to that group in the console. Marker shape indicates the
+          functional family. Most functionals fall below the diagonal,
+          indicating that a faithful description of interfacial dynamics is
+          generally harder to achieve than one of interfacial structure.</p>
+        </div>
+        <div class="ptools" id="scattertools"></div>
+      </div>
+      <div class="pbody" style="display:flex;justify-content:center">
+        <svg id="svg-scatter" role="img"></svg>
+      </div>
+    </section>
+
+    <!-- ===== fig 4b : individual scores ===== -->
+    <section class="panel">
+      <div class="bar" style="background:linear-gradient(90deg,var(--m-rdf),var(--m-friction))"></div>
+      <div class="phead">
+        <span class="plet">Fig. 4B</span>
+        <div class="ptitle">
+          <h3>Individual Scores</h3>
+          <p class="cap">Individual scores for representative XC
+          approximations, grouped by family and decomposed by observable. Bar
+          height gives the score and bar width gives the weight assigned to
+          that observable, so an observable at zero weight collapses to a
+          hairline.</p>
+        </div>
+        <div class="ptools" id="indivtools"></div>
+      </div>
+      <div class="pbody"><svg id="svg-indiv" role="img"></svg></div>
+      <div class="legend" id="leg-metric"></div>
+    </section>
+
+    <!-- ===== SI table ===== -->
+    <section class="panel">
+      <div class="bar" style="background:var(--ink-2)"></div>
+      <div class="phead">
+        <span class="plet">Fig. S11</span>
+        <div class="ptitle">
+          <h3>Full Breakdown</h3>
+          <p class="cap">Heatmap of individual scores for every XC
+          approximation considered, together with the group mean for each
+          category. Rows are sorted by overall score. Column headers carry the
+          current weight, and <b>Δ</b> gives how many places an XC
+          approximation has moved relative to equal weighting.</p>
+        </div>
+        <div class="ptools" id="tabletools"></div>
+      </div>
+      <div class="tablewrap"><table id="tbl"></table></div>
+      <div class="cbar">
+        <span>Score&nbsp;[%]</span>
+        <div class="ramp" id="ramp"></div>
+        <span id="ramplo">50</span><span>to</span><span id="ramphi">100</span>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <p>Supporting material for <i>How Good Is DFT for Solid-Liquid
+      Interfaces? A Comparison With the Random-Phase Approximation for Water on
+      Graphene</i>. Individual scores as published for the graphene-water
+      interface, with RPA/QZ as the reference throughout. Weights are
+      normalised, so the overall score stays on the same 0 to 100 scale
+      whatever the sliders read, and an observable at zero weight also drops
+      out of its group mean.</p>
+    </footer>
+  </main>
+</div>
+
+<script>
+"use strict";
+
+/* =========================================================================
+   Baseline data, transcribed from the executed sanity-check tables in
+   plots-V2.ipynb and plots-2d-main-V2.ipynb.  Replaced wholesale when the
+   user loads a scores.json written by export_web_data.py.
+   ========================================================================= */
+const BASELINE = {"schema":"solliq-scores/1","reference":{"id":"RPA-QZ","display":"RPA/QZ","note":"Reference by construction; pinned at 100."},"provenance":{"source":"executed cell outputs of plots-V2.ipynb and plots-2d-main-V2.ipynb (sanity-check tables)","system":"19A","n_tag":"n100","graphene":"frozen","scoring_dirs":{"rdf":"scoring_rdf_19A","vdos":"scoring_vdos_19A","density":"scoring_density_19A","orientation":"scoring_orientation_19A","sfg":"scoring_sfgphys_19A","friction":"scoring_friction_19A"},"preferred_metric_per_dir":{"rdf":"combined","vdos":"combined","density":"density_and_ratio","orientation":"water","sfg":"combined","friction":"combined"},"sem_note":"Standard errors are distributed equally across the six observables, which reproduces the published error bar exactly at equal weighting.","excluded":["PBE-DRSLL","SCAN"]},"metrics":[{"id":"rdf","label":"RDF","color":"#9ad83c","group":"structure","detail":"Radial distribution functions among the liquid atoms, evaluated in bulk water and in interfacial water and averaged over the O-O, O-H and H-H species pairs."},{"id":"vdos","label":"VDOS","color":"#47c06e","group":"dynamics","detail":"Vibrational density of states, evaluated in bulk water and in interfacial water."},{"id":"density","label":"Density","color":"#1ea087","group":"structure","detail":"Density profiles of the liquid at the interface, including the wetting proxy rho2/rho1."},{"id":"orientation","label":"Orientation","color":"#267f8e","group":"structure","detail":"Orientational profiles of the liquid as a function of distance from the surface."},{"id":"sfg","label":"VSFG","color":"#355c8c","group":"dynamics","detail":"VSFG spectra for the graphene-water and air-water interfaces, scored on the hydrogen-bonded and dangling O-H peak positions, their intensity ratio and the width of the hydrogen-bonded band."},{"id":"friction","label":"Friction","color":"#45347f","group":"dynamics","detail":"Solid-liquid friction, scored on the plateau value of the friction coefficient and on the full Green-Kubo running integral."}],"families":[{"id":"RPA","marker":"star"},{"id":"Hybrids","marker":"diamond"},{"id":"Meta-GGAs","marker":"square"},{"id":"GGAs","marker":"circle"}],"dispersion_hatches":{"none":"","D3-0":"fwd","D3-BJ":"back","D3m-BJ":"back","D4":"fwd-dense","DRSLL":"horiz","rVV10":"horiz"},"panel_groups":[{"label":"Hybrids","members":["HSE06-D3-0","B3LYP-D3-0","revPBE0-D3-0"]},{"label":"Meta-GGAs","members":["M06L-D3-0","r2SCAN-D4","r2SCAN-D3-BJ","r2SCAN"]},{"label":"Meta-GGAs","members":["B97M-rV"]},{"label":"GGAs","members":["revPBE-D4","revPBE-D3-0","PBE-D3-BJ","PBE-rVV10","BLYP-D3-BJ","optB88-DRSLL"]}],"available_references":[{"id":"RPA-QZ","display":"RPA/QZ","status":"loaded"},{"id":"RPA","display":"RPA/TZ","status":"needs-export"},{"id":"revPBE-D3-BJ","display":"revPBE-D3(BJ)","status":"needs-export"},{"id":"expt","display":"Experiment (SFG only)","status":"needs-export"}],"functionals":[{"id":"RPA","display":"RPA/TZ","color":"#8a8a8a","family":"RPA","dispersion":"none","d":{"rdf":0.9549,"vdos":0.9082,"density":0.9449,"orientation":0.6435,"sfg":0.8406,"friction":0.8393},"sem":{"rdf":0.00472752,"vdos":0.00472752,"density":0.00472752,"orientation":0.00472752,"sfg":0.00472752,"friction":0.00472752},"sem_is_estimated":true,"published_overall":85.522,"published_overall_sem":0.193},{"id":"B3LYP-D3-0","display":"B3LYP-D3(0)","color":"#b22222","family":"Hybrids","dispersion":"D3-0","d":{"rdf":0.9555,"vdos":0.8685,"density":0.9326,"orientation":0.6186,"sfg":0.6892,"friction":0.8882},"sem":{"rdf":0.00445807,"vdos":0.00445807,"density":0.00445807,"orientation":0.00445807,"sfg":0.00445807,"friction":0.00445807},"sem_is_estimated":true,"published_overall":82.544,"published_overall_sem":0.182},{"id":"revPBE0-D3-0","display":"revPBE0-D3(0)","color":"#e34a33","family":"Hybrids","dispersion":"D3-0","d":{"rdf":0.9813,"vdos":0.921,"density":0.968,"orientation":0.5791,"sfg":0.5793,"friction":0.7993},"sem":{"rdf":0.00516842,"vdos":0.00516842,"density":0.00516842,"orientation":0.00516842,"sfg":0.00516842,"friction":0.00516842},"sem_is_estimated":true,"published_overall":80.468,"published_overall_sem":0.211},{"id":"revPBE-D3-BJ","display":"revPBE-D3(BJ)","color":"#08519c","family":"GGAs","dispersion":"D3-BJ","d":{"rdf":0.9355,"vdos":0.7839,"density":0.98,"orientation":0.4664,"sfg":0.6456,"friction":0.9777},"sem":{"rdf":0.00749544,"vdos":0.00749544,"density":0.00749544,"orientation":0.00749544,"sfg":0.00749544,"friction":0.00749544},"sem_is_estimated":true,"published_overall":79.819,"published_overall_sem":0.306},{"id":"B97M-rV","display":"B97M-rV","color":"#3f007d","family":"Meta-GGAs","dispersion":"rVV10","d":{"rdf":0.9205,"vdos":0.9335,"density":0.8621,"orientation":0.446,"sfg":0.7428,"friction":0.8542},"sem":{"rdf":0.00602574,"vdos":0.00602574,"density":0.00602574,"orientation":0.00602574,"sfg":0.00602574,"friction":0.00602574},"sem_is_estimated":true,"published_overall":79.32,"published_overall_sem":0.246},{"id":"revPBE-D3-0","display":"revPBE-D3(0)","color":"#2171b5","family":"GGAs","dispersion":"D3-0","d":{"rdf":0.9612,"vdos":0.8373,"density":0.9493,"orientation":0.4532,"sfg":0.6821,"friction":0.8579},"sem":{"rdf":0.0033803,"vdos":0.0033803,"density":0.0033803,"orientation":0.0033803,"sfg":0.0033803,"friction":0.0033803},"sem_is_estimated":true,"published_overall":79.015,"published_overall_sem":0.138},{"id":"r2SCAN","display":"r2SCAN","color":"#c5cae9","family":"Meta-GGAs","dispersion":"none","d":{"rdf":0.9351,"vdos":0.8225,"density":0.9361,"orientation":0.4854,"sfg":0.5727,"friction":0.9273},"sem":{"rdf":0.0052664,"vdos":0.0052664,"density":0.0052664,"orientation":0.0052664,"sfg":0.0052664,"friction":0.0052664},"sem_is_estimated":true,"published_overall":77.983,"published_overall_sem":0.215},{"id":"revPBE-D4","display":"revPBE-D4","color":"#08306b","family":"GGAs","dispersion":"D4","d":{"rdf":0.9178,"vdos":0.7505,"density":0.9698,"orientation":0.4279,"sfg":0.6463,"friction":0.8921},"sem":{"rdf":0.00651564,"vdos":0.00651564,"density":0.00651564,"orientation":0.00651564,"sfg":0.00651564,"friction":0.00651564},"sem_is_estimated":true,"published_overall":76.741,"published_overall_sem":0.266},{"id":"HSE06-D3-0","display":"HSE06-D3(0)","color":"#8c1d18","family":"Hybrids","dispersion":"D3-0","d":{"rdf":0.9323,"vdos":0.8109,"density":0.9725,"orientation":0.5097,"sfg":0.4746,"friction":0.8826},"sem":{"rdf":0.00771589,"vdos":0.00771589,"density":0.00771589,"orientation":0.00771589,"sfg":0.00771589,"friction":0.00771589},"sem_is_estimated":true,"published_overall":76.379,"published_overall_sem":0.315},{"id":"BLYP-D3-BJ","display":"BLYP-D3(BJ)","color":"#a63603","family":"GGAs","dispersion":"D3-BJ","d":{"rdf":0.9117,"vdos":0.7172,"density":0.9638,"orientation":0.4682,"sfg":0.6817,"friction":0.8108},"sem":{"rdf":0.00771589,"vdos":0.00771589,"density":0.00771589,"orientation":0.00771589,"sfg":0.00771589,"friction":0.00771589},"sem_is_estimated":true,"published_overall":75.89,"published_overall_sem":0.315},{"id":"BLYP-D4","display":"BLYP-D4","color":"#7f2704","family":"GGAs","dispersion":"D4","d":{"rdf":0.9073,"vdos":0.7048,"density":0.9717,"orientation":0.4616,"sfg":0.6737,"friction":0.8262},"sem":{"rdf":0.00896513,"vdos":0.00896513,"density":0.00896513,"orientation":0.00896513,"sfg":0.00896513,"friction":0.00896513},"sem_is_estimated":true,"published_overall":75.754,"published_overall_sem":0.366},{"id":"BLYP-D3-0","display":"BLYP-D3(0)","color":"#d94801","family":"GGAs","dispersion":"D3-0","d":{"rdf":0.9183,"vdos":0.7718,"density":0.8749,"orientation":0.493,"sfg":0.683,"friction":0.7109},"sem":{"rdf":0.00494797,"vdos":0.00494797,"density":0.00494797,"orientation":0.00494797,"sfg":0.00494797,"friction":0.00494797},"sem_is_estimated":true,"published_overall":74.199,"published_overall_sem":0.202},{"id":"PBE-D3-0","display":"PBE-D3(0)","color":"#41ab5d","family":"GGAs","dispersion":"D3-0","d":{"rdf":0.8844,"vdos":0.6736,"density":0.9351,"orientation":0.373,"sfg":0.611,"friction":0.8889},"sem":{"rdf":0.00683408,"vdos":0.00683408,"density":0.00683408,"orientation":0.00683408,"sfg":0.00683408,"friction":0.00683408},"sem_is_estimated":true,"published_overall":72.767,"published_overall_sem":0.279},{"id":"optB88-DRSLL","display":"optB88-vdW","color":"#3182bd","family":"GGAs","dispersion":"DRSLL","d":{"rdf":0.8968,"vdos":0.7452,"density":0.8555,"orientation":0.3856,"sfg":0.6248,"friction":0.8086},"sem":{"rdf":0.00315984,"vdos":0.00315984,"density":0.00315984,"orientation":0.00315984,"sfg":0.00315984,"friction":0.00315984},"sem_is_estimated":true,"published_overall":71.943,"published_overall_sem":0.129},{"id":"M06L-D3-0","display":"M06-L-D3(0)","color":"#6a1b9a","family":"Meta-GGAs","dispersion":"D3-0","d":{"rdf":0.8886,"vdos":0.8953,"density":0.8008,"orientation":0.3488,"sfg":0.6918,"friction":0.6827},"sem":{"rdf":0.00644216,"vdos":0.00644216,"density":0.00644216,"orientation":0.00644216,"sfg":0.00644216,"friction":0.00644216},"sem_is_estimated":true,"published_overall":71.799,"published_overall_sem":0.263},{"id":"r2SCAN-D4","display":"r2SCAN-D4","color":"#5e60ce","family":"Meta-GGAs","dispersion":"D4","d":{"rdf":0.9127,"vdos":0.8136,"density":0.8786,"orientation":0.4681,"sfg":0.5105,"friction":0.7067},"sem":{"rdf":0.00646665,"vdos":0.00646665,"density":0.00646665,"orientation":0.00646665,"sfg":0.00646665,"friction":0.00646665},"sem_is_estimated":true,"published_overall":71.504,"published_overall_sem":0.264},{"id":"revPBE-rVV10","display":"revPBE-rVV10","color":"#c6dbef","family":"GGAs","dispersion":"rVV10","d":{"rdf":0.922,"vdos":0.7715,"density":0.9024,"orientation":0.4638,"sfg":0.6629,"friction":0.5603},"sem":{"rdf":0.00531539,"vdos":0.00531539,"density":0.00531539,"orientation":0.00531539,"sfg":0.00531539,"friction":0.00531539},"sem_is_estimated":true,"published_overall":71.381,"published_overall_sem":0.217},{"id":"PBE-D4","display":"PBE-D4","color":"#00441b","family":"GGAs","dispersion":"D4","d":{"rdf":0.8771,"vdos":0.6576,"density":0.9119,"orientation":0.298,"sfg":0.6058,"friction":0.9079},"sem":{"rdf":0.01129215,"vdos":0.01129215,"density":0.01129215,"orientation":0.01129215,"sfg":0.01129215,"friction":0.01129215},"sem_is_estimated":true,"published_overall":70.973,"published_overall_sem":0.461},{"id":"r2SCAN-D3-BJ","display":"r2SCAN-D3(BJ)","color":"#9fa8da","family":"Meta-GGAs","dispersion":"D3-BJ","d":{"rdf":0.9113,"vdos":0.8171,"density":0.8701,"orientation":0.4827,"sfg":0.5067,"friction":0.6583},"sem":{"rdf":0.0043356,"vdos":0.0043356,"density":0.0043356,"orientation":0.0043356,"sfg":0.0043356,"friction":0.0043356},"sem_is_estimated":true,"published_overall":70.77,"published_overall_sem":0.177},{"id":"PBE-D3-BJ","display":"PBE-D3(BJ)","color":"#006d2c","family":"GGAs","dispersion":"D3-BJ","d":{"rdf":0.8744,"vdos":0.6534,"density":0.9209,"orientation":0.2956,"sfg":0.5727,"friction":0.9235},"sem":{"rdf":0.00715251,"vdos":0.00715251,"density":0.00715251,"orientation":0.00715251,"sfg":0.00715251,"friction":0.00715251},"sem_is_estimated":true,"published_overall":70.676,"published_overall_sem":0.292},{"id":"PBE-D3m-BJ","display":"PBE-D3M(BJ)","color":"#238b45","family":"GGAs","dispersion":"D3m-BJ","d":{"rdf":0.8757,"vdos":0.6552,"density":0.9312,"orientation":0.2564,"sfg":0.566,"friction":0.9314},"sem":{"rdf":0.00908761,"vdos":0.00908761,"density":0.00908761,"orientation":0.00908761,"sfg":0.00908761,"friction":0.00908761},"sem_is_estimated":true,"published_overall":70.265,"published_overall_sem":0.371},{"id":"revPBE-DRSLL","display":"revPBE-DRSLL","color":"#6baed6","family":"GGAs","dispersion":"DRSLL","d":{"rdf":0.8876,"vdos":0.7259,"density":0.8558,"orientation":0.4753,"sfg":0.5616,"friction":0.6689},"sem":{"rdf":0.00509494,"vdos":0.00509494,"density":0.00509494,"orientation":0.00509494,"sfg":0.00509494,"friction":0.00509494},"sem_is_estimated":true,"published_overall":69.584,"published_overall_sem":0.208},{"id":"PBE-rVV10","display":"PBE-rVV10","color":"#c7e9c0","family":"GGAs","dispersion":"rVV10","d":{"rdf":0.8671,"vdos":0.6508,"density":0.9023,"orientation":0.3606,"sfg":0.5753,"friction":0.7507},"sem":{"rdf":0.00827928,"vdos":0.00827928,"density":0.00827928,"orientation":0.00827928,"sfg":0.00827928,"friction":0.00827928},"sem_is_estimated":true,"published_overall":68.447,"published_overall_sem":0.338}]};
+
+let DATA = BASELINE;
+
+/* ---------- state ---------- */
+const state = {
+  weights:{},      // metric id -> raw slider value 0..100
+  group:{},        // metric id -> "structure" | "dynamics"
+  labels:false,    // scatter point labels
+  errbars:true,
+};
+
+const PRESETS = [
+  {id:"equal",  label:"Equal weighting",  w:{rdf:1,vdos:1,density:1,orientation:1,sfg:1,friction:1}},
+  {id:"struct", label:"Structure only",   w:{rdf:1,vdos:0,density:1,orientation:1,sfg:0,friction:0}},
+  {id:"dyn",    label:"Dynamics only",    w:{rdf:0,vdos:1,density:0,orientation:0,sfg:1,friction:1}},
+  {id:"fric",   label:"Friction weighted",w:{rdf:.5,vdos:.5,density:.5,orientation:.5,sfg:.5,friction:3}},
+  {id:"spec",   label:"Spectroscopic",    w:{rdf:.5,vdos:2,density:.5,orientation:.5,sfg:2,friction:.5}},
+  {id:"interf", label:"Interfacial",      w:{rdf:.5,vdos:0,density:2,orientation:2,sfg:2,friction:2}},
+];
+
+function applyPreset(p){
+  for(const m of DATA.metrics) state.weights[m.id] = (p.w[m.id] ?? 0) * 20;
+  render();
+}
+function initState(){
+  state.weights = {}; state.group = {};
+  for(const m of DATA.metrics){ state.weights[m.id] = 20; state.group[m.id] = m.group; }
+}
+
+/* ---------- colour helpers ---------- */
+function hex2rgb(h){h=h.replace("#","");return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}
+function rgb2css(c){return `rgb(${c.map(v=>Math.round(Math.max(0,Math.min(255,v)))).join(",")})`;}
+function mulRGB(c,f){return c.map(v=>v*f);}
+function toWhite(c,a){return c.map(v=>v+(255-v)*a);}
+function darken(h,f){return rgb2css(mulRGB(hex2rgb(h),f));}
+function lighten(h,a){return rgb2css(toWhite(hex2rgb(h),a));}
+function lum(c){return (0.299*c[0]+0.587*c[1]+0.114*c[2])/255;}
+
+function isDark(){
+  const t = document.documentElement.getAttribute("data-theme");
+  return t ? t === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+}
+/* The paper's family palette is built for a white page: its darkest navies and
+   greens vanish on a dark ground, its palest blues vanish on a white one.
+   `readable` walks a colour's luminance into a legible band for the current
+   theme while keeping its hue, so a functional stays recognisable either way. */
+function readable(hex){
+  let c = hex2rgb(hex), guard = 0;
+  if(isDark()){ while(lum(c) < 0.56 && guard++ < 30) c = toWhite(c,0.13); }
+  else        { while(lum(c) > 0.58 && guard++ < 30) c = mulRGB(c,0.88); }
+  return rgb2css(c);
+}
+/** Bar / marker fill and edge, theme-aware. Light theme reproduces the paper. */
+function fillOf(hex){ return isDark() ? lighten(hex,0.22) : hex; }
+function fillLum(hex){
+  const c = hex2rgb(hex);
+  return lum(isDark() ? toWhite(c,0.22) : c);
+}
+function edgeOf(hex){ return isDark() ? lighten(hex,0.58) : darken(hex,0.6); }
+function ptFill(hex){ return isDark() ? lighten(hex,0.18) : lighten(hex,0.55); }
+function ptEdge(hex){ return isDark() ? lighten(hex,0.62) : darken(hex,0.65); }
+function refColor(){ return isDark() ? "#9aa5a4" : "#323232"; }
+
+/* ColorBrewer YlGn, 9-class, the stops behind matplotlib's "YlGn". */
+const YLGN = ["#ffffe5","#f7fcb9","#d9f0a3","#addd8e","#78c679","#41ab5d","#238443","#006837","#004529"].map(hex2rgb);
+function ylgn(t){
+  t = Math.max(0,Math.min(1,t));
+  const x = t*(YLGN.length-1), i = Math.min(YLGN.length-2,Math.floor(x)), f = x-i;
+  return YLGN[i].map((v,k)=>v+(YLGN[i+1][k]-v)*f);
+}
+const HEAT_LO = 50, HEAT_HI = 100;
+function heatFill(v){
+  if(!isFinite(v)) return "var(--nodata)";
+  return rgb2css(ylgn((Math.max(HEAT_LO,Math.min(HEAT_HI,v))-HEAT_LO)/(HEAT_HI-HEAT_LO)));
+}
+function heatText(v){
+  if(!isFinite(v)) return "var(--faint)";
+  const c = ylgn((Math.max(HEAT_LO,Math.min(HEAT_HI,v))-HEAT_LO)/(HEAT_HI-HEAT_LO)).map(x=>x/255);
+  return (0.299*c[0]+0.587*c[1]+0.114*c[2]) < 0.55 ? "#ffffff" : "#222222";
+}
+
+/* ---------- scoring ---------- */
+function normWeights(){
+  const tot = DATA.metrics.reduce((s,m)=>s+state.weights[m.id],0);
+  const out = {};
+  for(const m of DATA.metrics) out[m.id] = tot > 0 ? state.weights[m.id]/tot : 1/DATA.metrics.length;
+  return out;
+}
+function weightedScore(f, w){
+  let s = 0, v = 0, tot = 0;
+  for(const m of DATA.metrics){
+    const wm = w[m.id]; if(wm <= 0) continue;
+    const d = f.d[m.id]; if(!isFinite(d)) return {score:NaN, sem:NaN};
+    s += wm*d; v += (wm*(f.sem[m.id]||0))**2; tot += wm;
+  }
+  if(tot <= 0) return {score:NaN, sem:NaN};
+  return {score:s/tot*100, sem:Math.sqrt(v)/tot*100};
+}
+function groupScore(f, w, g){
+  const sub = {};
+  for(const m of DATA.metrics) sub[m.id] = state.group[m.id] === g ? w[m.id] : 0;
+  return weightedScore(f, sub);
+}
+/** The reference itself: identical to itself, so d = 1 everywhere. */
+function refRow(){
+  const d = {}, sem = {};
+  for(const m of DATA.metrics){ d[m.id] = 1; sem[m.id] = 0; }
+  return {id:DATA.reference.id, display:DATA.reference.display,
+          color:refColor(), family:"RPA", dispersion:"none",
+          d, sem, isRef:true};
+}
+
+let baselineRanks = null;
+function computeBaselineRanks(){
+  const w = {}; for(const m of DATA.metrics) w[m.id] = 1/DATA.metrics.length;
+  const rows = DATA.functionals.map(f=>({id:f.id, s:weightedScore(f,w).score}))
+                 .filter(r=>isFinite(r.s)).sort((a,b)=>b.s-a.s);
+  baselineRanks = {}; rows.forEach((r,i)=>baselineRanks[r.id] = i+1);
+}
+
+function computeRows(){
+  const w = normWeights();
+  const rows = DATA.functionals.map(f=>{
+    const o = weightedScore(f,w), st = groupScore(f,w,"structure"), dy = groupScore(f,w,"dynamics");
+    return {...f, overall:o.score, overallSem:o.sem,
+            struct:st.score, structSem:st.sem, dyn:dy.score, dynSem:dy.sem};
+  });
+  const ok = rows.filter(r=>isFinite(r.overall)).sort((a,b)=>b.overall-a.overall);
+  const bad = rows.filter(r=>!isFinite(r.overall)).sort((a,b)=>a.display.localeCompare(b.display));
+  const ref = refRow();
+  const ro = weightedScore(ref,w), rs = groupScore(ref,w,"structure"), rd = groupScore(ref,w,"dynamics");
+  const refFull = {...ref, overall:ro.score, overallSem:0, struct:rs.score, structSem:0, dyn:rd.score, dynSem:0};
+  return {w, ordered:[refFull, ...ok, ...bad], scored:ok, ref:refFull};
+}
+
+/* ---------- tooltip ---------- */
+const tip = document.getElementById("tip");
+function showTip(e, html){
+  tip.innerHTML = html; tip.style.opacity = "1";
+  const r = tip.getBoundingClientRect();
+  let x = e.clientX + 14, y = e.clientY + 14;
+  if(x + r.width > innerWidth - 8) x = e.clientX - r.width - 14;
+  if(y + r.height > innerHeight - 8) y = e.clientY - r.height - 14;
+  tip.style.left = x+"px"; tip.style.top = y+"px";
+}
+function hideTip(){ tip.style.opacity = "0"; }
+function tipRows(r, w){
+  const lines = DATA.metrics.map(m=>{
+    const d = r.d[m.id];
+    return `<div class="r"><span style="color:${m.color}">${m.label}`+
+           `${w[m.id]>0?` ·${(w[m.id]*100).toFixed(0)}%`:" ·off"}</span>`+
+           `<span>${isFinite(d)?(d*100).toFixed(1):"n/a"}</span></div>`;
+  }).join("");
+  return `<div class="t">${r.display}</div>${lines}`+
+    `<div class="r" style="margin-top:4px;border-top:1px solid rgba(255,255,255,.25);padding-top:3px">`+
+    `<span>Overall score</span><span>${isFinite(r.overall)?r.overall.toFixed(1):"n/a"}</span></div>`+
+    `<div class="r"><span>Structure</span>`+
+    `<span>${isFinite(r.struct)?r.struct.toFixed(1):"n/a"}</span></div>`+
+    `<div class="r"><span>Dynamics</span>`+
+    `<span>${isFinite(r.dyn)?r.dyn.toFixed(1):"n/a"}</span></div>`;
+}
+
+/* ---------- small SVG helpers ---------- */
+const SVGNS = "http://www.w3.org/2000/svg";
+function el(tag, attrs, parent){
+  const n = document.createElementNS(SVGNS, tag);
+  for(const k in attrs) if(attrs[k] !== null && attrs[k] !== undefined) n.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(n);
+  return n;
+}
+function txt(parent, x, y, s, attrs){
+  const n = el("text", {x, y, ...attrs}, parent); n.textContent = s; return n;
+}
+function clear(svg){ while(svg.firstChild) svg.removeChild(svg.firstChild); }
+
+/** Hatch patterns for the dispersion corrections, one per functional colour. */
+function hatchDefs(defs, rows){
+  const geom = {
+    "fwd":       {d:"M0,6 L6,0", sw:1.6, sz:6},
+    "fwd-dense": {d:"M0,4 L4,0", sw:1.5, sz:4},
+    "back":      {d:"M0,0 L6,6", sw:1.6, sz:6},
+    "horiz":     {d:"M0,3 L6,3", sw:1.5, sz:6},
+  };
+  const seen = new Set();
+  for(const r of rows){
+    const kind = DATA.dispersion_hatches[r.dispersion] || "";
+    if(!kind) continue;
+    const id = `h-${r.id.replace(/[^a-z0-9]/gi,"")}`;
+    if(seen.has(id)) continue; seen.add(id);
+    const g = geom[kind];
+    const p = el("pattern", {id, width:g.sz, height:g.sz, patternUnits:"userSpaceOnUse"}, defs);
+    el("path", {d:g.d, stroke:darken(r.color,.45), "stroke-width":g.sw,
+                "stroke-opacity":.4, fill:"none"}, p);
+  }
+}
+function hatchUrl(r){
+  return (DATA.dispersion_hatches[r.dispersion] || "")
+    ? `url(#h-${r.id.replace(/[^a-z0-9]/gi,"")})` : null;
+}
+
+/* =========================================================================
+   PANEL Fig. 4C, overall score bars
+   ========================================================================= */
+function drawOverall(ctx){
+  const svg = document.getElementById("svg-overall");
+  clear(svg);
+  const rows = ctx.ordered.filter(r=>isFinite(r.overall));
+  const missing = ctx.ordered.filter(r=>!isFinite(r.overall));
+
+  const BW = 30, ML = 52, MR = 14, MT = 16, PH = 250, LABH = 104;
+  const W = ML + (rows.length + missing.length)*BW + MR;
+  const H = MT + PH + LABH;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  svg.setAttribute("width", W); svg.setAttribute("height", H);
+  svg.style.maxWidth = "100%"; svg.style.height = "auto";
+
+  const lo = Math.min(...rows.map(r=>r.overall - (r.overallSem||0)));
+  const yMin = Math.max(0, Math.floor((lo - 3)/10)*10);
+  const yMax = 102;
+  const y = v => MT + PH - (v - yMin)/(yMax - yMin)*PH;
+
+  const defs = el("defs", {}, svg);
+  hatchDefs(defs, rows);
+
+  // gridlines + y ticks
+  for(let v = yMin; v <= 100; v += 10){
+    el("line", {x1:ML-6, x2:W-MR, y1:y(v), y2:y(v), class:"gridline"}, svg);
+    txt(svg, ML-10, y(v)+3.5, String(v), {class:"ticklab", "text-anchor":"end"});
+  }
+  const lab = txt(svg, 0, 0, "Overall score  [%]", {class:"axislab", "text-anchor":"middle"});
+  lab.setAttribute("transform", `translate(14,${MT+PH/2}) rotate(-90)`);
+
+  rows.forEach((r,i)=>{
+    const g = el("g", {transform:`translate(${ML + i*BW},0)`}, svg);
+    g.style.transition = "transform .35s cubic-bezier(.4,0,.2,1)";
+    const bw = BW*0.74, x0 = (BW-bw)/2;
+    const top = y(r.overall), bot = y(yMin);
+    el("rect", {x:x0, y:top, width:bw, height:Math.max(0,bot-top),
+                fill:fillOf(r.color), stroke:edgeOf(r.color), "stroke-width":1.6}, g);
+    const hu = hatchUrl(r);
+    if(hu) el("rect", {x:x0, y:top, width:bw, height:Math.max(0,bot-top), fill:hu}, g);
+
+    if(state.errbars && r.overallSem > 0.01){
+      const c = edgeOf(r.color), yh = y(r.overall + r.overallSem), yl = y(r.overall - r.overallSem);
+      el("line", {x1:BW/2, x2:BW/2, y1:yh, y2:yl, stroke:c, "stroke-width":1.5}, g);
+      el("line", {x1:BW/2-4, x2:BW/2+4, y1:yh, y2:yh, stroke:c, "stroke-width":1.5}, g);
+      el("line", {x1:BW/2-4, x2:BW/2+4, y1:yl, y2:yl, stroke:c, "stroke-width":1.5}, g);
+    }
+
+    // value label, rotated inside the bar foot (as in fig 4c)
+    if(bot - top > 34){
+      const t = txt(g, 0, 0, r.overall.toFixed(1), {class:"barval", "text-anchor":"start"});
+      t.setAttribute("transform", `translate(${BW/2+3.2},${bot-6}) rotate(-90)`);
+      // keep the in-bar label legible on the very palest family colours
+      if(fillLum(r.color) > 0.70) t.setAttribute("fill", "#33403f");
+    }
+    // x label
+    const xl = txt(g, 0, 0, r.display,
+      {"text-anchor":"end", "font-size":10.5, fill:readable(r.color), "font-weight":600});
+    xl.setAttribute("transform", `translate(${BW/2+3.6},${bot+8}) rotate(-90)`);
+
+    const hit = el("rect", {x:0, y:MT, width:BW, height:PH, class:"hit"}, g);
+    hit.addEventListener("mousemove", e=>showTip(e, tipRows(r, ctx.w)));
+    hit.addEventListener("mouseleave", hideTip);
+  });
+
+  missing.forEach((r,k)=>{
+    const i = rows.length + k;
+    const g = el("g", {transform:`translate(${ML + i*BW},0)`}, svg);
+    txt(g, BW/2, y(yMin)-4, "×", {"text-anchor":"middle", fill:"var(--faint)", "font-size":13});
+    const xl = txt(g, 0, 0, r.display, {"text-anchor":"end", "font-size":10.5, fill:"var(--faint)"});
+    xl.setAttribute("transform", `translate(${BW/2+3.6},${y(yMin)+8}) rotate(-90)`);
+  });
+
+  el("line", {x1:ML-6, x2:W-MR, y1:y(yMin), y2:y(yMin),
+              stroke:"var(--rule)", "stroke-width":1.2}, svg);
+}
+
+/* =========================================================================
+   PANEL Fig. 4D, structure and dynamics scores
+   ========================================================================= */
+const MARKERS = {
+  star:(g,x,y,s,a)=>{
+    let d = "";
+    for(let i = 0; i < 10; i++){
+      const r = i%2 ? s*0.42 : s, t = -Math.PI/2 + i*Math.PI/5;
+      d += (i?"L":"M") + (x + r*Math.cos(t)).toFixed(2) + "," + (y + r*Math.sin(t)).toFixed(2);
+    }
+    return el("path", {d:d+"Z", ...a}, g);
+  },
+  diamond:(g,x,y,s,a)=>el("path",{d:`M${x},${y-s}L${x+s},${y}L${x},${y+s}L${x-s},${y}Z`,...a},g),
+  square:(g,x,y,s,a)=>el("rect",{x:x-s*0.85,y:y-s*0.85,width:s*1.7,height:s*1.7,...a},g),
+  circle:(g,x,y,s,a)=>el("circle",{cx:x,cy:y,r:s*0.92,...a},g),
+};
+const FAM_MARKER = {}, FAM_SIZE = {RPA:9.5, Hybrids:6.0, "Meta-GGAs":6.3, GGAs:6.6};
+const FAM_Z = {RPA:40, Hybrids:30, "Meta-GGAs":20, GGAs:10};
+
+function drawScatter(ctx){
+  const svg = document.getElementById("svg-scatter");
+  clear(svg);
+  const pts = ctx.ordered.filter(r=>isFinite(r.struct) && isFinite(r.dyn));
+  const emptyS = DATA.metrics.every(m=>state.group[m.id] !== "structure" || ctx.w[m.id] <= 0);
+  const emptyD = DATA.metrics.every(m=>state.group[m.id] !== "dynamics"  || ctx.w[m.id] <= 0);
+
+  const ML = 58, MR = 20, MT = 18, MB = 50, S = 400;
+  const W = ML + S + MR, H = MT + S + MB;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  svg.setAttribute("width", W); svg.setAttribute("height", H);
+  svg.style.maxWidth = "100%"; svg.style.height = "auto";
+
+  let lo = 55;
+  if(pts.length){
+    const mn = Math.min(...pts.map(p=>Math.min(p.struct, p.dyn)));
+    lo = Math.min(55, Math.max(0, Math.floor((mn - 4)/10)*10));
+  }
+  const hi = 100;
+  const X = v => ML + (v-lo)/(hi-lo)*S;
+  const Y = v => MT + S - (v-lo)/(hi-lo)*S;
+
+  const tick0 = Math.ceil((lo+1)/10)*10;
+  for(let v = tick0; v <= hi; v += 10){
+    el("line", {x1:ML, x2:ML+S, y1:Y(v), y2:Y(v), class:"gridline"}, svg);
+    el("line", {x1:X(v), x2:X(v), y1:MT, y2:MT+S, class:"gridline"}, svg);
+    txt(svg, ML-9, Y(v)+3.5, String(v), {class:"ticklab", "text-anchor":"end"});
+    txt(svg, X(v), MT+S+16, String(v), {class:"ticklab", "text-anchor":"middle"});
+  }
+  el("line", {x1:X(lo), y1:Y(lo), x2:X(hi), y2:Y(hi),
+              stroke:"var(--rule)", "stroke-width":2, "stroke-dasharray":"7 5"}, svg);
+  el("rect", {x:ML, y:MT, width:S, height:S, fill:"none",
+              stroke:"var(--rule)", "stroke-width":1.2}, svg);
+
+  txt(svg, ML+S/2, MT+S+40, emptyS ? "Structure score, no observables assigned"
+                                   : "Structure score  [%]",
+      {class:"axislab", "text-anchor":"middle"});
+  const yl = txt(svg, 0, 0, emptyD ? "Dynamics score, no observables assigned"
+                                   : "Dynamics score  [%]",
+      {class:"axislab", "text-anchor":"middle"});
+  yl.setAttribute("transform", `translate(16,${MT+S/2}) rotate(-90)`);
+
+  // legend, inside the plot's upper-left
+  const lg = el("g", {transform:`translate(${ML+12},${MT+14})`}, svg);
+  el("rect", {x:-6, y:-10, width:104, height:DATA.families.length*19+8, rx:2,
+              fill:"var(--surface)", stroke:"var(--rule)", "stroke-width":1, "fill-opacity":.92}, lg);
+  DATA.families.forEach((f,i)=>{
+    MARKERS[f.marker](lg, 8, i*19+2, f.id === "RPA" ? 7.5 : 5.6,
+      {fill:"var(--surface)", stroke:"var(--ink-2)", "stroke-width":1.7});
+    txt(lg, 22, i*19+6, f.id, {"font-size":10.5, fill:"var(--ink-2)"});
+  });
+
+  [...pts].sort((a,b)=>(FAM_Z[a.family]||0)-(FAM_Z[b.family]||0)).forEach(p=>{
+    const g = el("g", {}, svg);
+    const edge = ptEdge(p.color), fill = ptFill(p.color);
+    const cx = X(Math.max(lo,Math.min(hi,p.struct))), cy = Y(Math.max(lo,Math.min(hi,p.dyn)));
+    if(state.errbars && (p.structSem > 0.01 || p.dynSem > 0.01)){
+      if(p.structSem > 0.01)
+        el("line", {x1:X(p.struct-p.structSem), x2:X(p.struct+p.structSem), y1:cy, y2:cy,
+                    stroke:edge, "stroke-width":1.6}, g);
+      if(p.dynSem > 0.01)
+        el("line", {x1:cx, x2:cx, y1:Y(p.dyn-p.dynSem), y2:Y(p.dyn+p.dynSem),
+                    stroke:edge, "stroke-width":1.6}, g);
+    }
+    const mk = MARKERS[(DATA.families.find(f=>f.id === p.family)||{marker:"circle"}).marker];
+    mk(g, cx, cy, FAM_SIZE[p.family] || 6.5,
+       {fill:fill, stroke:edge, "stroke-width":1.85, style:"cursor:crosshair"});
+    if(state.labels)
+      txt(g, cx + (FAM_SIZE[p.family]||6.5) + 4, cy+3.4, p.display,
+          {"font-size":9.5, fill:readable(p.color), "font-weight":600});
+    g.addEventListener("mousemove", e=>showTip(e, tipRows(p, ctx.w)));
+    g.addEventListener("mouseleave", hideTip);
+  });
+}
+
+/* =========================================================================
+   PANEL Fig. 4B, individual observable scores
+   ========================================================================= */
+function drawIndiv(ctx){
+  const svg = document.getElementById("svg-indiv");
+  clear(svg);
+  const byId = {}; for(const r of ctx.ordered) byId[r.id] = r;
+  const groups = DATA.panel_groups
+    .map(g=>({label:g.label, members:g.members.filter(m=>byId[m])}))
+    .filter(g=>g.members.length);
+
+  const SPAN = 92, GAP = 26, BLOCKGAP = 40, ML = 50, MR = 14, MT = 26, PH = 190, MB = 48;
+  const nF = groups.reduce((s,g)=>s+g.members.length, 0);
+  const W = ML + nF*SPAN + (nF-1)*GAP + (groups.length-1)*(BLOCKGAP-GAP) + MR;
+  const H = MT + PH + MB;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  svg.setAttribute("width", W); svg.setAttribute("height", H);
+  svg.style.maxWidth = "100%"; svg.style.height = "auto";
+
+  const y = v => MT + PH - v/110*PH;
+  for(let v = 0; v <= 100; v += 20){
+    el("line", {x1:ML-6, x2:W-MR, y1:y(v), y2:y(v), class:"gridline"}, svg);
+    txt(svg, ML-10, y(v)+3.5, String(v), {class:"ticklab", "text-anchor":"end"});
+  }
+  const lab = txt(svg, 0, 0, "Individual score  [%]", {class:"axislab", "text-anchor":"middle"});
+  lab.setAttribute("transform", `translate(13,${MT+PH/2}) rotate(-90)`);
+
+  // bar widths ∝ weight; a zero-weight metric keeps a 2px hairline so the
+  // column stays legible as "present but excluded".
+  const wsum = DATA.metrics.reduce((s,m)=>s+ctx.w[m.id], 0) || 1;
+  const HAIR = 2.5;
+  const nOff = DATA.metrics.filter(m=>ctx.w[m.id] <= 0).length;
+  const avail = SPAN - nOff*HAIR;
+  const bw = {};
+  for(const m of DATA.metrics)
+    bw[m.id] = ctx.w[m.id] > 0 ? Math.max(3, avail*(ctx.w[m.id]/wsum)) : HAIR;
+
+  let x = ML;
+  groups.forEach((grp, gi)=>{
+    const x0 = x;
+    grp.members.forEach(id=>{
+      const r = byId[id];
+      let bx = x;
+      for(const m of DATA.metrics){
+        const d = r.d[m.id], w = bw[m.id];
+        if(isFinite(d)){
+          const h = Math.max(0, y(0) - y(d*100));
+          el("rect", {x:bx, y:y(d*100), width:w, height:h, fill:m.color,
+                      "fill-opacity": ctx.w[m.id] > 0 ? 1 : .3}, svg);
+          if(w > 14 && h > 30){
+            const t = txt(svg, 0, 0, (d*100).toFixed(1),
+              {class:"barval", "text-anchor":"start", "font-size":9.5});
+            t.setAttribute("transform", `translate(${bx+w/2+3.4},${y(0)-6}) rotate(-90)`);
+          }
+        } else {
+          txt(svg, bx+w/2, y(0)-4, "×", {"text-anchor":"middle", fill:"var(--faint)", "font-size":12});
+        }
+        const hit = el("rect", {x:bx, y:MT, width:w, height:PH, class:"hit"}, svg);
+        hit.addEventListener("mousemove", e=>showTip(e,
+          `<div class="t">${r.display}</div>`+
+          `<div class="r"><span style="color:${m.color}">${m.label}</span>`+
+          `<span>${isFinite(d)?(d*100).toFixed(2):"—"}</span></div>`+
+          `<div class="r"><span>Weight</span><span>${(ctx.w[m.id]*100).toFixed(1)}%</span></div>`+
+          `<div class="r"><span>Overall score</span><span>${isFinite(r.overall)?r.overall.toFixed(1):"n/a"}</span></div>`));
+        hit.addEventListener("mouseleave", hideTip);
+        bx += w;
+      }
+      txt(svg, x + SPAN/2, y(0)+18, r.display,
+          {"text-anchor":"middle", "font-size":11, fill:readable(r.color), "font-weight":600});
+      x += SPAN + GAP;
+    });
+    x += BLOCKGAP - GAP;
+    // family bracket over the block
+    const right = x0 + grp.members.length*SPAN + (grp.members.length-1)*GAP;
+    el("path", {d:`M${x0-6},${MT-8} L${x0-6},${MT-14} L${right+6},${MT-14} L${right+6},${MT-8}`,
+                fill:"none", stroke:"var(--rule)", "stroke-width":1.2}, svg);
+    txt(svg, (x0+right)/2, MT-19, grp.label,
+        {"text-anchor":"middle", "font-size":10.5, fill:"var(--ink-2)",
+         "letter-spacing":"0.1em", "font-weight":600});
+  });
+
+  el("line", {x1:ML-6, x2:W-MR, y1:y(0), y2:y(0), stroke:"var(--rule)", "stroke-width":1.2}, svg);
+}
+
+/* =========================================================================
+   Fig. S11, full breakdown
+   ========================================================================= */
+function drawTable(ctx){
+  const tbl = document.getElementById("tbl");
+  tbl.innerHTML = "";
+  const S = DATA.metrics.filter(m=>state.group[m.id] === "structure");
+  const D = DATA.metrics.filter(m=>state.group[m.id] === "dynamics");
+  const cols = [...S, ...D];
+  const maxOverall = 102;
+
+  /* Both header rows and every body row must lay down the same column count,
+     so the cells are built element-by-element rather than by string-appending
+     into a <tr>. */
+  const th = (row, {text = "", cls = "", span = 1, color = "", sub = ""} = {}) => {
+    const c = document.createElement("th");
+    if(cls) c.className = cls;
+    if(span > 1) c.colSpan = span;
+    if(color) c.style.color = color;
+    c.textContent = text;
+    if(sub){
+      const s = document.createElement("span");
+      s.className = "w"; s.textContent = sub; c.appendChild(s);
+    }
+    row.appendChild(c);
+    return c;
+  };
+
+  const thead = document.createElement("thead");
+
+  const gr = document.createElement("tr"); gr.className = "grouprow";
+  th(gr); th(gr);                                        // rank + name
+  if(S.length) th(gr, {text:"Structure", cls:"hdr-struct", span:S.length});
+  th(gr, {cls:"sep"});
+  if(D.length) th(gr, {text:"Dynamics", cls:"hdr-dyn", span:D.length});
+  th(gr, {cls:"sep"});
+  th(gr, {text:"Group mean", cls:"hdr-sum", span:2});
+  th(gr, {cls:"sep"});
+  th(gr, {text:"Overall score", cls:"hdr-sum"});
+  th(gr, {text:"Δ", cls:"hdr-sum"});
+  thead.appendChild(gr);
+
+  const hr = document.createElement("tr");
+  th(hr); th(hr);
+  cols.forEach((m,i)=>{
+    th(hr, {text:m.label, color:readable(m.color),
+            sub:(ctx.w[m.id]*100).toFixed(0) + "%"});
+    if(i === S.length - 1) th(hr, {cls:"sep"});
+  });
+  if(S.length === 0) th(hr, {cls:"sep"});
+  th(hr, {cls:"sep"});
+  th(hr, {text:"Structure", cls:"gm"}); th(hr, {text:"Dynamics", cls:"gm"});
+  th(hr, {cls:"sep"});
+  th(hr); th(hr);
+  thead.appendChild(hr);
+  tbl.appendChild(thead);
+
+  const tbody = document.createElement("tbody");
+  let prevFam = null, rank = 0;
+  for(const r of ctx.ordered){
+    const tr = document.createElement("tr");
+    if(prevFam !== null && r.family !== prevFam) tr.className = "famtop";
+    prevFam = r.family;
+    if(r.isRef) tr.classList.add("isref");
+
+    const rk = r.isRef ? "ref" : (isFinite(r.overall) ? String(++rank) : "—");
+    const nameCol = readable(r.color);
+    let html = `<td class="rank">${rk}</td>`+
+               `<td class="name" style="color:${nameCol}">${r.display}</td>`;
+
+    cols.forEach((m,i)=>{
+      const v = isFinite(r.d[m.id]) ? r.d[m.id]*100 : NaN;
+      const off = ctx.w[m.id] <= 0;
+      html += `<td class="cell"><div style="background:${heatFill(v)};color:${heatText(v)};`+
+              `${off?"opacity:.34;":""}">${isFinite(v)?v.toFixed(0):"—"}</div></td>`;
+      if(i === S.length-1) html += `<td class="sep"></td>`;
+    });
+    if(S.length === 0) html += `<td class="sep"></td>`;
+
+    html += `<td class="sep"></td>`;
+    for(const v of [r.struct, r.dyn])
+      html += `<td class="cell"><div style="background:${heatFill(v)};color:${heatText(v)}">`+
+              `${isFinite(v)?v.toFixed(0):"—"}</div></td>`;
+
+    html += `<td class="sep"></td>`;
+    if(isFinite(r.overall)){
+      const pct = Math.max(0, Math.min(100, (r.overall - HEAT_LO)/(maxOverall - HEAT_LO)*100));
+      html += `<td class="obar"><div class="ob">`+
+              `<div class="track"><div class="fill" style="width:${pct}%;background:${fillOf(r.color)}"></div></div>`+
+              `<div class="val" style="color:${nameCol}">${r.overall.toFixed(1)}</div></div></td>`;
+    } else {
+      html += `<td class="obar"><div class="ob"><div class="track"></div>`+
+              `<div class="val" style="color:var(--faint)">—</div></div></td>`;
+    }
+
+    let dcell = `<td class="delta">·</td>`;
+    if(!r.isRef && isFinite(r.overall) && baselineRanks && baselineRanks[r.id]){
+      const d = baselineRanks[r.id] - rank;
+      dcell = d === 0 ? `<td class="delta">·</td>`
+        : `<td class="delta ${d>0?"up":"down"}">${d>0?"▲":"▼"}${Math.abs(d)}</td>`;
+    }
+    html += dcell;
+
+    tr.innerHTML = html;
+    tr.addEventListener("mousemove", e=>showTip(e, tipRows(r, ctx.w)));
+    tr.addEventListener("mouseleave", hideTip);
+    tbody.appendChild(tr);
+  }
+  tbl.appendChild(tbody);
+}
+
+/* =========================================================================
+   Console
+   ========================================================================= */
+function buildConsole(){
+  // sliders
+  const box = document.getElementById("sliders");
+  box.innerHTML = "";
+  for(const m of DATA.metrics){
+    const row = document.createElement("div");
+    row.className = "srow"; row.dataset.metric = m.id;
+    row.innerHTML =
+      `<span class="swatch" style="background:${m.color}"></span>`+
+      `<span class="lbl"><span class="name">${m.label}</span>`+
+      `<input type="range" min="0" max="100" step="1" value="${state.weights[m.id]}" `+
+        `style="--thumb:${m.color}" aria-label="${m.label} weight"></span>`+
+      `<span class="pct"></span>`;
+    const inp = row.querySelector("input");
+    inp.addEventListener("input", ()=>{
+      state.weights[m.id] = +inp.value; render();
+    });
+    row.querySelector(".name").title = m.detail;
+    box.appendChild(row);
+  }
+
+  // presets
+  const pb = document.getElementById("presets");
+  pb.innerHTML = "";
+  for(const p of PRESETS){
+    const b = document.createElement("button");
+    b.className = "chip"; b.textContent = p.label; b.dataset.preset = p.id;
+    b.addEventListener("click", ()=>applyPreset(p));
+    pb.appendChild(b);
+  }
+
+  // references
+  const rb = document.getElementById("refs");
+  rb.innerHTML = "";
+  for(const r of (DATA.available_references || [])){
+    const b = document.createElement("button");
+    b.className = "ref";
+    const active = r.id === DATA.reference.id;
+    b.setAttribute("aria-pressed", active ? "true" : "false");
+    if(!active) b.disabled = true;
+    // "available" means export_web_data.py already wrote a sibling JSON for
+    // this reference, so the user only has to load that file.
+    const tag = active ? "active"
+              : (r.status === "available" ? "load file" : "re-run needed");
+    b.innerHTML = `<span class="dot"></span><span>${r.display}</span>`+
+      `<span class="tag">${tag}</span>`;
+    if(!active) b.title = r.status === "available"
+      ? `Already exported. Load ${r.file || ("scores_"+r.id+".json")} with the `+
+        `control below to score against this reference.`
+      : "Re-run the analysis against this reference with export_web_data.py, "+
+        "then load the scores.json it writes.";
+    rb.appendChild(b);
+  }
+
+  // panel tools
+  const tools = [
+    ["overalltools", [["errbars","Error bars"]]],
+    ["scattertools", [["labels","Labels"], ["errbars","Error bars"]]],
+    ["indivtools", []],
+    ["tabletools", []],
+  ];
+  for(const [id, items] of tools){
+    const host = document.getElementById(id); host.innerHTML = "";
+    for(const [key, label] of items){
+      const b = document.createElement("button");
+      b.className = "chip"; b.textContent = label; b.dataset.toggle = key;
+      b.addEventListener("click", ()=>{ state[key] = !state[key]; render(); });
+      host.appendChild(b);
+    }
+  }
+
+  // legends
+  const lm = document.getElementById("leg-metric");
+  lm.innerHTML = DATA.metrics.map(m=>
+    `<span class="li"><i style="background:${m.color}"></i>${m.label}</span>`).join("");
+
+  const disp = {};
+  for(const f of DATA.functionals) (disp[f.dispersion] ||= []).push(f.display);
+  const ld = document.getElementById("leg-disp");
+  ld.innerHTML = Object.keys(disp).sort().map(k=>{
+    const kind = DATA.dispersion_hatches[k] || "";
+    const bg = {"fwd":"repeating-linear-gradient(45deg,var(--faint) 0 1.5px,transparent 1.5px 5px)",
+                "fwd-dense":"repeating-linear-gradient(45deg,var(--faint) 0 1.5px,transparent 1.5px 3.5px)",
+                "back":"repeating-linear-gradient(-45deg,var(--faint) 0 1.5px,transparent 1.5px 5px)",
+                "horiz":"repeating-linear-gradient(0deg,var(--faint) 0 1.5px,transparent 1.5px 4px)"}[kind]
+               || "var(--surface-sunk)";
+    return `<span class="li"><i style="background:${bg};border:1px solid var(--rule)"></i>`+
+           `${k === "none" ? "no dispersion" : k}</span>`;
+  }).join("");
+
+  // colour ramp
+  const stops = [];
+  for(let i = 0; i <= 10; i++) stops.push(rgb2css(ylgn(i/10)));
+  document.getElementById("ramp").style.background =
+    `linear-gradient(90deg,${stops.join(",")})`;
+  document.getElementById("ramplo").textContent = HEAT_LO;
+  document.getElementById("ramphi").textContent = HEAT_HI;
+
+  drawGroups();
+
+  // A standing note on the error bars, kept beside the panel they belong to.
+  const p = DATA.provenance || {};
+  const note = document.getElementById("semnote");
+  note.textContent = p.sem_is_exact
+    ? "Standard errors as computed per observable, propagated in quadrature."
+    : (p.sem_note || "");
+  note.style.display = note.textContent ? "" : "none";
+}
+
+function drawGroups(){
+  for(const [host, g] of [[document.getElementById("gs"), "structure"],
+                          [document.getElementById("gd"), "dynamics"]]){
+    host.innerHTML = "";
+    const mine = DATA.metrics.filter(m=>state.group[m.id] === g);
+    if(!mine.length){
+      host.innerHTML = `<span style="font-size:11px;color:var(--faint)">empty</span>`;
+      continue;
+    }
+    for(const m of mine){
+      const b = document.createElement("button");
+      b.className = "gitem";
+      b.innerHTML = `<i style="background:${m.color}"></i>${m.label}`+
+                    `<s>${g === "structure" ? "→" : "←"}</s>`;
+      b.title = `Move ${m.label} to ${g === "structure" ? "Dynamics" : "Structure"}`;
+      b.addEventListener("click", ()=>{
+        state.group[m.id] = g === "structure" ? "dynamics" : "structure";
+        render();
+      });
+      host.appendChild(b);
+    }
+  }
+}
+
+function syncConsole(w){
+  for(const m of DATA.metrics){
+    const row = document.querySelector(`.srow[data-metric="${m.id}"]`);
+    row.querySelector(".pct").textContent = (w[m.id]*100).toFixed(0) + "%";
+    row.classList.toggle("off", state.weights[m.id] <= 0);
+    const inp = row.querySelector("input");
+    if(+inp.value !== state.weights[m.id]) inp.value = state.weights[m.id];
+  }
+  const cb = document.getElementById("compbar");
+  cb.innerHTML = DATA.metrics.map(m=>
+    `<span style="flex:${Math.max(0.0001, w[m.id])} 0 0;background:${m.color}"></span>`).join("");
+  const tot = DATA.metrics.reduce((s,m)=>s+state.weights[m.id], 0);
+  const active = DATA.metrics.filter(m=>state.weights[m.id] > 0).length;
+  document.getElementById("wsum").textContent =
+    tot <= 0 ? "all zero → equal fallback" : `${active} of ${DATA.metrics.length} active`;
+
+  for(const b of document.querySelectorAll("[data-preset]")){
+    const p = PRESETS.find(x=>x.id === b.dataset.preset);
+    const match = DATA.metrics.every(m=>{
+      const want = (p.w[m.id] ?? 0)*20;
+      return Math.abs(want - state.weights[m.id]) < 0.6;
+    });
+    b.setAttribute("aria-pressed", match ? "true" : "false");
+  }
+  for(const b of document.querySelectorAll("[data-toggle]"))
+    b.setAttribute("aria-pressed", state[b.dataset.toggle] ? "true" : "false");
+}
+
+/* =========================================================================
+   Render
+   ========================================================================= */
+function render(){
+  const ctx = computeRows();
+  syncConsole(ctx.w);
+  drawGroups();
+  drawOverall(ctx);
+  drawScatter(ctx);
+  drawIndiv(ctx);
+  drawTable(ctx);
+}
+
+/* ---------- loading an exported scores.json ---------- */
+document.getElementById("jsonfile").addEventListener("change", ev=>{
+  const f = ev.target.files && ev.target.files[0];
+  if(!f) return;
+  const lbl = document.getElementById("jsonlabel");
+  const rd = new FileReader();
+  rd.onload = () => {
+    try{
+      const j = JSON.parse(rd.result);
+      if(!j.functionals || !j.metrics || !j.reference)
+        throw new Error("missing functionals / metrics / reference");
+      DATA = j;
+      initState(); computeBaselineRanks(); buildConsole(); render();
+      lbl.innerHTML = `Loaded <code>${f.name}</code>, reference ${DATA.reference.display}`;
+    }catch(err){
+      lbl.innerHTML = `Could not read that file: ${err.message}. `+
+        `Expected the JSON written by <code>export_web_data.py</code>.`;
+    }
+  };
+  rd.readAsText(f);
+});
+
+/* ---------- theme ---------- */
+document.getElementById("themebtn").addEventListener("click", ()=>{
+  const r = document.documentElement, cur = r.getAttribute("data-theme");
+  const sysDark = matchMedia("(prefers-color-scheme: dark)").matches;
+  const next = cur ? (cur === "dark" ? "light" : "dark") : (sysDark ? "light" : "dark");
+  r.setAttribute("data-theme", next);
+  render();   // SVG picks up token colours at draw time
+});
+
+/* ---------- boot ---------- */
+initState();
+computeBaselineRanks();
+buildConsole();
+render();
+addEventListener("resize", ()=>{ /* SVGs are viewBox-scaled; nothing to do */ });
+</script>
+
+</body></html>
