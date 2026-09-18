@@ -2,7 +2,7 @@
 
 Interactive companion to *How Good Is DFT for Solid-Liquid Interfaces? A Comparison With the Random-Phase Approximation for Water on Graphene.*
 
-**[Open the interactive framework →](https://water-ice-group.github.io/graphene-water-benchmark/)**
+**[Open the interactive framework →](https://water-ice-group.github.io/water-graphene-benchmark/)**
 
 We assess a broad set of DFT exchange-correlation (XC) approximations against the random-phase approximation (RPA) at the graphene-water interface, using machine-learned potentials trained on both levels of theory to reach the trajectory lengths required for interfacial structure, wettability, friction, and vibrational sum-frequency generation. The fidelity of each functional to RPA is summarised in a single measure, obtained by averaging six observable-level scores: radial distribution functions, vibrational density of states, density profiles, orientational order, VSFG spectra, and friction.
 
