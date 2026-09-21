@@ -1,6 +1,6 @@
 # Multi-Observable Scoring Framework
 
-Interactive companion to *How Good Is DFT for Solid-Liquid Interfaces? A Comparison With the Random-Phase Approximation for Water on Graphene.*
+Interactive companion to *How Good Is DFT for Solid-Liquid Interfaces? A Comparison With the Random-Phase Approximation for Water on Graphene.* by Xavier R. Advincula, Yair Litman, Jiuyang Shi, Flaviano Della Pia, Christoph Schran, and Angelos Michaelides.
 
 **[Open the interactive framework →](https://water-ice-group.github.io/water-graphene-benchmark/)**
 
