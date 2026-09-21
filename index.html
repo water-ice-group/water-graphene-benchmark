@@ -39,6 +39,9 @@
   --font-head:"Spectral",Georgia,"Times New Roman",serif;
 
   --rail:320px;
+  /* Footprint the fixed theme button claims at the viewport's right
+     edge (its own width plus its offset), so panel tools can clear it. */
+  --themebtn-w:100px;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
@@ -266,7 +269,10 @@ input[type=range]::-moz-range-thumb{
 .ptitle{display:flex;flex-direction:column;gap:2px;min-width:0}
 .ptitle h3{font-family:var(--font-head);font-size:17.5px;font-weight:600}
 .ptitle .cap{font-size:12.5px;color:var(--muted);max-width:74ch}
-.ptools{margin-left:auto;display:flex;gap:5px;flex:0 0 auto;align-items:center}
+/* The theme button is fixed to the viewport's top-right, so any panel
+   header scrolling past it would run underneath. Reserve its width. */
+.ptools{margin-left:auto;display:flex;gap:5px;flex:0 0 auto;align-items:center;
+        margin-right:calc(var(--themebtn-w) - 30px)}
 .pbody{padding:0 14px 16px;overflow-x:auto}
 .pbody svg{display:block}
 
@@ -1069,17 +1075,27 @@ function drawScatter(ctx){
   svg.setAttribute("width", W); svg.setAttribute("height", H);
   svg.style.maxWidth = "100%"; svg.style.height = "auto";
 
-  let lo = 55;
-  if(pts.length){
+  /* The window follows the data rather than a fixed pair of limits: the
+     floor is the first multiple of five clear of the lowest score on either
+     axis, so a reweighting that drags a functional down opens the axis up
+     instead of stacking points against the frame, and one that lifts the
+     field zooms in on it. At the weightings the page opens with it lands on
+     65. Only the pinned reference in view leaves nothing to scale to, so
+     that case keeps the default window. */
+  let lo = 65;
+  if(pts.length > 1){
     const mn = Math.min(...pts.map(p=>Math.min(p.struct, p.dyn)));
-    lo = Math.min(55, Math.max(0, Math.floor((mn - 4)/10)*10));
+    lo = Math.max(0, Math.floor((mn - 2)/5)*5);
   }
   const hi = 100;
   const X = v => ML + (v-lo)/(hi-lo)*S;
   const Y = v => MT + S - (v-lo)/(hi-lo)*S;
+  const cl = v => Math.max(lo, Math.min(hi, v));
 
-  const tick0 = Math.ceil((lo+1)/10)*10;
-  for(let v = tick0; v <= hi; v += 10){
+  // a narrow window would show one or two decade ticks, so it gets fives
+  const step = (hi - lo) <= 20 ? 5 : 10;
+  const tick0 = Math.ceil((lo+1)/step)*step;
+  for(let v = tick0; v <= hi; v += step){
     el("line", {x1:ML, x2:ML+S, y1:Y(v), y2:Y(v), class:"gridline"}, svg);
     el("line", {x1:X(v), x2:X(v), y1:MT, y2:MT+S, class:"gridline"}, svg);
     txt(svg, ML-9, Y(v)+3.5, String(v), {class:"ticklab", "text-anchor":"end"});
@@ -1098,20 +1114,10 @@ function drawScatter(ctx){
       {class:"axislab", "text-anchor":"middle"});
   yl.setAttribute("transform", `translate(16,${MT+S/2}) rotate(-90)`);
 
-  // legend, inside the plot's upper-left
-  const lg = el("g", {transform:`translate(${ML+12},${MT+14})`}, svg);
-  el("rect", {x:-6, y:-10, width:104, height:DATA.families.length*19+8, rx:2,
-              fill:"var(--surface)", stroke:"var(--rule)", "stroke-width":1, "fill-opacity":.92}, lg);
-  DATA.families.forEach((f,i)=>{
-    MARKERS[f.marker](lg, 8, i*19+2, f.id === "RPA" ? 7.5 : 5.6,
-      {fill:"var(--surface)", stroke:"var(--ink-2)", "stroke-width":1.7});
-    txt(lg, 22, i*19+6, f.id, {"font-size":10.5, fill:"var(--ink-2)"});
-  });
-
   [...pts].sort((a,b)=>(FAM_Z[a.family]||0)-(FAM_Z[b.family]||0)).forEach(p=>{
     const g = el("g", {}, svg);
     const edge = ptEdge(p.color), fill = ptFill(p.color);
-    const cx = X(Math.max(lo,Math.min(hi,p.struct))), cy = Y(Math.max(lo,Math.min(hi,p.dyn)));
+    const cx = X(cl(p.struct)), cy = Y(cl(p.dyn));
     if(state.errbars && (p.structSem > 0.01 || p.dynSem > 0.01)){
       if(p.structSem > 0.01)
         el("line", {x1:X(p.struct-p.structSem), x2:X(p.struct+p.structSem), y1:cy, y2:cy,
@@ -1128,6 +1134,33 @@ function drawScatter(ctx){
           {"font-size":9.5, fill:readable(p.color), "font-weight":600});
     g.addEventListener("mousemove", e=>showTip(e, tipRows(p, ctx.w)));
     g.addEventListener("mouseleave", hideTip);
+  });
+
+  /* Legend last, so its box is never overdrawn by a marker, and in the first
+     corner no marker occupies. Upper-left is the paper's placement and the
+     one the default weightings leave empty; a reweighting that walks a point
+     into it moves the box rather than burying the point. */
+  const LW = 104, LH = DATA.families.length*19 + 8, PAD = 11;
+  const corners = [
+    {x:ML + 6,          y:MT + 4},
+    {x:ML + S - LW - 6, y:MT + S - LH - 4},
+    {x:ML + S - LW - 6, y:MT + 4},
+    {x:ML + 6,          y:MT + S - LH - 4},
+  ];
+  const clear_ = c => !pts.some(p=>{
+    const px = X(cl(p.struct)), py = Y(cl(p.dyn));
+    return px > c.x - PAD && px < c.x + LW + PAD
+        && py > c.y - PAD && py < c.y + LH + PAD;
+  });
+  const spot = corners.find(clear_) || corners[0];
+
+  const lg = el("g", {transform:`translate(${spot.x+6},${spot.y+10})`}, svg);
+  el("rect", {x:-6, y:-10, width:LW, height:LH, rx:2,
+              fill:"var(--surface)", stroke:"var(--rule)", "stroke-width":1, "fill-opacity":.92}, lg);
+  DATA.families.forEach((f,i)=>{
+    MARKERS[f.marker](lg, 8, i*19+2, f.id === "RPA" ? 7.5 : 5.6,
+      {fill:"var(--surface)", stroke:"var(--ink-2)", "stroke-width":1.7});
+    txt(lg, 22, i*19+6, f.id, {"font-size":10.5, fill:"var(--ink-2)"});
   });
 }
 
