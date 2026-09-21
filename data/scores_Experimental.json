@@ -1,0 +1,1651 @@
+{
+ "schema": "solliq-scores/1",
+ "reference": {
+  "id": "Experimental",
+  "display": "Experiment (VSFG)",
+  "note": "Digitised HD-VSFG spectra from Wang et al., Angew. Chem. Int. Ed. 63, e202319503 (2024), Fig. 1D."
+ },
+ "provenance": {
+  "source": "benchmark_all_references.py, read back from benchmark_all_references",
+  "generated": "2026-09-19",
+  "system": "19A",
+  "n_tag": "n100",
+  "graphene": "frozen",
+  "reference_kind": "expt",
+  "orientation_weighting": {
+   "weight_source": "ref",
+   "min_frac": 0.0,
+   "weight_power": 1.0,
+   "x_max": 11.0
+  },
+  "interf_root": "17_FINAL_PROD_out",
+  "bulk_root": "12_analyse_final_prods",
+  "scoring_dirs": {},
+  "preferred_metric_per_dir": {
+   "sfg": "combined"
+  },
+  "sem_is_exact": true,
+  "sem_note": "Standard errors are the per-observable values the scoring wrote out, propagated in quadrature under the chosen weights. They are per-observable, so they no longer share one value the way the hand-transcribed baseline did.",
+  "excluded": [
+   "PBE-DRSLL",
+   "SCAN"
+  ]
+ },
+ "metrics": [
+  {
+   "id": "sfg",
+   "label": "VSFG",
+   "color": "#355c8c",
+   "group": "dynamics",
+   "detail": "VSFG spectra for the graphene-water and air-water interfaces, scored on the hydrogen-bonded and dangling O-H peak positions, their intensity ratio and the width of the hydrogen-bonded band."
+  }
+ ],
+ "families": [
+  {
+   "id": "RPA",
+   "marker": "star"
+  },
+  {
+   "id": "Hybrids",
+   "marker": "diamond"
+  },
+  {
+   "id": "Meta-GGAs",
+   "marker": "square"
+  },
+  {
+   "id": "GGAs",
+   "marker": "circle"
+  }
+ ],
+ "dispersion_hatches": {
+  "none": "",
+  "D3-0": "fwd",
+  "D3-BJ": "back",
+  "D3m-BJ": "back",
+  "D4": "fwd-dense",
+  "DRSLL": "horiz",
+  "rVV10": "horiz"
+ },
+ "panel_groups": [
+  {
+   "label": "Hybrids",
+   "members": [
+    "HSE06-D3-0",
+    "B3LYP-D3-0",
+    "revPBE0-D3-0"
+   ]
+  },
+  {
+   "label": "Meta-GGAs",
+   "members": [
+    "M06L-D3-0",
+    "r2SCAN-D4",
+    "r2SCAN-D3-BJ",
+    "r2SCAN"
+   ]
+  },
+  {
+   "label": "Meta-GGAs",
+   "members": [
+    "B97M-rV"
+   ]
+  },
+  {
+   "label": "GGAs",
+   "members": [
+    "revPBE-D4",
+    "revPBE-D3-0",
+    "PBE-D3-BJ",
+    "PBE-rVV10",
+    "BLYP-D3-BJ",
+    "optB88-DRSLL"
+   ]
+  }
+ ],
+ "available_references": [
+  {
+   "id": "RPA-QZ",
+   "display": "RPA/QZ",
+   "file": "data/scores_RPA-QZ.json",
+   "status": "available"
+  },
+  {
+   "id": "RPA",
+   "display": "RPA/TZ",
+   "file": "data/scores_RPA.json",
+   "status": "available"
+  },
+  {
+   "id": "HSE06-D3-0",
+   "display": "HSE06-D3(0)",
+   "file": "data/scores_HSE06-D3-0.json",
+   "status": "available"
+  },
+  {
+   "id": "B3LYP-D3-0",
+   "display": "B3LYP-D3(0)",
+   "file": "data/scores_B3LYP-D3-0.json",
+   "status": "available"
+  },
+  {
+   "id": "revPBE0-D3-0",
+   "display": "revPBE0-D3(0)",
+   "file": "data/scores_revPBE0-D3-0.json",
+   "status": "available"
+  },
+  {
+   "id": "M06L-D3-0",
+   "display": "M06-L-D3(0)",
+   "file": "data/scores_M06L-D3-0.json",
+   "status": "available"
+  },
+  {
+   "id": "r2SCAN-D4",
+   "display": "r2SCAN-D4",
+   "file": "data/scores_r2SCAN-D4.json",
+   "status": "available"
+  },
+  {
+   "id": "r2SCAN-D3-BJ",
+   "display": "r2SCAN-D3(BJ)",
+   "file": "data/scores_r2SCAN-D3-BJ.json",
+   "status": "available"
+  },
+  {
+   "id": "r2SCAN",
+   "display": "r2SCAN",
+   "file": "data/scores_r2SCAN.json",
+   "status": "available"
+  },
+  {
+   "id": "B97M-rV",
+   "display": "B97M-rV",
+   "file": "data/scores_B97M-rV.json",
+   "status": "available"
+  },
+  {
+   "id": "revPBE-D4",
+   "display": "revPBE-D4",
+   "file": "data/scores_revPBE-D4.json",
+   "status": "available"
+  },
+  {
+   "id": "revPBE-D3-BJ",
+   "display": "revPBE-D3(BJ)",
+   "file": "data/scores_revPBE-D3-BJ.json",
+   "status": "available"
+  },
+  {
+   "id": "revPBE-D3-0",
+   "display": "revPBE-D3(0)",
+   "file": "data/scores_revPBE-D3-0.json",
+   "status": "available"
+  },
+  {
+   "id": "revPBE-DRSLL",
+   "display": "revPBE-DRSLL",
+   "file": "data/scores_revPBE-DRSLL.json",
+   "status": "available"
+  },
+  {
+   "id": "revPBE-rVV10",
+   "display": "revPBE-rVV10",
+   "file": "data/scores_revPBE-rVV10.json",
+   "status": "available"
+  },
+  {
+   "id": "PBE-D4",
+   "display": "PBE-D4",
+   "file": "data/scores_PBE-D4.json",
+   "status": "available"
+  },
+  {
+   "id": "PBE-D3-BJ",
+   "display": "PBE-D3(BJ)",
+   "file": "data/scores_PBE-D3-BJ.json",
+   "status": "available"
+  },
+  {
+   "id": "PBE-D3m-BJ",
+   "display": "PBE-D3M(BJ)",
+   "file": "data/scores_PBE-D3m-BJ.json",
+   "status": "available"
+  },
+  {
+   "id": "PBE-D3-0",
+   "display": "PBE-D3(0)",
+   "file": "data/scores_PBE-D3-0.json",
+   "status": "available"
+  },
+  {
+   "id": "PBE-rVV10",
+   "display": "PBE-rVV10",
+   "file": "data/scores_PBE-rVV10.json",
+   "status": "available"
+  },
+  {
+   "id": "BLYP-D4",
+   "display": "BLYP-D4",
+   "file": "data/scores_BLYP-D4.json",
+   "status": "available"
+  },
+  {
+   "id": "BLYP-D3-BJ",
+   "display": "BLYP-D3(BJ)",
+   "file": "data/scores_BLYP-D3-BJ.json",
+   "status": "available"
+  },
+  {
+   "id": "BLYP-D3-0",
+   "display": "BLYP-D3(0)",
+   "file": "data/scores_BLYP-D3-0.json",
+   "status": "available"
+  },
+  {
+   "id": "optB88-DRSLL",
+   "display": "optB88-vdW",
+   "file": "data/scores_optB88-DRSLL.json",
+   "status": "available"
+  },
+  {
+   "id": "Experimental",
+   "display": "Experiment (VSFG)",
+   "status": "loaded"
+  }
+ ],
+ "functionals": [
+  {
+   "id": "B3LYP-D3-0",
+   "display": "B3LYP-D3(0)",
+   "color": "#b22222",
+   "family": "Hybrids",
+   "dispersion": "D3-0",
+   "d": {
+    "sfg": 0.884043
+   },
+   "sem": {
+    "sfg": 0.004714
+   },
+   "kappa": {
+    "sfg": 1.7043
+   },
+   "submetrics": {
+    "sfg": {
+     "combined": {
+      "value": 0.884043,
+      "sem": 0.004714
+     },
+     "mode2": {
+      "value": 0.854282,
+      "sem": 0.006549
+     },
+     "mode2:position": {
+      "value": 0.977766,
+      "sem": 0.000309
+     },
+     "mode2:ratio": {
+      "value": 0.70579,
+      "sem": 0.010271
+     },
+     "mode2:width": {
+      "value": 0.87929,
+      "sem": 0.010268
+     },
+     "mode3": {
+      "value": 0.913805,
+      "sem": 0.004317
+     },
+     "mode3:position": {
+      "value": 0.980961,
+      "sem": 0.000385
+     },
+     "mode3:ratio": {
+      "value": 0.790701,
+      "sem": 0.006588
+     },
+     "mode3:width": {
+      "value": 0.969753,
+      "sem": 0.007983
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 88.4043
+  },
+  {
+   "id": "B97M-rV",
+   "display": "B97M-rV",
+   "color": "#3f007d",
+   "family": "Meta-GGAs",
+   "dispersion": "rVV10",
+   "d": {
+    "sfg": 0.735115
+   },
+   "sem": {
+    "sfg": 0.001845
+   },
+   "kappa": {
+    "sfg": 3.8932
+   },
+   "submetrics": {
+    "sfg": {
+     "combined": {
+      "value": 0.735115,
+      "sem": 0.001845
+     },
+     "mode2": {
+      "value": 0.665278,
+      "sem": 0.003593
+     },
+     "mode2:position": {
+      "value": 0.968947,
+      "sem": 0.00023
+     },
+     "mode2:ratio": {
+      "value": 0.308846,
+      "sem": 0.006935
+     },
+     "mode2:width": {
+      "value": 0.718041,
+      "sem": 0.005782
+     },
+     "mode3": {
+      "value": 0.804953,
+      "sem": 0.003175
+     },
+     "mode3:position": {
+      "value": 0.975789,
+      "sem": 0.000252
+     },
+     "mode3:ratio": {
+      "value": 0.646143,
+      "sem": 0.005042
+     },
+     "mode3:width": {
+      "value": 0.792926,
+      "sem": 0.005587
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 73.5115
+  },
+  {
+   "id": "BLYP-D3-0",
+   "display": "BLYP-D3(0)",
+   "color": "#d94801",
+   "family": "GGAs",
+   "dispersion": "D3-0",
+   "d": {
+    "sfg": 0.95789
+   },
+   "sem": {
+    "sfg": 0.002681
+   },
+   "kappa": {
+    "sfg": 0.6189
+   },
+   "submetrics": {
+    "sfg": {
+     "combined": {
+      "value": 0.95789,
+      "sem": 0.002681
+     },
+     "mode2": {
+      "value": 0.957012,
+      "sem": 0.003424
+     },
+     "mode2:position": {
+      "value": 0.998077,
+      "sem": 0.00033
+     },
+     "mode2:ratio": {
+      "value": 0.936616,
+      "sem": 0.008279
+     },
+     "mode2:width": {
+      "value": 0.936344,
+      "sem": 0.004951
+     },
+     "mode3": {
+      "value": 0.958768,
+      "sem": 0.002357
+     },
+     "mode3:position": {
+      "value": 0.994182,
+      "sem": 0.000808
+     },
+     "mode3:ratio": {
+      "value": 0.941258,
+      "sem": 0.007613
+     },
+     "mode3:width": {
+      "value": 0.940866,
+      "sem": 0.002
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 95.789
+  },
+  {
+   "id": "BLYP-D3-BJ",
+   "display": "BLYP-D3(BJ)",
+   "color": "#a63603",
+   "family": "GGAs",
+   "dispersion": "D3-BJ",
+   "d": {
+    "sfg": 0.947658
+   },
+   "sem": {
+    "sfg": 0.003999
+   },
+   "kappa": {
+    "sfg": 0.7693
+   },
+   "submetrics": {
+    "sfg": {
+     "combined": {
+      "value": 0.947658,
+      "sem": 0.003999
+     },
+     "mode2": {
+      "value": 0.97171,
+      "sem": 0.00385
+     },
+     "mode2:position": {
+      "value": 0.998515,
+      "sem": 0.000172
+     },
+     "mode2:ratio": {
+      "value": 0.957114,
+      "sem": 0.00895
+     },
+     "mode2:width": {
+      "value": 0.9595,
+      "sem": 0.004995
+     },
+     "mode3": {
+      "value": 0.923606,
+      "sem": 0.00551
+     },
+     "mode3:position": {
+      "value": 0.993239,
+      "sem": 0.000932
+     },
+     "mode3:ratio": {
+      "value": 0.877619,
+      "sem": 0.012642
+     },
+     "mode3:width": {
+      "value": 0.89996,
+      "sem": 0.006404
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 94.7658
+  },
+  {
+   "id": "BLYP-D4",
+   "display": "BLYP-D4",
+   "color": "#7f2704",
+   "family": "GGAs",
+   "dispersion": "D4",
+   "d": {
+    "sfg": 0.940988
+   },
+   "sem": {
+    "sfg": 0.003499
+   },
+   "kappa": {
+    "sfg": 0.8673
+   },
+   "submetrics": {
+    "sfg": {
+     "combined": {
+      "value": 0.940988,
+      "sem": 0.003499
+     },
+     "mode2": {
+      "value": 0.963891,
+      "sem": 0.005105
+     },
+     "mode2:position": {
+      "value": 0.996832,
+      "sem": 0.00066
+     },
+     "mode2:ratio": {
+      "value": 0.910417,
+      "sem": 0.013716
+     },
+     "mode2:width": {
+      "value": 0.984424,
+      "sem": 0.00427
+     },
+     "mode3": {
+      "value": 0.918085,
+      "sem": 0.005846
+     },
+     "mode3:position": {
+      "value": 0.995348,
+      "sem": 0.000466
+     },
+     "mode3:ratio": {
+      "value": 0.855432,
+      "sem": 0.013544
+     },
+     "mode3:width": {
+      "value": 0.903477,
+      "sem": 0.006305
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 94.09880000000001
+  },
+  {
+   "id": "HSE06-D3-0",
+   "display": "HSE06-D3(0)",
+   "color": "#8c1d18",
+   "family": "Hybrids",
+   "dispersion": "D3-0",
+   "d": {
+    "sfg": 0.787059
+   },
+   "sem": {
+    "sfg": 0.002974
+   },
+   "kappa": {
+    "sfg": 3.1297
+   },
+   "submetrics": {
+    "sfg": {
+     "combined": {
+      "value": 0.787059,
+      "sem": 0.002974
+     },
+     "mode2": {
+      "value": 0.742572,
+      "sem": 0.003712
+     },
+     "mode2:position": {
+      "value": 0.976527,
+      "sem": 0.000486
+     },
+     "mode2:ratio": {
+      "value": 0.264825,
+      "sem": 0.010736
+     },
+     "mode2:width": {
+      "value": 0.986363,
+      "sem": 0.002698
+     },
+     "mode3": {
+      "value": 0.831547,
+      "sem": 0.004035
+     },
+     "mode3:position": {
+      "value": 0.978309,
+      "sem": 0.000616
+     },
+     "mode3:ratio": {
+      "value": 0.605636,
+      "sem": 0.013857
+     },
+     "mode3:width": {
+      "value": 0.910694,
+      "sem": 0.007281
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 78.7059
+  },
+  {
+   "id": "M06L-D3-0",
+   "display": "M06-L-D3(0)",
+   "color": "#6a1b9a",
+   "family": "Meta-GGAs",
+   "dispersion": "D3-0",
+   "d": {
+    "sfg": 0.799183
+   },
+   "sem": {
+    "sfg": 0.002584
+   },
+   "kappa": {
+    "sfg": 2.9515
+   },
+   "submetrics": {
+    "sfg": {
+     "combined": {
+      "value": 0.799183,
+      "sem": 0.002584
+     },
+     "mode2": {
+      "value": 0.741831,
+      "sem": 0.002796
+     },
+     "mode2:position": {
+      "value": 0.974783,
+      "sem": 0.000295
+     },
+     "mode2:ratio": {
+      "value": 0.441978,
+      "sem": 0.006196
+     },
+     "mode2:width": {
+      "value": 0.808732,
+      "sem": 0.00611
+     },
+     "mode3": {
+      "value": 0.856535,
+      "sem": 0.003534
+     },
+     "mode3:position": {
+      "value": 0.983044,
+      "sem": 0.000322
+     },
+     "mode3:ratio": {
+      "value": 0.671702,
+      "sem": 0.007179
+     },
+     "mode3:width": {
+      "value": 0.914857,
+      "sem": 0.005163
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 79.9183
+  },
+  {
+   "id": "PBE-D3-0",
+   "display": "PBE-D3(0)",
+   "color": "#41ab5d",
+   "family": "GGAs",
+   "dispersion": "D3-0",
+   "d": {
+    "sfg": 0.933872
+   },
+   "sem": {
+    "sfg": 0.003451
+   },
+   "kappa": {
+    "sfg": 0.9719
+   },
+   "submetrics": {
+    "sfg": {
+     "combined": {
+      "value": 0.933872,
+      "sem": 0.003451
+     },
+     "mode2": {
+      "value": 0.963355,
+      "sem": 0.005043
+     },
+     "mode2:position": {
+      "value": 0.993721,
+      "sem": 0.000968
+     },
+     "mode2:ratio": {
+      "value": 0.964017,
+      "sem": 0.01027
+     },
+     "mode2:width": {
+      "value": 0.932328,
+      "sem": 0.011845
+     },
+     "mode3": {
+      "value": 0.904389,
+      "sem": 0.005467
+     },
+     "mode3:position": {
+      "value": 0.992373,
+      "sem": 0.000902
+     },
+     "mode3:ratio": {
+      "value": 0.902294,
+      "sem": 0.014084
+     },
+     "mode3:width": {
+      "value": 0.818499,
+      "sem": 0.004685
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 93.3872
+  },
+  {
+   "id": "PBE-D3-BJ",
+   "display": "PBE-D3(BJ)",
+   "color": "#006d2c",
+   "family": "GGAs",
+   "dispersion": "D3-BJ",
+   "d": {
+    "sfg": 0.911406
+   },
+   "sem": {
+    "sfg": 0.003848
+   },
+   "kappa": {
+    "sfg": 1.3021
+   },
+   "submetrics": {
+    "sfg": {
+     "combined": {
+      "value": 0.911406,
+      "sem": 0.003848
+     },
+     "mode2": {
+      "value": 0.944564,
+      "sem": 0.004166
+     },
+     "mode2:position": {
+      "value": 0.991948,
+      "sem": 0.000415
+     },
+     "mode2:ratio": {
+      "value": 0.917757,
+      "sem": 0.012506
+     },
+     "mode2:width": {
+      "value": 0.923988,
+      "sem": 0.007128
+     },
+     "mode3": {
+      "value": 0.878247,
+      "sem": 0.007854
+     },
+     "mode3:position": {
+      "value": 0.990045,
+      "sem": 0.001455
+     },
+     "mode3:ratio": {
+      "value": 0.854405,
+      "sem": 0.016557
+     },
+     "mode3:width": {
+      "value": 0.79029,
+      "sem": 0.008301
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 91.1406
+  },
+  {
+   "id": "PBE-D3m-BJ",
+   "display": "PBE-D3M(BJ)",
+   "color": "#238b45",
+   "family": "GGAs",
+   "dispersion": "D3m-BJ",
+   "d": {
+    "sfg": 0.904094
+   },
+   "sem": {
+    "sfg": 0.004372
+   },
+   "kappa": {
+    "sfg": 1.4096
+   },
+   "submetrics": {
+    "sfg": {
+     "combined": {
+      "value": 0.904094,
+      "sem": 0.004372
+     },
+     "mode2": {
+      "value": 0.94905,
+      "sem": 0.003151
+     },
+     "mode2:position": {
+      "value": 0.992166,
+      "sem": 0.00129
+     },
+     "mode2:ratio": {
+      "value": 0.928175,
+      "sem": 0.012308
+     },
+     "mode2:width": {
+      "value": 0.926809,
+      "sem": 0.009792
+     },
+     "mode3": {
+      "value": 0.859137,
+      "sem": 0.008594
+     },
+     "mode3:position": {
+      "value": 0.988498,
+      "sem": 0.001662
+     },
+     "mode3:ratio": {
+      "value": 0.807876,
+      "sem": 0.0206
+     },
+     "mode3:width": {
+      "value": 0.781037,
+      "sem": 0.007216
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 90.40939999999999
+  },
+  {
+   "id": "PBE-D4",
+   "display": "PBE-D4",
+   "color": "#00441b",
+   "family": "GGAs",
+   "dispersion": "D4",
+   "d": {
+    "sfg": 0.923681
+   },
+   "sem": {
+    "sfg": 0.004104
+   },
+   "kappa": {
+    "sfg": 1.1217
+   },
+   "submetrics": {
+    "sfg": {
+     "combined": {
+      "value": 0.923681,
+      "sem": 0.004104
+     },
+     "mode2": {
+      "value": 0.946747,
+      "sem": 0.006271
+     },
+     "mode2:position": {
+      "value": 0.990214,
+      "sem": 0.001474
+     },
+     "mode2:ratio": {
+      "value": 0.944844,
+      "sem": 0.013499
+     },
+     "mode2:width": {
+      "value": 0.905184,
+      "sem": 0.00955
+     },
+     "mode3": {
+      "value": 0.900615,
+      "sem": 0.005571
+     },
+     "mode3:position": {
+      "value": 0.990224,
+      "sem": 0.000961
+     },
+     "mode3:ratio": {
+      "value": 0.891672,
+      "sem": 0.014077
+     },
+     "mode3:width": {
+      "value": 0.81995,
+      "sem": 0.009653
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 92.3681
+  },
+  {
+   "id": "PBE-rVV10",
+   "display": "PBE-rVV10",
+   "color": "#c7e9c0",
+   "family": "GGAs",
+   "dispersion": "rVV10",
+   "d": {
+    "sfg": 0.927568
+   },
+   "sem": {
+    "sfg": 0.003557
+   },
+   "kappa": {
+    "sfg": 1.0646
+   },
+   "submetrics": {
+    "sfg": {
+     "combined": {
+      "value": 0.927568,
+      "sem": 0.003557
+     },
+     "mode2": {
+      "value": 0.937878,
+      "sem": 0.005271
+     },
+     "mode2:position": {
+      "value": 0.991562,
+      "sem": 0.000681
+     },
+     "mode2:ratio": {
+      "value": 0.897504,
+      "sem": 0.019484
+     },
+     "mode2:width": {
+      "value": 0.924567,
+      "sem": 0.010464
+     },
+     "mode3": {
+      "value": 0.917258,
+      "sem": 0.003845
+     },
+     "mode3:position": {
+      "value": 0.984423,
+      "sem": 0.000785
+     },
+     "mode3:ratio": {
+      "value": 0.967139,
+      "sem": 0.008526
+     },
+     "mode3:width": {
+      "value": 0.800213,
+      "sem": 0.004176
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 92.7568
+  },
+  {
+   "id": "RPA",
+   "display": "RPA/TZ",
+   "color": "#8a8a8a",
+   "family": "RPA",
+   "dispersion": "none",
+   "d": {
+    "sfg": 0.86314
+   },
+   "sem": {
+    "sfg": 0.002852
+   },
+   "kappa": {
+    "sfg": 2.0115
+   },
+   "submetrics": {
+    "sfg": {
+     "combined": {
+      "value": 0.86314,
+      "sem": 0.002852
+     },
+     "mode2": {
+      "value": 0.832679,
+      "sem": 0.004936
+     },
+     "mode2:position": {
+      "value": 0.971095,
+      "sem": 0.000136
+     },
+     "mode2:ratio": {
+      "value": 0.815686,
+      "sem": 0.009208
+     },
+     "mode2:width": {
+      "value": 0.711257,
+      "sem": 0.007373
+     },
+     "mode3": {
+      "value": 0.893601,
+      "sem": 0.003904
+     },
+     "mode3:position": {
+      "value": 0.97424,
+      "sem": 0.000279
+     },
+     "mode3:ratio": {
+      "value": 0.865527,
+      "sem": 0.008966
+     },
+     "mode3:width": {
+      "value": 0.841037,
+      "sem": 0.004281
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 86.31400000000001
+  },
+  {
+   "id": "RPA-QZ",
+   "display": "RPA/QZ",
+   "color": "#323232",
+   "family": "RPA",
+   "dispersion": "none",
+   "d": {
+    "sfg": 0.87679
+   },
+   "sem": {
+    "sfg": 0.002888
+   },
+   "kappa": {
+    "sfg": 1.8109
+   },
+   "submetrics": {
+    "sfg": {
+     "combined": {
+      "value": 0.87679,
+      "sem": 0.002888
+     },
+     "mode2": {
+      "value": 0.860207,
+      "sem": 0.004281
+     },
+     "mode2:position": {
+      "value": 0.976404,
+      "sem": 0.000328
+     },
+     "mode2:ratio": {
+      "value": 0.908432,
+      "sem": 0.009468
+     },
+     "mode2:width": {
+      "value": 0.695784,
+      "sem": 0.012395
+     },
+     "mode3": {
+      "value": 0.893374,
+      "sem": 0.003523
+     },
+     "mode3:position": {
+      "value": 0.979547,
+      "sem": 0.00031
+     },
+     "mode3:ratio": {
+      "value": 0.921052,
+      "sem": 0.010961
+     },
+     "mode3:width": {
+      "value": 0.779523,
+      "sem": 0.010929
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 87.679
+  },
+  {
+   "id": "optB88-DRSLL",
+   "display": "optB88-vdW",
+   "color": "#3182bd",
+   "family": "GGAs",
+   "dispersion": "DRSLL",
+   "d": {
+    "sfg": 0.939703
+   },
+   "sem": {
+    "sfg": 0.002544
+   },
+   "kappa": {
+    "sfg": 0.8862
+   },
+   "submetrics": {
+    "sfg": {
+     "combined": {
+      "value": 0.939703,
+      "sem": 0.002544
+     },
+     "mode2": {
+      "value": 0.923417,
+      "sem": 0.00517
+     },
+     "mode2:position": {
+      "value": 0.998569,
+      "sem": 0.000215
+     },
+     "mode2:ratio": {
+      "value": 0.790266,
+      "sem": 0.012311
+     },
+     "mode2:width": {
+      "value": 0.981417,
+      "sem": 0.003978
+     },
+     "mode3": {
+      "value": 0.955989,
+      "sem": 0.00235
+     },
+     "mode3:position": {
+      "value": 0.988594,
+      "sem": 0.000616
+     },
+     "mode3:ratio": {
+      "value": 0.973088,
+      "sem": 0.006342
+     },
+     "mode3:width": {
+      "value": 0.906284,
+      "sem": 0.004492
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 93.9703
+  },
+  {
+   "id": "r2SCAN",
+   "display": "r2SCAN",
+   "color": "#c5cae9",
+   "family": "Meta-GGAs",
+   "dispersion": "none",
+   "d": {
+    "sfg": 0.91644
+   },
+   "sem": {
+    "sfg": 0.003044
+   },
+   "kappa": {
+    "sfg": 1.2281
+   },
+   "submetrics": {
+    "sfg": {
+     "combined": {
+      "value": 0.91644,
+      "sem": 0.003044
+     },
+     "mode2": {
+      "value": 0.900722,
+      "sem": 0.004091
+     },
+     "mode2:position": {
+      "value": 0.983703,
+      "sem": 0.000318
+     },
+     "mode2:ratio": {
+      "value": 0.740589,
+      "sem": 0.014827
+     },
+     "mode2:width": {
+      "value": 0.977873,
+      "sem": 0.005172
+     },
+     "mode3": {
+      "value": 0.932159,
+      "sem": 0.003182
+     },
+     "mode3:position": {
+      "value": 0.989232,
+      "sem": 0.000507
+     },
+     "mode3:ratio": {
+      "value": 0.927476,
+      "sem": 0.009901
+     },
+     "mode3:width": {
+      "value": 0.879768,
+      "sem": 0.006049
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 91.644
+  },
+  {
+   "id": "r2SCAN-D3-BJ",
+   "display": "r2SCAN-D3(BJ)",
+   "color": "#9fa8da",
+   "family": "Meta-GGAs",
+   "dispersion": "D3-BJ",
+   "d": {
+    "sfg": 0.881733
+   },
+   "sem": {
+    "sfg": 0.00187
+   },
+   "kappa": {
+    "sfg": 1.7382
+   },
+   "submetrics": {
+    "sfg": {
+     "combined": {
+      "value": 0.881733,
+      "sem": 0.00187
+     },
+     "mode2": {
+      "value": 0.884908,
+      "sem": 0.004597
+     },
+     "mode2:position": {
+      "value": 0.986048,
+      "sem": 0.000441
+     },
+     "mode2:ratio": {
+      "value": 0.701794,
+      "sem": 0.014609
+     },
+     "mode2:width": {
+      "value": 0.966884,
+      "sem": 0.003986
+     },
+     "mode3": {
+      "value": 0.878558,
+      "sem": 0.002467
+     },
+     "mode3:position": {
+      "value": 0.992484,
+      "sem": 0.000399
+     },
+     "mode3:ratio": {
+      "value": 0.782989,
+      "sem": 0.006957
+     },
+     "mode3:width": {
+      "value": 0.860202,
+      "sem": 0.003368
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 88.1733
+  },
+  {
+   "id": "r2SCAN-D4",
+   "display": "r2SCAN-D4",
+   "color": "#5e60ce",
+   "family": "Meta-GGAs",
+   "dispersion": "D4",
+   "d": {
+    "sfg": 0.87843
+   },
+   "sem": {
+    "sfg": 0.002884
+   },
+   "kappa": {
+    "sfg": 1.7868
+   },
+   "submetrics": {
+    "sfg": {
+     "combined": {
+      "value": 0.87843,
+      "sem": 0.002884
+     },
+     "mode2": {
+      "value": 0.881813,
+      "sem": 0.003901
+     },
+     "mode2:position": {
+      "value": 0.985722,
+      "sem": 0.000575
+     },
+     "mode2:ratio": {
+      "value": 0.686872,
+      "sem": 0.012925
+     },
+     "mode2:width": {
+      "value": 0.972844,
+      "sem": 0.003413
+     },
+     "mode3": {
+      "value": 0.875047,
+      "sem": 0.002856
+     },
+     "mode3:position": {
+      "value": 0.992322,
+      "sem": 0.000326
+     },
+     "mode3:ratio": {
+      "value": 0.767985,
+      "sem": 0.007822
+     },
+     "mode3:width": {
+      "value": 0.864834,
+      "sem": 0.004086
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 87.843
+  },
+  {
+   "id": "revPBE-D3-0",
+   "display": "revPBE-D3(0)",
+   "color": "#2171b5",
+   "family": "GGAs",
+   "dispersion": "D3-0",
+   "d": {
+    "sfg": 0.939684
+   },
+   "sem": {
+    "sfg": 0.00234
+   },
+   "kappa": {
+    "sfg": 0.8865
+   },
+   "submetrics": {
+    "sfg": {
+     "combined": {
+      "value": 0.939684,
+      "sem": 0.00234
+     },
+     "mode2": {
+      "value": 0.913868,
+      "sem": 0.004094
+     },
+     "mode2:position": {
+      "value": 0.989153,
+      "sem": 0.000258
+     },
+     "mode2:ratio": {
+      "value": 0.830276,
+      "sem": 0.00789
+     },
+     "mode2:width": {
+      "value": 0.922174,
+      "sem": 0.007212
+     },
+     "mode3": {
+      "value": 0.9655,
+      "sem": 0.001793
+     },
+     "mode3:position": {
+      "value": 0.994327,
+      "sem": 0.000293
+     },
+     "mode3:ratio": {
+      "value": 0.978031,
+      "sem": 0.003997
+     },
+     "mode3:width": {
+      "value": 0.924143,
+      "sem": 0.00289
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 93.9684
+  },
+  {
+   "id": "revPBE-D3-BJ",
+   "display": "revPBE-D3(BJ)",
+   "color": "#08519c",
+   "family": "GGAs",
+   "dispersion": "D3-BJ",
+   "d": {
+    "sfg": 0.9484
+   },
+   "sem": {
+    "sfg": 0.002121
+   },
+   "kappa": {
+    "sfg": 0.7584
+   },
+   "submetrics": {
+    "sfg": {
+     "combined": {
+      "value": 0.9484,
+      "sem": 0.002121
+     },
+     "mode2": {
+      "value": 0.975167,
+      "sem": 0.003822
+     },
+     "mode2:position": {
+      "value": 0.991771,
+      "sem": 0.000417
+     },
+     "mode2:ratio": {
+      "value": 0.950213,
+      "sem": 0.011301
+     },
+     "mode2:width": {
+      "value": 0.983516,
+      "sem": 0.003732
+     },
+     "mode3": {
+      "value": 0.921632,
+      "sem": 0.005412
+     },
+     "mode3:position": {
+      "value": 0.995868,
+      "sem": 0.000292
+     },
+     "mode3:ratio": {
+      "value": 0.898558,
+      "sem": 0.011838
+     },
+     "mode3:width": {
+      "value": 0.870472,
+      "sem": 0.006916
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 94.84
+  },
+  {
+   "id": "revPBE-D4",
+   "display": "revPBE-D4",
+   "color": "#08306b",
+   "family": "GGAs",
+   "dispersion": "D4",
+   "d": {
+    "sfg": 0.943941
+   },
+   "sem": {
+    "sfg": 0.003805
+   },
+   "kappa": {
+    "sfg": 0.8239
+   },
+   "submetrics": {
+    "sfg": {
+     "combined": {
+      "value": 0.943941,
+      "sem": 0.003805
+     },
+     "mode2": {
+      "value": 0.969749,
+      "sem": 0.004091
+     },
+     "mode2:position": {
+      "value": 0.994392,
+      "sem": 0.000384
+     },
+     "mode2:ratio": {
+      "value": 0.942813,
+      "sem": 0.010076
+     },
+     "mode2:width": {
+      "value": 0.972041,
+      "sem": 0.003666
+     },
+     "mode3": {
+      "value": 0.918133,
+      "sem": 0.005858
+     },
+     "mode3:position": {
+      "value": 0.996437,
+      "sem": 0.000427
+     },
+     "mode3:ratio": {
+      "value": 0.891951,
+      "sem": 0.014266
+     },
+     "mode3:width": {
+      "value": 0.866011,
+      "sem": 0.003645
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 94.39410000000001
+  },
+  {
+   "id": "revPBE-DRSLL",
+   "display": "revPBE-DRSLL",
+   "color": "#6baed6",
+   "family": "GGAs",
+   "dispersion": "DRSLL",
+   "d": {
+    "sfg": 0.935236
+   },
+   "sem": {
+    "sfg": 0.002644
+   },
+   "kappa": {
+    "sfg": 0.9519
+   },
+   "submetrics": {
+    "sfg": {
+     "combined": {
+      "value": 0.935236,
+      "sem": 0.002644
+     },
+     "mode2": {
+      "value": 0.937998,
+      "sem": 0.005646
+     },
+     "mode2:position": {
+      "value": 0.995091,
+      "sem": 0.000672
+     },
+     "mode2:ratio": {
+      "value": 0.867376,
+      "sem": 0.015162
+     },
+     "mode2:width": {
+      "value": 0.951528,
+      "sem": 0.005465
+     },
+     "mode3": {
+      "value": 0.932473,
+      "sem": 0.002124
+     },
+     "mode3:position": {
+      "value": 0.985474,
+      "sem": 0.000711
+     },
+     "mode3:ratio": {
+      "value": 0.978542,
+      "sem": 0.004909
+     },
+     "mode3:width": {
+      "value": 0.833404,
+      "sem": 0.003128
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 93.5236
+  },
+  {
+   "id": "revPBE-rVV10",
+   "display": "revPBE-rVV10",
+   "color": "#c6dbef",
+   "family": "GGAs",
+   "dispersion": "rVV10",
+   "d": {
+    "sfg": 0.937524
+   },
+   "sem": {
+    "sfg": 0.003047
+   },
+   "kappa": {
+    "sfg": 0.9182
+   },
+   "submetrics": {
+    "sfg": {
+     "combined": {
+      "value": 0.937524,
+      "sem": 0.003047
+     },
+     "mode2": {
+      "value": 0.971164,
+      "sem": 0.002728
+     },
+     "mode2:position": {
+      "value": 0.993481,
+      "sem": 0.000392
+     },
+     "mode2:ratio": {
+      "value": 0.941931,
+      "sem": 0.008994
+     },
+     "mode2:width": {
+      "value": 0.978081,
+      "sem": 0.00653
+     },
+     "mode3": {
+      "value": 0.903883,
+      "sem": 0.005517
+     },
+     "mode3:position": {
+      "value": 0.996124,
+      "sem": 0.000211
+     },
+     "mode3:ratio": {
+      "value": 0.825041,
+      "sem": 0.013514
+     },
+     "mode3:width": {
+      "value": 0.890484,
+      "sem": 0.005205
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 93.75240000000001
+  },
+  {
+   "id": "revPBE0-D3-0",
+   "display": "revPBE0-D3(0)",
+   "color": "#e34a33",
+   "family": "Hybrids",
+   "dispersion": "D3-0",
+   "d": {
+    "sfg": 0.709634
+   },
+   "sem": {
+    "sfg": 0.002238
+   },
+   "kappa": {
+    "sfg": 4.2677
+   },
+   "submetrics": {
+    "sfg": {
+     "combined": {
+      "value": 0.709634,
+      "sem": 0.002238
+     },
+     "mode2": {
+      "value": 0.641082,
+      "sem": 0.003224
+     },
+     "mode2:position": {
+      "value": 0.967605,
+      "sem": 0.000417
+     },
+     "mode2:ratio": {
+      "value": 0.09216,
+      "sem": 0.003382
+     },
+     "mode2:width": {
+      "value": 0.863482,
+      "sem": 0.008143
+     },
+     "mode3": {
+      "value": 0.778185,
+      "sem": 0.002945
+     },
+     "mode3:position": {
+      "value": 0.971004,
+      "sem": 0.000397
+     },
+     "mode3:ratio": {
+      "value": 0.404973,
+      "sem": 0.005027
+     },
+     "mode3:width": {
+      "value": 0.958579,
+      "sem": 0.00661
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 70.9634
+  }
+ ]
+}

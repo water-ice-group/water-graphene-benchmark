@@ -1,0 +1,4871 @@
+{
+ "schema": "solliq-scores/1",
+ "reference": {
+  "id": "HSE06-D3-0",
+  "display": "HSE06-D3(0)",
+  "note": "Reference by construction; pinned at 100."
+ },
+ "provenance": {
+  "source": "benchmark_all_references.py, read back from benchmark_all_references",
+  "generated": "2026-09-19",
+  "system": "19A",
+  "n_tag": "n100",
+  "graphene": "frozen",
+  "reference_kind": "rpa",
+  "orientation_weighting": {
+   "weight_source": "ref",
+   "min_frac": 0.0,
+   "weight_power": 1.0,
+   "x_max": 11.0
+  },
+  "interf_root": "17_FINAL_PROD_out",
+  "bulk_root": "12_analyse_final_prods",
+  "scoring_dirs": {},
+  "preferred_metric_per_dir": {
+   "rdf": "combined",
+   "vdos": "combined",
+   "density": "density_and_ratio",
+   "orientation": "water",
+   "sfg": "combined",
+   "friction": "combined"
+  },
+  "sem_is_exact": true,
+  "sem_note": "Standard errors are the per-observable values the scoring wrote out, propagated in quadrature under the chosen weights. They are per-observable, so they no longer share one value the way the hand-transcribed baseline did.",
+  "excluded": [
+   "PBE-DRSLL",
+   "SCAN"
+  ]
+ },
+ "metrics": [
+  {
+   "id": "rdf",
+   "label": "RDF",
+   "color": "#9ad83c",
+   "group": "structure",
+   "detail": "Radial distribution functions among the liquid atoms, evaluated in bulk water and in interfacial water and averaged over the O-O, O-H and H-H species pairs."
+  },
+  {
+   "id": "vdos",
+   "label": "VDOS",
+   "color": "#47c06e",
+   "group": "dynamics",
+   "detail": "Vibrational density of states, evaluated in bulk water and in interfacial water."
+  },
+  {
+   "id": "density",
+   "label": "Density",
+   "color": "#1ea087",
+   "group": "structure",
+   "detail": "Density profiles of the liquid at the interface, including the wetting proxy rho2/rho1."
+  },
+  {
+   "id": "orientation",
+   "label": "Orientation",
+   "color": "#267f8e",
+   "group": "structure",
+   "detail": "Orientational profiles of the liquid as a function of distance from the surface, compared out to 11 \u00c5 from the sheet, with every bin weighted by the water population N(z) sitting in it, so the sparse regions cannot outvote the water that is actually there."
+  },
+  {
+   "id": "sfg",
+   "label": "VSFG",
+   "color": "#355c8c",
+   "group": "dynamics",
+   "detail": "VSFG spectra for the graphene-water and air-water interfaces, scored on the hydrogen-bonded and dangling O-H peak positions, their intensity ratio and the width of the hydrogen-bonded band."
+  },
+  {
+   "id": "friction",
+   "label": "Friction",
+   "color": "#45347f",
+   "group": "dynamics",
+   "detail": "Solid-liquid friction, scored on the plateau value of the friction coefficient and on the full Green-Kubo running integral."
+  }
+ ],
+ "families": [
+  {
+   "id": "RPA",
+   "marker": "star"
+  },
+  {
+   "id": "Hybrids",
+   "marker": "diamond"
+  },
+  {
+   "id": "Meta-GGAs",
+   "marker": "square"
+  },
+  {
+   "id": "GGAs",
+   "marker": "circle"
+  }
+ ],
+ "dispersion_hatches": {
+  "none": "",
+  "D3-0": "fwd",
+  "D3-BJ": "back",
+  "D3m-BJ": "back",
+  "D4": "fwd-dense",
+  "DRSLL": "horiz",
+  "rVV10": "horiz"
+ },
+ "panel_groups": [
+  {
+   "label": "Hybrids",
+   "members": [
+    "HSE06-D3-0",
+    "B3LYP-D3-0",
+    "revPBE0-D3-0"
+   ]
+  },
+  {
+   "label": "Meta-GGAs",
+   "members": [
+    "M06L-D3-0",
+    "r2SCAN-D4",
+    "r2SCAN-D3-BJ",
+    "r2SCAN"
+   ]
+  },
+  {
+   "label": "Meta-GGAs",
+   "members": [
+    "B97M-rV"
+   ]
+  },
+  {
+   "label": "GGAs",
+   "members": [
+    "revPBE-D4",
+    "revPBE-D3-0",
+    "PBE-D3-BJ",
+    "PBE-rVV10",
+    "BLYP-D3-BJ",
+    "optB88-DRSLL"
+   ]
+  }
+ ],
+ "available_references": [
+  {
+   "id": "RPA-QZ",
+   "display": "RPA/QZ",
+   "file": "data/scores_RPA-QZ.json",
+   "status": "available"
+  },
+  {
+   "id": "RPA",
+   "display": "RPA/TZ",
+   "file": "data/scores_RPA.json",
+   "status": "available"
+  },
+  {
+   "id": "HSE06-D3-0",
+   "display": "HSE06-D3(0)",
+   "status": "loaded"
+  },
+  {
+   "id": "B3LYP-D3-0",
+   "display": "B3LYP-D3(0)",
+   "file": "data/scores_B3LYP-D3-0.json",
+   "status": "needs-export"
+  },
+  {
+   "id": "revPBE0-D3-0",
+   "display": "revPBE0-D3(0)",
+   "file": "data/scores_revPBE0-D3-0.json",
+   "status": "needs-export"
+  },
+  {
+   "id": "M06L-D3-0",
+   "display": "M06-L-D3(0)",
+   "file": "data/scores_M06L-D3-0.json",
+   "status": "needs-export"
+  },
+  {
+   "id": "r2SCAN-D4",
+   "display": "r2SCAN-D4",
+   "file": "data/scores_r2SCAN-D4.json",
+   "status": "needs-export"
+  },
+  {
+   "id": "r2SCAN-D3-BJ",
+   "display": "r2SCAN-D3(BJ)",
+   "file": "data/scores_r2SCAN-D3-BJ.json",
+   "status": "needs-export"
+  },
+  {
+   "id": "r2SCAN",
+   "display": "r2SCAN",
+   "file": "data/scores_r2SCAN.json",
+   "status": "needs-export"
+  },
+  {
+   "id": "B97M-rV",
+   "display": "B97M-rV",
+   "file": "data/scores_B97M-rV.json",
+   "status": "needs-export"
+  },
+  {
+   "id": "revPBE-D4",
+   "display": "revPBE-D4",
+   "file": "data/scores_revPBE-D4.json",
+   "status": "needs-export"
+  },
+  {
+   "id": "revPBE-D3-BJ",
+   "display": "revPBE-D3(BJ)",
+   "file": "data/scores_revPBE-D3-BJ.json",
+   "status": "needs-export"
+  },
+  {
+   "id": "revPBE-D3-0",
+   "display": "revPBE-D3(0)",
+   "file": "data/scores_revPBE-D3-0.json",
+   "status": "needs-export"
+  },
+  {
+   "id": "revPBE-DRSLL",
+   "display": "revPBE-DRSLL",
+   "file": "data/scores_revPBE-DRSLL.json",
+   "status": "needs-export"
+  },
+  {
+   "id": "revPBE-rVV10",
+   "display": "revPBE-rVV10",
+   "file": "data/scores_revPBE-rVV10.json",
+   "status": "needs-export"
+  },
+  {
+   "id": "PBE-D4",
+   "display": "PBE-D4",
+   "file": "data/scores_PBE-D4.json",
+   "status": "needs-export"
+  },
+  {
+   "id": "PBE-D3-BJ",
+   "display": "PBE-D3(BJ)",
+   "file": "data/scores_PBE-D3-BJ.json",
+   "status": "needs-export"
+  },
+  {
+   "id": "PBE-D3m-BJ",
+   "display": "PBE-D3M(BJ)",
+   "file": "data/scores_PBE-D3m-BJ.json",
+   "status": "needs-export"
+  },
+  {
+   "id": "PBE-D3-0",
+   "display": "PBE-D3(0)",
+   "file": "data/scores_PBE-D3-0.json",
+   "status": "needs-export"
+  },
+  {
+   "id": "PBE-rVV10",
+   "display": "PBE-rVV10",
+   "file": "data/scores_PBE-rVV10.json",
+   "status": "needs-export"
+  },
+  {
+   "id": "BLYP-D4",
+   "display": "BLYP-D4",
+   "file": "data/scores_BLYP-D4.json",
+   "status": "needs-export"
+  },
+  {
+   "id": "BLYP-D3-BJ",
+   "display": "BLYP-D3(BJ)",
+   "file": "data/scores_BLYP-D3-BJ.json",
+   "status": "needs-export"
+  },
+  {
+   "id": "BLYP-D3-0",
+   "display": "BLYP-D3(0)",
+   "file": "data/scores_BLYP-D3-0.json",
+   "status": "needs-export"
+  },
+  {
+   "id": "optB88-DRSLL",
+   "display": "optB88-vdW",
+   "file": "data/scores_optB88-DRSLL.json",
+   "status": "needs-export"
+  },
+  {
+   "id": "Experimental",
+   "display": "Experiment (VSFG)",
+   "file": "data/scores_Experimental.json",
+   "status": "needs-export",
+   "metrics": [
+    "sfg"
+   ]
+  }
+ ],
+ "functionals": [
+  {
+   "id": "B3LYP-D3-0",
+   "display": "B3LYP-D3(0)",
+   "color": "#b22222",
+   "family": "Hybrids",
+   "dispersion": "D3-0",
+   "d": {
+    "rdf": 0.949282,
+    "vdos": 0.914061,
+    "density": 0.926272,
+    "orientation": 0.516073,
+    "sfg": 0.830798,
+    "friction": 0.773467
+   },
+   "sem": {
+    "rdf": 7.9e-05,
+    "vdos": 0.000153,
+    "density": 0.004696,
+    "orientation": 0.012373,
+    "sfg": 0.002045,
+    "friction": 0.003235
+   },
+   "kappa": {
+    "rdf": 1.9033,
+    "vdos": 1.9529,
+    "density": 1.1996,
+    "orientation": 6.4304,
+    "sfg": 3.7382,
+    "friction": 1.4968
+   },
+   "submetrics": {
+    "rdf": {
+     "bulk:H-H": {
+      "value": 0.962792,
+      "sem": 0.0
+     },
+     "bulk:H-O": {
+      "value": 0.964101,
+      "sem": 0.0
+     },
+     "bulk:O-O": {
+      "value": 0.904845,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.943913,
+      "sem": 0.0
+     },
+     "interfacial:H-H": {
+      "value": 0.96589,
+      "sem": 0.000289
+     },
+     "interfacial:H-O": {
+      "value": 0.966545,
+      "sem": 0.000189
+     },
+     "interfacial:O-O": {
+      "value": 0.931517,
+      "sem": 0.000328
+     },
+     "interfacial:combined": {
+      "value": 0.954651,
+      "sem": 0.000159
+     },
+     "overall:H-H": {
+      "value": 0.964341,
+      "sem": 0.000145
+     },
+     "overall:H-O": {
+      "value": 0.965323,
+      "sem": 9.5e-05
+     },
+     "overall:O-O": {
+      "value": 0.918181,
+      "sem": 0.000164
+     },
+     "overall:combined": {
+      "value": 0.949282,
+      "sem": 7.9e-05
+     }
+    },
+    "vdos": {
+     "bulk:H": {
+      "value": 0.884227,
+      "sem": 0.0
+     },
+     "bulk:O": {
+      "value": 0.919091,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.901659,
+      "sem": 0.0
+     },
+     "interfacial:H": {
+      "value": 0.902162,
+      "sem": 0.000437
+     },
+     "interfacial:O": {
+      "value": 0.950765,
+      "sem": 0.000429
+     },
+     "interfacial:combined": {
+      "value": 0.926464,
+      "sem": 0.000306
+     },
+     "overall:H": {
+      "value": 0.893195,
+      "sem": 0.000218
+     },
+     "overall:O": {
+      "value": 0.934928,
+      "sem": 0.000215
+     },
+     "overall:combined": {
+      "value": 0.914061,
+      "sem": 0.000153
+     }
+    },
+    "density": {
+     "H": {
+      "value": 0.912554,
+      "sem": 0.00095
+     },
+     "O": {
+      "value": 0.88737,
+      "sem": 0.001705
+     },
+     "combined": {
+      "value": 0.899962,
+      "sem": 0.001316
+     },
+     "density_and_ratio": {
+      "value": 0.926272,
+      "sem": 0.004696
+     },
+     "ratio": {
+      "value": 0.952581,
+      "sem": 0.009299
+     }
+    },
+    "orientation": {
+     "water": {
+      "value": 0.516073,
+      "sem": 0.012373
+     }
+    },
+    "sfg": {
+     "combined": {
+      "value": 0.830798,
+      "sem": 0.002045
+     },
+     "mode2": {
+      "value": 0.768594,
+      "sem": 0.001961
+     },
+     "mode2:position": {
+      "value": 0.99506,
+      "sem": 0.000223
+     },
+     "mode2:ratio": {
+      "value": 0.440351,
+      "sem": 0.00793
+     },
+     "mode2:width": {
+      "value": 0.870371,
+      "sem": 0.010244
+     },
+     "mode3": {
+      "value": 0.893002,
+      "sem": 0.002603
+     },
+     "mode3:position": {
+      "value": 0.995069,
+      "sem": 0.000226
+     },
+     "mode3:ratio": {
+      "value": 0.805049,
+      "sem": 0.006642
+     },
+     "mode3:width": {
+      "value": 0.87889,
+      "sem": 0.008537
+     }
+    },
+    "friction": {
+     "combined": {
+      "value": 0.773467,
+      "sem": 0.003235
+     },
+     "curve": {
+      "value": 0.76782,
+      "sem": 0.005067
+     },
+     "scalar": {
+      "value": 0.779114,
+      "sem": 0.004024
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 81.83255
+  },
+  {
+   "id": "B97M-rV",
+   "display": "B97M-rV",
+   "color": "#3f007d",
+   "family": "Meta-GGAs",
+   "dispersion": "rVV10",
+   "d": {
+    "rdf": 0.87945,
+    "vdos": 0.789686,
+    "density": 0.855396,
+    "orientation": 0.485483,
+    "sfg": 0.87877,
+    "friction": 0.740933
+   },
+   "sem": {
+    "rdf": 4.3e-05,
+    "vdos": 0.00017,
+    "density": 0.004377,
+    "orientation": 0.007428,
+    "sfg": 0.001744,
+    "friction": 0.003167
+   },
+   "kappa": {
+    "rdf": 4.524,
+    "vdos": 4.7793,
+    "density": 2.3528,
+    "orientation": 6.8368,
+    "sfg": 2.6784,
+    "friction": 1.7117
+   },
+   "submetrics": {
+    "rdf": {
+     "bulk:H-H": {
+      "value": 0.918168,
+      "sem": 0.0
+     },
+     "bulk:H-O": {
+      "value": 0.903327,
+      "sem": 0.0
+     },
+     "bulk:O-O": {
+      "value": 0.810911,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.877469,
+      "sem": 0.0
+     },
+     "interfacial:H-H": {
+      "value": 0.90429,
+      "sem": 0.000136
+     },
+     "interfacial:H-O": {
+      "value": 0.901425,
+      "sem": 9.9e-05
+     },
+     "interfacial:O-O": {
+      "value": 0.838581,
+      "sem": 0.000198
+     },
+     "interfacial:combined": {
+      "value": 0.881432,
+      "sem": 8.6e-05
+     },
+     "overall:H-H": {
+      "value": 0.911229,
+      "sem": 6.8e-05
+     },
+     "overall:H-O": {
+      "value": 0.902376,
+      "sem": 4.9e-05
+     },
+     "overall:O-O": {
+      "value": 0.824746,
+      "sem": 9.9e-05
+     },
+     "overall:combined": {
+      "value": 0.87945,
+      "sem": 4.3e-05
+     }
+    },
+    "vdos": {
+     "bulk:H": {
+      "value": 0.695148,
+      "sem": 0.0
+     },
+     "bulk:O": {
+      "value": 0.825563,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.760356,
+      "sem": 0.0
+     },
+     "interfacial:H": {
+      "value": 0.749387,
+      "sem": 0.00031
+     },
+     "interfacial:O": {
+      "value": 0.888648,
+      "sem": 0.000607
+     },
+     "interfacial:combined": {
+      "value": 0.819017,
+      "sem": 0.000341
+     },
+     "overall:H": {
+      "value": 0.722267,
+      "sem": 0.000155
+     },
+     "overall:O": {
+      "value": 0.857105,
+      "sem": 0.000304
+     },
+     "overall:combined": {
+      "value": 0.789686,
+      "sem": 0.00017
+     }
+    },
+    "density": {
+     "H": {
+      "value": 0.813944,
+      "sem": 0.000441
+     },
+     "O": {
+      "value": 0.772046,
+      "sem": 0.000696
+     },
+     "combined": {
+      "value": 0.792995,
+      "sem": 0.000521
+     },
+     "density_and_ratio": {
+      "value": 0.855396,
+      "sem": 0.004377
+     },
+     "ratio": {
+      "value": 0.917797,
+      "sem": 0.008739
+     }
+    },
+    "orientation": {
+     "water": {
+      "value": 0.485483,
+      "sem": 0.007428
+     }
+    },
+    "sfg": {
+     "combined": {
+      "value": 0.87877,
+      "sem": 0.001744
+     },
+     "mode2": {
+      "value": 0.87179,
+      "sem": 0.003941
+     },
+     "mode2:position": {
+      "value": 0.990513,
+      "sem": 0.000214
+     },
+     "mode2:ratio": {
+      "value": 0.915139,
+      "sem": 0.012982
+     },
+     "mode2:width": {
+      "value": 0.709716,
+      "sem": 0.005753
+     },
+     "mode3": {
+      "value": 0.885751,
+      "sem": 0.0016
+     },
+     "mode3:position": {
+      "value": 0.992145,
+      "sem": 0.000247
+     },
+     "mode3:ratio": {
+      "value": 0.959883,
+      "sem": 0.005748
+     },
+     "mode3:width": {
+      "value": 0.705226,
+      "sem": 0.005332
+     }
+    },
+    "friction": {
+     "combined": {
+      "value": 0.740933,
+      "sem": 0.003167
+     },
+     "curve": {
+      "value": 0.74419,
+      "sem": 0.005326
+     },
+     "scalar": {
+      "value": 0.737677,
+      "sem": 0.003429
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 77.16196666666667
+  },
+  {
+   "id": "BLYP-D3-0",
+   "display": "BLYP-D3(0)",
+   "color": "#d94801",
+   "family": "GGAs",
+   "dispersion": "D3-0",
+   "d": {
+    "rdf": 0.913517,
+    "vdos": 0.842881,
+    "density": 0.868084,
+    "orientation": 0.529675,
+    "sfg": 0.8001,
+    "friction": 0.606184
+   },
+   "sem": {
+    "rdf": 8.1e-05,
+    "vdos": 0.000105,
+    "density": 0.00486,
+    "orientation": 0.008965,
+    "sfg": 0.001502,
+    "friction": 0.00364
+   },
+   "kappa": {
+    "rdf": 3.2455,
+    "vdos": 3.5705,
+    "density": 2.1463,
+    "orientation": 6.2496,
+    "sfg": 4.4164,
+    "friction": 2.602
+   },
+   "submetrics": {
+    "rdf": {
+     "bulk:H-H": {
+      "value": 0.955247,
+      "sem": 0.0
+     },
+     "bulk:H-O": {
+      "value": 0.911603,
+      "sem": 0.0
+     },
+     "bulk:O-O": {
+      "value": 0.884346,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.917065,
+      "sem": 0.0
+     },
+     "interfacial:H-H": {
+      "value": 0.934264,
+      "sem": 0.000268
+     },
+     "interfacial:H-O": {
+      "value": 0.903141,
+      "sem": 0.000202
+     },
+     "interfacial:O-O": {
+      "value": 0.892498,
+      "sem": 0.000349
+     },
+     "interfacial:combined": {
+      "value": 0.909968,
+      "sem": 0.000161
+     },
+     "overall:H-H": {
+      "value": 0.944756,
+      "sem": 0.000134
+     },
+     "overall:H-O": {
+      "value": 0.907372,
+      "sem": 0.000101
+     },
+     "overall:O-O": {
+      "value": 0.888422,
+      "sem": 0.000175
+     },
+     "overall:combined": {
+      "value": 0.913517,
+      "sem": 8.1e-05
+     }
+    },
+    "vdos": {
+     "bulk:H": {
+      "value": 0.768678,
+      "sem": 0.0
+     },
+     "bulk:O": {
+      "value": 0.896829,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.832753,
+      "sem": 0.0
+     },
+     "interfacial:H": {
+      "value": 0.774982,
+      "sem": 0.000238
+     },
+     "interfacial:O": {
+      "value": 0.931034,
+      "sem": 0.000348
+     },
+     "interfacial:combined": {
+      "value": 0.853008,
+      "sem": 0.000211
+     },
+     "overall:H": {
+      "value": 0.77183,
+      "sem": 0.000119
+     },
+     "overall:O": {
+      "value": 0.913932,
+      "sem": 0.000174
+     },
+     "overall:combined": {
+      "value": 0.842881,
+      "sem": 0.000105
+     }
+    },
+    "density": {
+     "H": {
+      "value": 0.831952,
+      "sem": 0.000999
+     },
+     "O": {
+      "value": 0.787329,
+      "sem": 0.001892
+     },
+     "combined": {
+      "value": 0.80964,
+      "sem": 0.001403
+     },
+     "density_and_ratio": {
+      "value": 0.868084,
+      "sem": 0.00486
+     },
+     "ratio": {
+      "value": 0.926529,
+      "sem": 0.009619
+     }
+    },
+    "orientation": {
+     "water": {
+      "value": 0.529675,
+      "sem": 0.008965
+     }
+    },
+    "sfg": {
+     "combined": {
+      "value": 0.8001,
+      "sem": 0.001502
+     },
+     "mode2": {
+      "value": 0.733563,
+      "sem": 0.001993
+     },
+     "mode2:position": {
+      "value": 0.976092,
+      "sem": 0.000458
+     },
+     "mode2:ratio": {
+      "value": 0.297278,
+      "sem": 0.004223
+     },
+     "mode2:width": {
+      "value": 0.927317,
+      "sem": 0.004945
+     },
+     "mode3": {
+      "value": 0.866637,
+      "sem": 0.002069
+     },
+     "mode3:position": {
+      "value": 0.971718,
+      "sem": 0.000807
+     },
+     "mode3:ratio": {
+      "value": 0.662679,
+      "sem": 0.006721
+     },
+     "mode3:width": {
+      "value": 0.965515,
+      "sem": 0.002004
+     }
+    },
+    "friction": {
+     "combined": {
+      "value": 0.606184,
+      "sem": 0.00364
+     },
+     "curve": {
+      "value": 0.598522,
+      "sem": 0.00458
+     },
+     "scalar": {
+      "value": 0.613846,
+      "sem": 0.005658
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 76.00735
+  },
+  {
+   "id": "BLYP-D3-BJ",
+   "display": "BLYP-D3(BJ)",
+   "color": "#a63603",
+   "family": "GGAs",
+   "dispersion": "D3-BJ",
+   "d": {
+    "rdf": 0.957807,
+    "vdos": 0.875945,
+    "density": 0.959441,
+    "orientation": 0.544576,
+    "sfg": 0.777873,
+    "friction": 0.699504
+   },
+   "sem": {
+    "rdf": 0.000285,
+    "vdos": 0.000215,
+    "density": 0.007333,
+    "orientation": 0.016726,
+    "sfg": 0.002072,
+    "friction": 0.003917
+   },
+   "kappa": {
+    "rdf": 1.5834,
+    "vdos": 2.8191,
+    "density": 0.6599,
+    "orientation": 6.0516,
+    "sfg": 4.9075,
+    "friction": 1.9854
+   },
+   "submetrics": {
+    "rdf": {
+     "bulk:H-H": {
+      "value": 0.981485,
+      "sem": 0.0
+     },
+     "bulk:H-O": {
+      "value": 0.919856,
+      "sem": 0.0
+     },
+     "bulk:O-O": {
+      "value": 0.976776,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.959373,
+      "sem": 0.0
+     },
+     "interfacial:H-H": {
+      "value": 0.969713,
+      "sem": 0.000786
+     },
+     "interfacial:H-O": {
+      "value": 0.92846,
+      "sem": 0.000537
+     },
+     "interfacial:O-O": {
+      "value": 0.970553,
+      "sem": 0.001424
+     },
+     "interfacial:combined": {
+      "value": 0.956242,
+      "sem": 0.000571
+     },
+     "overall:H-H": {
+      "value": 0.975599,
+      "sem": 0.000393
+     },
+     "overall:H-O": {
+      "value": 0.924158,
+      "sem": 0.000268
+     },
+     "overall:O-O": {
+      "value": 0.973665,
+      "sem": 0.000712
+     },
+     "overall:combined": {
+      "value": 0.957807,
+      "sem": 0.000285
+     }
+    },
+    "vdos": {
+     "bulk:H": {
+      "value": 0.796609,
+      "sem": 0.0
+     },
+     "bulk:O": {
+      "value": 0.956786,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.876698,
+      "sem": 0.0
+     },
+     "interfacial:H": {
+      "value": 0.797432,
+      "sem": 0.000411
+     },
+     "interfacial:O": {
+      "value": 0.952953,
+      "sem": 0.000757
+     },
+     "interfacial:combined": {
+      "value": 0.875193,
+      "sem": 0.000431
+     },
+     "overall:H": {
+      "value": 0.797021,
+      "sem": 0.000205
+     },
+     "overall:O": {
+      "value": 0.95487,
+      "sem": 0.000378
+     },
+     "overall:combined": {
+      "value": 0.875945,
+      "sem": 0.000215
+     }
+    },
+    "density": {
+     "H": {
+      "value": 0.930939,
+      "sem": 0.002459
+     },
+     "O": {
+      "value": 0.911459,
+      "sem": 0.003319
+     },
+     "combined": {
+      "value": 0.921199,
+      "sem": 0.002871
+     },
+     "density_and_ratio": {
+      "value": 0.959441,
+      "sem": 0.007333
+     },
+     "ratio": {
+      "value": 0.997682,
+      "sem": 0.014382
+     }
+    },
+    "orientation": {
+     "water": {
+      "value": 0.544576,
+      "sem": 0.016726
+     }
+    },
+    "sfg": {
+     "combined": {
+      "value": 0.777873,
+      "sem": 0.002072
+     },
+     "mode2": {
+      "value": 0.733333,
+      "sem": 0.002393
+     },
+     "mode2:position": {
+      "value": 0.974552,
+      "sem": 0.000323
+     },
+     "mode2:ratio": {
+      "value": 0.273628,
+      "sem": 0.007093
+     },
+     "mode2:width": {
+      "value": 0.951818,
+      "sem": 0.0059
+     },
+     "mode3": {
+      "value": 0.822414,
+      "sem": 0.003292
+     },
+     "mode3:position": {
+      "value": 0.970776,
+      "sem": 0.000931
+     },
+     "mode3:ratio": {
+      "value": 0.512736,
+      "sem": 0.009752
+     },
+     "mode3:width": {
+      "value": 0.983729,
+      "sem": 0.004656
+     }
+    },
+    "friction": {
+     "combined": {
+      "value": 0.699504,
+      "sem": 0.003917
+     },
+     "curve": {
+      "value": 0.687864,
+      "sem": 0.005469
+     },
+     "scalar": {
+      "value": 0.711143,
+      "sem": 0.005609
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 80.25243333333334
+  },
+  {
+   "id": "BLYP-D4",
+   "display": "BLYP-D4",
+   "color": "#7f2704",
+   "family": "GGAs",
+   "dispersion": "D4",
+   "d": {
+    "rdf": 0.968374,
+    "vdos": 0.867908,
+    "density": 0.966008,
+    "orientation": 0.566488,
+    "sfg": 0.772997,
+    "friction": 0.71403
+   },
+   "sem": {
+    "rdf": 0.00023,
+    "vdos": 0.001125,
+    "density": 0.006939,
+    "orientation": 0.01763,
+    "sfg": 0.002071,
+    "friction": 0.003745
+   },
+   "kappa": {
+    "rdf": 1.1869,
+    "vdos": 3.0017,
+    "density": 0.5531,
+    "orientation": 5.7604,
+    "sfg": 5.0152,
+    "friction": 1.8895
+   },
+   "submetrics": {
+    "rdf": {
+     "bulk:combined": {
+      "value": null,
+      "sem": null
+     },
+     "interfacial:H-H": {
+      "value": 0.982161,
+      "sem": 0.000357
+     },
+     "interfacial:H-O": {
+      "value": 0.93589,
+      "sem": 0.000341
+     },
+     "interfacial:O-O": {
+      "value": 0.98707,
+      "sem": 0.00048
+     },
+     "interfacial:combined": {
+      "value": 0.968374,
+      "sem": 0.00023
+     },
+     "overall:H-H": {
+      "value": 0.982161,
+      "sem": 0.000357
+     },
+     "overall:H-O": {
+      "value": 0.93589,
+      "sem": 0.000341
+     },
+     "overall:O-O": {
+      "value": 0.98707,
+      "sem": 0.00048
+     },
+     "overall:combined": {
+      "value": 0.968374,
+      "sem": 0.00023
+     }
+    },
+    "vdos": {
+     "bulk:combined": {
+      "value": null,
+      "sem": null
+     },
+     "interfacial:H": {
+      "value": 0.786335,
+      "sem": 0.002001
+     },
+     "interfacial:O": {
+      "value": 0.949481,
+      "sem": 0.001029
+     },
+     "interfacial:combined": {
+      "value": 0.867908,
+      "sem": 0.001125
+     },
+     "overall:H": {
+      "value": 0.786335,
+      "sem": 0.002001
+     },
+     "overall:O": {
+      "value": 0.949481,
+      "sem": 0.001029
+     },
+     "overall:combined": {
+      "value": 0.867908,
+      "sem": 0.001125
+     }
+    },
+    "density": {
+     "H": {
+      "value": 0.954315,
+      "sem": 0.001629
+     },
+     "O": {
+      "value": 0.939481,
+      "sem": 0.001866
+     },
+     "combined": {
+      "value": 0.946898,
+      "sem": 0.00153
+     },
+     "density_and_ratio": {
+      "value": 0.966008,
+      "sem": 0.006939
+     },
+     "ratio": {
+      "value": 0.985117,
+      "sem": 0.013794
+     }
+    },
+    "orientation": {
+     "water": {
+      "value": 0.566488,
+      "sem": 0.01763
+     }
+    },
+    "sfg": {
+     "combined": {
+      "value": 0.772997,
+      "sem": 0.002071
+     },
+     "mode2": {
+      "value": 0.728448,
+      "sem": 0.002232
+     },
+     "mode2:position": {
+      "value": 0.972432,
+      "sem": 0.000698
+     },
+     "mode2:ratio": {
+      "value": 0.228518,
+      "sem": 0.005929
+     },
+     "mode2:width": {
+      "value": 0.984394,
+      "sem": 0.003492
+     },
+     "mode3": {
+      "value": 0.817547,
+      "sem": 0.004425
+     },
+     "mode3:position": {
+      "value": 0.972883,
+      "sem": 0.000466
+     },
+     "mode3:ratio": {
+      "value": 0.495765,
+      "sem": 0.010167
+     },
+     "mode3:width": {
+      "value": 0.983992,
+      "sem": 0.004274
+     }
+    },
+    "friction": {
+     "combined": {
+      "value": 0.71403,
+      "sem": 0.003745
+     },
+     "curve": {
+      "value": 0.695315,
+      "sem": 0.005119
+     },
+     "scalar": {
+      "value": 0.732746,
+      "sem": 0.005468
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 80.93008333333333
+  },
+  {
+   "id": "M06L-D3-0",
+   "display": "M06-L-D3(0)",
+   "color": "#6a1b9a",
+   "family": "Meta-GGAs",
+   "dispersion": "D3-0",
+   "d": {
+    "rdf": 0.875525,
+    "vdos": 0.848673,
+    "density": 0.79501,
+    "orientation": 0.510201,
+    "sfg": 0.874157,
+    "friction": 0.580594
+   },
+   "sem": {
+    "rdf": 3.8e-05,
+    "vdos": 0.000117,
+    "density": 0.004147,
+    "orientation": 0.008173,
+    "sfg": 0.002462,
+    "friction": 0.003018
+   },
+   "kappa": {
+    "rdf": 4.6713,
+    "vdos": 3.4388,
+    "density": 3.3353,
+    "orientation": 6.5084,
+    "sfg": 2.7803,
+    "friction": 2.7711
+   },
+   "submetrics": {
+    "rdf": {
+     "bulk:H-H": {
+      "value": 0.926851,
+      "sem": 0.0
+     },
+     "bulk:H-O": {
+      "value": 0.920441,
+      "sem": 0.0
+     },
+     "bulk:O-O": {
+      "value": 0.817645,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.888313,
+      "sem": 0.0
+     },
+     "interfacial:H-H": {
+      "value": 0.882327,
+      "sem": 0.000102
+     },
+     "interfacial:H-O": {
+      "value": 0.890994,
+      "sem": 9.7e-05
+     },
+     "interfacial:O-O": {
+      "value": 0.814889,
+      "sem": 0.000177
+     },
+     "interfacial:combined": {
+      "value": 0.862737,
+      "sem": 7.5e-05
+     },
+     "overall:H-H": {
+      "value": 0.904589,
+      "sem": 5.1e-05
+     },
+     "overall:H-O": {
+      "value": 0.905718,
+      "sem": 4.9e-05
+     },
+     "overall:O-O": {
+      "value": 0.816267,
+      "sem": 8.8e-05
+     },
+     "overall:combined": {
+      "value": 0.875525,
+      "sem": 3.8e-05
+     }
+    },
+    "vdos": {
+     "bulk:H": {
+      "value": 0.781309,
+      "sem": 0.0
+     },
+     "bulk:O": {
+      "value": 0.866962,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.824135,
+      "sem": 0.0
+     },
+     "interfacial:H": {
+      "value": 0.825474,
+      "sem": 0.00033
+     },
+     "interfacial:O": {
+      "value": 0.920948,
+      "sem": 0.000329
+     },
+     "interfacial:combined": {
+      "value": 0.873211,
+      "sem": 0.000233
+     },
+     "overall:H": {
+      "value": 0.803391,
+      "sem": 0.000165
+     },
+     "overall:O": {
+      "value": 0.893955,
+      "sem": 0.000165
+     },
+     "overall:combined": {
+      "value": 0.848673,
+      "sem": 0.000117
+     }
+    },
+    "density": {
+     "H": {
+      "value": 0.749288,
+      "sem": 0.000404
+     },
+     "O": {
+      "value": 0.695108,
+      "sem": 0.0008
+     },
+     "combined": {
+      "value": 0.722198,
+      "sem": 0.000595
+     },
+     "density_and_ratio": {
+      "value": 0.79501,
+      "sem": 0.004147
+     },
+     "ratio": {
+      "value": 0.867823,
+      "sem": 0.008272
+     }
+    },
+    "orientation": {
+     "water": {
+      "value": 0.510201,
+      "sem": 0.008173
+     }
+    },
+    "sfg": {
+     "combined": {
+      "value": 0.874157,
+      "sem": 0.002462
+     },
+     "mode2": {
+      "value": 0.832376,
+      "sem": 0.00359
+     },
+     "mode2:position": {
+      "value": 0.993893,
+      "sem": 0.000319
+     },
+     "mode2:ratio": {
+      "value": 0.703225,
+      "sem": 0.008362
+     },
+     "mode2:width": {
+      "value": 0.800011,
+      "sem": 0.006089
+     },
+     "mode3": {
+      "value": 0.915938,
+      "sem": 0.002459
+     },
+     "mode3:position": {
+      "value": 0.993767,
+      "sem": 0.000206
+     },
+     "mode3:ratio": {
+      "value": 0.931187,
+      "sem": 0.008109
+     },
+     "mode3:width": {
+      "value": 0.82286,
+      "sem": 0.005037
+     }
+    },
+    "friction": {
+     "combined": {
+      "value": 0.580594,
+      "sem": 0.003018
+     },
+     "curve": {
+      "value": 0.588017,
+      "sem": 0.004628
+     },
+     "scalar": {
+      "value": 0.573171,
+      "sem": 0.003877
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 74.736
+  },
+  {
+   "id": "PBE-D3-0",
+   "display": "PBE-D3(0)",
+   "color": "#41ab5d",
+   "family": "GGAs",
+   "dispersion": "D3-0",
+   "d": {
+    "rdf": 0.930858,
+    "vdos": 0.81696,
+    "density": 0.950921,
+    "orientation": 0.596132,
+    "sfg": 0.765953,
+    "friction": 0.983945
+   },
+   "sem": {
+    "rdf": 0.000283,
+    "vdos": 0.000664,
+    "density": 0.008445,
+    "orientation": 0.02039,
+    "sfg": 0.003559,
+    "friction": 0.003579
+   },
+   "kappa": {
+    "rdf": 2.5947,
+    "vdos": 4.1595,
+    "density": 0.7985,
+    "orientation": 5.3665,
+    "sfg": 5.1709,
+    "friction": 0.1061
+   },
+   "submetrics": {
+    "rdf": {
+     "bulk:H-H": {
+      "value": 0.950949,
+      "sem": 0.0
+     },
+     "bulk:H-O": {
+      "value": 0.871277,
+      "sem": 0.0
+     },
+     "bulk:O-O": {
+      "value": 0.923451,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.915226,
+      "sem": 0.0
+     },
+     "interfacial:H-H": {
+      "value": 0.962053,
+      "sem": 0.000843
+     },
+     "interfacial:H-O": {
+      "value": 0.914704,
+      "sem": 0.000711
+     },
+     "interfacial:O-O": {
+      "value": 0.962714,
+      "sem": 0.001292
+     },
+     "interfacial:combined": {
+      "value": 0.94649,
+      "sem": 0.000566
+     },
+     "overall:H-H": {
+      "value": 0.956501,
+      "sem": 0.000422
+     },
+     "overall:H-O": {
+      "value": 0.892991,
+      "sem": 0.000356
+     },
+     "overall:O-O": {
+      "value": 0.943082,
+      "sem": 0.000646
+     },
+     "overall:combined": {
+      "value": 0.930858,
+      "sem": 0.000283
+     }
+    },
+    "vdos": {
+     "bulk:H": {
+      "value": 0.701273,
+      "sem": 0.0
+     },
+     "bulk:O": {
+      "value": 0.902223,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.801748,
+      "sem": 0.0
+     },
+     "interfacial:H": {
+      "value": 0.742561,
+      "sem": 0.002133
+     },
+     "interfacial:O": {
+      "value": 0.921785,
+      "sem": 0.001584
+     },
+     "interfacial:combined": {
+      "value": 0.832173,
+      "sem": 0.001328
+     },
+     "overall:H": {
+      "value": 0.721917,
+      "sem": 0.001066
+     },
+     "overall:O": {
+      "value": 0.912004,
+      "sem": 0.000792
+     },
+     "overall:combined": {
+      "value": 0.81696,
+      "sem": 0.000664
+     }
+    },
+    "density": {
+     "H": {
+      "value": 0.948425,
+      "sem": 0.002294
+     },
+     "O": {
+      "value": 0.943017,
+      "sem": 0.002566
+     },
+     "combined": {
+      "value": 0.945721,
+      "sem": 0.002322
+     },
+     "density_and_ratio": {
+      "value": 0.950921,
+      "sem": 0.008445
+     },
+     "ratio": {
+      "value": 0.956121,
+      "sem": 0.016731
+     }
+    },
+    "orientation": {
+     "water": {
+      "value": 0.596132,
+      "sem": 0.02039
+     }
+    },
+    "sfg": {
+     "combined": {
+      "value": 0.765953,
+      "sem": 0.003559
+     },
+     "mode2": {
+      "value": 0.727218,
+      "sem": 0.004884
+     },
+     "mode2:position": {
+      "value": 0.974507,
+      "sem": 0.000939
+     },
+     "mode2:ratio": {
+      "value": 0.267309,
+      "sem": 0.006674
+     },
+     "mode2:width": {
+      "value": 0.939837,
+      "sem": 0.011265
+     },
+     "mode3": {
+      "value": 0.804688,
+      "sem": 0.004595
+     },
+     "mode3:position": {
+      "value": 0.971529,
+      "sem": 0.000918
+     },
+     "mode3:ratio": {
+      "value": 0.532146,
+      "sem": 0.011144
+     },
+     "mode3:width": {
+      "value": 0.910389,
+      "sem": 0.004803
+     }
+    },
+    "friction": {
+     "combined": {
+      "value": 0.983945,
+      "sem": 0.003579
+     },
+     "curve": {
+      "value": 0.969999,
+      "sem": 0.005747
+     },
+     "scalar": {
+      "value": 0.997891,
+      "sem": 0.004267
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 84.07948333333333
+  },
+  {
+   "id": "PBE-D3-BJ",
+   "display": "PBE-D3(BJ)",
+   "color": "#006d2c",
+   "family": "GGAs",
+   "dispersion": "D3-BJ",
+   "d": {
+    "rdf": 0.922344,
+    "vdos": 0.80185,
+    "density": 0.93533,
+    "orientation": 0.463065,
+    "sfg": 0.759562,
+    "friction": 0.85713
+   },
+   "sem": {
+    "rdf": 0.00033,
+    "vdos": 0.000898,
+    "density": 0.009899,
+    "orientation": 0.018482,
+    "sfg": 0.004264,
+    "friction": 0.00424
+   },
+   "kappa": {
+    "rdf": 2.9143,
+    "vdos": 4.5029,
+    "density": 1.0522,
+    "orientation": 7.1347,
+    "sfg": 5.312,
+    "friction": 0.944
+   },
+   "submetrics": {
+    "rdf": {
+     "bulk:H-H": {
+      "value": 0.945245,
+      "sem": 0.0
+     },
+     "bulk:H-O": {
+      "value": 0.867617,
+      "sem": 0.0
+     },
+     "bulk:O-O": {
+      "value": 0.918873,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.910578,
+      "sem": 0.0
+     },
+     "interfacial:H-H": {
+      "value": 0.950395,
+      "sem": 0.001177
+     },
+     "interfacial:H-O": {
+      "value": 0.904146,
+      "sem": 0.000842
+     },
+     "interfacial:O-O": {
+      "value": 0.947786,
+      "sem": 0.001351
+     },
+     "interfacial:combined": {
+      "value": 0.934109,
+      "sem": 0.00066
+     },
+     "overall:H-H": {
+      "value": 0.94782,
+      "sem": 0.000589
+     },
+     "overall:H-O": {
+      "value": 0.885881,
+      "sem": 0.000421
+     },
+     "overall:O-O": {
+      "value": 0.93333,
+      "sem": 0.000676
+     },
+     "overall:combined": {
+      "value": 0.922344,
+      "sem": 0.00033
+     }
+    },
+    "vdos": {
+     "bulk:H": {
+      "value": 0.691127,
+      "sem": 0.0
+     },
+     "bulk:O": {
+      "value": 0.89668,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.793904,
+      "sem": 0.0
+     },
+     "interfacial:H": {
+      "value": 0.718487,
+      "sem": 0.002829
+     },
+     "interfacial:O": {
+      "value": 0.901105,
+      "sem": 0.002211
+     },
+     "interfacial:combined": {
+      "value": 0.809796,
+      "sem": 0.001795
+     },
+     "overall:H": {
+      "value": 0.704807,
+      "sem": 0.001414
+     },
+     "overall:O": {
+      "value": 0.898893,
+      "sem": 0.001105
+     },
+     "overall:combined": {
+      "value": 0.80185,
+      "sem": 0.000898
+     }
+    },
+    "density": {
+     "H": {
+      "value": 0.934386,
+      "sem": 0.004226
+     },
+     "O": {
+      "value": 0.915595,
+      "sem": 0.005789
+     },
+     "combined": {
+      "value": 0.92499,
+      "sem": 0.004926
+     },
+     "density_and_ratio": {
+      "value": 0.93533,
+      "sem": 0.009899
+     },
+     "ratio": {
+      "value": 0.94567,
+      "sem": 0.019176
+     }
+    },
+    "orientation": {
+     "water": {
+      "value": 0.463065,
+      "sem": 0.018482
+     }
+    },
+    "sfg": {
+     "combined": {
+      "value": 0.759562,
+      "sem": 0.004264
+     },
+     "mode2": {
+      "value": 0.737621,
+      "sem": 0.003749
+     },
+     "mode2:position": {
+      "value": 0.973169,
+      "sem": 0.000412
+     },
+     "mode2:ratio": {
+      "value": 0.306686,
+      "sem": 0.006816
+     },
+     "mode2:width": {
+      "value": 0.933008,
+      "sem": 0.007138
+     },
+     "mode3": {
+      "value": 0.781504,
+      "sem": 0.00665
+     },
+     "mode3:position": {
+      "value": 0.967924,
+      "sem": 0.001493
+     },
+     "mode3:ratio": {
+      "value": 0.495261,
+      "sem": 0.012457
+     },
+     "mode3:width": {
+      "value": 0.881326,
+      "sem": 0.008556
+     }
+    },
+    "friction": {
+     "combined": {
+      "value": 0.85713,
+      "sem": 0.00424
+     },
+     "curve": {
+      "value": 0.828478,
+      "sem": 0.006743
+     },
+     "scalar": {
+      "value": 0.885783,
+      "sem": 0.005143
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 78.98801666666667
+  },
+  {
+   "id": "PBE-D3m-BJ",
+   "display": "PBE-D3M(BJ)",
+   "color": "#238b45",
+   "family": "GGAs",
+   "dispersion": "D3m-BJ",
+   "d": {
+    "rdf": 0.927257,
+    "vdos": 0.805241,
+    "density": 0.946849,
+    "orientation": 0.402761,
+    "sfg": 0.74907,
+    "friction": 0.820207
+   },
+   "sem": {
+    "rdf": 0.000223,
+    "vdos": 0.000472,
+    "density": 0.012027,
+    "orientation": 0.021055,
+    "sfg": 0.00375,
+    "friction": 0.005495
+   },
+   "kappa": {
+    "rdf": 2.7299,
+    "vdos": 4.4258,
+    "density": 0.8648,
+    "orientation": 7.936,
+    "sfg": 5.5438,
+    "friction": 1.1879
+   },
+   "submetrics": {
+    "rdf": {
+     "bulk:H-H": {
+      "value": 0.947034,
+      "sem": 0.0
+     },
+     "bulk:H-O": {
+      "value": 0.871155,
+      "sem": 0.0
+     },
+     "bulk:O-O": {
+      "value": 0.930181,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.916123,
+      "sem": 0.0
+     },
+     "interfacial:H-H": {
+      "value": 0.955481,
+      "sem": 0.000722
+     },
+     "interfacial:H-O": {
+      "value": 0.907447,
+      "sem": 0.000503
+     },
+     "interfacial:O-O": {
+      "value": 0.952246,
+      "sem": 0.00101
+     },
+     "interfacial:combined": {
+      "value": 0.938391,
+      "sem": 0.000447
+     },
+     "overall:H-H": {
+      "value": 0.951258,
+      "sem": 0.000361
+     },
+     "overall:H-O": {
+      "value": 0.889301,
+      "sem": 0.000252
+     },
+     "overall:O-O": {
+      "value": 0.941214,
+      "sem": 0.000505
+     },
+     "overall:combined": {
+      "value": 0.927257,
+      "sem": 0.000223
+     }
+    },
+    "vdos": {
+     "bulk:H": {
+      "value": 0.693884,
+      "sem": 0.0
+     },
+     "bulk:O": {
+      "value": 0.903435,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.79866,
+      "sem": 0.0
+     },
+     "interfacial:H": {
+      "value": 0.718955,
+      "sem": 0.00151
+     },
+     "interfacial:O": {
+      "value": 0.904689,
+      "sem": 0.001135
+     },
+     "interfacial:combined": {
+      "value": 0.811822,
+      "sem": 0.000944
+     },
+     "overall:H": {
+      "value": 0.706419,
+      "sem": 0.000755
+     },
+     "overall:O": {
+      "value": 0.904062,
+      "sem": 0.000567
+     },
+     "overall:combined": {
+      "value": 0.805241,
+      "sem": 0.000472
+     }
+    },
+    "density": {
+     "H": {
+      "value": 0.937421,
+      "sem": 0.00266
+     },
+     "O": {
+      "value": 0.922876,
+      "sem": 0.003512
+     },
+     "combined": {
+      "value": 0.930148,
+      "sem": 0.002971
+     },
+     "density_and_ratio": {
+      "value": 0.946849,
+      "sem": 0.012027
+     },
+     "ratio": {
+      "value": 0.96355,
+      "sem": 0.02387
+     }
+    },
+    "orientation": {
+     "water": {
+      "value": 0.402761,
+      "sem": 0.021055
+     }
+    },
+    "sfg": {
+     "combined": {
+      "value": 0.74907,
+      "sem": 0.00375
+     },
+     "mode2": {
+      "value": 0.731723,
+      "sem": 0.006672
+     },
+     "mode2:position": {
+      "value": 0.972955,
+      "sem": 0.001335
+     },
+     "mode2:ratio": {
+      "value": 0.286386,
+      "sem": 0.010762
+     },
+     "mode2:width": {
+      "value": 0.935828,
+      "sem": 0.009806
+     },
+     "mode3": {
+      "value": 0.766418,
+      "sem": 0.006822
+     },
+     "mode3:position": {
+      "value": 0.96661,
+      "sem": 0.001663
+     },
+     "mode3:ratio": {
+      "value": 0.46085,
+      "sem": 0.014825
+     },
+     "mode3:width": {
+      "value": 0.871792,
+      "sem": 0.007443
+     }
+    },
+    "friction": {
+     "combined": {
+      "value": 0.820207,
+      "sem": 0.005495
+     },
+     "curve": {
+      "value": 0.794059,
+      "sem": 0.007862
+     },
+     "scalar": {
+      "value": 0.846355,
+      "sem": 0.007679
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 77.52308333333335
+  },
+  {
+   "id": "PBE-D4",
+   "display": "PBE-D4",
+   "color": "#00441b",
+   "family": "GGAs",
+   "dispersion": "D4",
+   "d": {
+    "rdf": 0.93821,
+    "vdos": 0.81435,
+    "density": 0.92598,
+    "orientation": 0.422912,
+    "sfg": 0.760554,
+    "friction": 0.824853
+   },
+   "sem": {
+    "rdf": 0.000725,
+    "vdos": 0.001781,
+    "density": 0.00954,
+    "orientation": 0.023127,
+    "sfg": 0.004524,
+    "friction": 0.004148
+   },
+   "kappa": {
+    "rdf": 2.3188,
+    "vdos": 4.2188,
+    "density": 1.2043,
+    "orientation": 7.6683,
+    "sfg": 5.2901,
+    "friction": 1.1572
+   },
+   "submetrics": {
+    "rdf": {
+     "bulk:combined": {
+      "value": null,
+      "sem": null
+     },
+     "interfacial:H-H": {
+      "value": 0.954185,
+      "sem": 0.001035
+     },
+     "interfacial:H-O": {
+      "value": 0.907928,
+      "sem": 0.00095
+     },
+     "interfacial:O-O": {
+      "value": 0.952517,
+      "sem": 0.001659
+     },
+     "interfacial:combined": {
+      "value": 0.93821,
+      "sem": 0.000725
+     },
+     "overall:H-H": {
+      "value": 0.954185,
+      "sem": 0.001035
+     },
+     "overall:H-O": {
+      "value": 0.907928,
+      "sem": 0.00095
+     },
+     "overall:O-O": {
+      "value": 0.952517,
+      "sem": 0.001659
+     },
+     "overall:combined": {
+      "value": 0.93821,
+      "sem": 0.000725
+     }
+    },
+    "vdos": {
+     "bulk:combined": {
+      "value": null,
+      "sem": null
+     },
+     "interfacial:H": {
+      "value": 0.721983,
+      "sem": 0.002919
+     },
+     "interfacial:O": {
+      "value": 0.906717,
+      "sem": 0.002041
+     },
+     "interfacial:combined": {
+      "value": 0.81435,
+      "sem": 0.001781
+     },
+     "overall:H": {
+      "value": 0.721983,
+      "sem": 0.002919
+     },
+     "overall:O": {
+      "value": 0.906717,
+      "sem": 0.002041
+     },
+     "overall:combined": {
+      "value": 0.81435,
+      "sem": 0.001781
+     }
+    },
+    "density": {
+     "H": {
+      "value": 0.936531,
+      "sem": 0.002365
+     },
+     "O": {
+      "value": 0.924644,
+      "sem": 0.003458
+     },
+     "combined": {
+      "value": 0.930588,
+      "sem": 0.002662
+     },
+     "density_and_ratio": {
+      "value": 0.92598,
+      "sem": 0.00954
+     },
+     "ratio": {
+      "value": 0.921372,
+      "sem": 0.018892
+     }
+    },
+    "orientation": {
+     "water": {
+      "value": 0.422912,
+      "sem": 0.023127
+     }
+    },
+    "sfg": {
+     "combined": {
+      "value": 0.760554,
+      "sem": 0.004524
+     },
+     "mode2": {
+      "value": 0.71267,
+      "sem": 0.005951
+     },
+     "mode2:position": {
+      "value": 0.971376,
+      "sem": 0.001442
+     },
+     "mode2:ratio": {
+      "value": 0.252463,
+      "sem": 0.008421
+     },
+     "mode2:width": {
+      "value": 0.914172,
+      "sem": 0.009564
+     },
+     "mode3": {
+      "value": 0.808438,
+      "sem": 0.008703
+     },
+     "mode3:position": {
+      "value": 0.968158,
+      "sem": 0.000928
+     },
+     "mode3:ratio": {
+      "value": 0.545356,
+      "sem": 0.021339
+     },
+     "mode3:width": {
+      "value": 0.911801,
+      "sem": 0.009906
+     }
+    },
+    "friction": {
+     "combined": {
+      "value": 0.824853,
+      "sem": 0.004148
+     },
+     "curve": {
+      "value": 0.777894,
+      "sem": 0.006156
+     },
+     "scalar": {
+      "value": 0.871813,
+      "sem": 0.005562
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 78.11431666666667
+  },
+  {
+   "id": "PBE-rVV10",
+   "display": "PBE-rVV10",
+   "color": "#c7e9c0",
+   "family": "GGAs",
+   "dispersion": "rVV10",
+   "d": {
+    "rdf": 0.920031,
+    "vdos": 0.810833,
+    "density": 0.902384,
+    "orientation": 0.529199,
+    "sfg": 0.778812,
+    "friction": 0.6425
+   },
+   "sem": {
+    "rdf": 0.000239,
+    "vdos": 0.000482,
+    "density": 0.010004,
+    "orientation": 0.015499,
+    "sfg": 0.004058,
+    "friction": 0.004752
+   },
+   "kappa": {
+    "rdf": 3.0011,
+    "vdos": 4.2987,
+    "density": 1.5883,
+    "orientation": 6.2559,
+    "sfg": 4.8868,
+    "friction": 2.3621
+   },
+   "submetrics": {
+    "rdf": {
+     "bulk:H-H": {
+      "value": 0.957496,
+      "sem": 0.0
+     },
+     "bulk:H-O": {
+      "value": 0.873331,
+      "sem": 0.0
+     },
+     "bulk:O-O": {
+      "value": 0.954119,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.928316,
+      "sem": 0.0
+     },
+     "interfacial:H-H": {
+      "value": 0.926821,
+      "sem": 0.000825
+     },
+     "interfacial:H-O": {
+      "value": 0.881042,
+      "sem": 0.000572
+     },
+     "interfacial:O-O": {
+      "value": 0.927374,
+      "sem": 0.001025
+     },
+     "interfacial:combined": {
+      "value": 0.911746,
+      "sem": 0.000478
+     },
+     "overall:H-H": {
+      "value": 0.942159,
+      "sem": 0.000412
+     },
+     "overall:H-O": {
+      "value": 0.877186,
+      "sem": 0.000286
+     },
+     "overall:O-O": {
+      "value": 0.940747,
+      "sem": 0.000513
+     },
+     "overall:combined": {
+      "value": 0.920031,
+      "sem": 0.000239
+     }
+    },
+    "vdos": {
+     "bulk:H": {
+      "value": 0.716004,
+      "sem": 0.0
+     },
+     "bulk:O": {
+      "value": 0.919474,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.817739,
+      "sem": 0.0
+     },
+     "interfacial:H": {
+      "value": 0.713194,
+      "sem": 0.001636
+     },
+     "interfacial:O": {
+      "value": 0.894661,
+      "sem": 0.001023
+     },
+     "interfacial:combined": {
+      "value": 0.803927,
+      "sem": 0.000965
+     },
+     "overall:H": {
+      "value": 0.714599,
+      "sem": 0.000818
+     },
+     "overall:O": {
+      "value": 0.907067,
+      "sem": 0.000511
+     },
+     "overall:combined": {
+      "value": 0.810833,
+      "sem": 0.000482
+     }
+    },
+    "density": {
+     "H": {
+      "value": 0.878289,
+      "sem": 0.002201
+     },
+     "O": {
+      "value": 0.860983,
+      "sem": 0.004421
+     },
+     "combined": {
+      "value": 0.869636,
+      "sem": 0.003216
+     },
+     "density_and_ratio": {
+      "value": 0.902384,
+      "sem": 0.010004
+     },
+     "ratio": {
+      "value": 0.935132,
+      "sem": 0.019748
+     }
+    },
+    "orientation": {
+     "water": {
+      "value": 0.529199,
+      "sem": 0.015499
+     }
+    },
+    "sfg": {
+     "combined": {
+      "value": 0.778812,
+      "sem": 0.004058
+     },
+     "mode2": {
+      "value": 0.739914,
+      "sem": 0.006314
+     },
+     "mode2:position": {
+      "value": 0.971296,
+      "sem": 0.00067
+     },
+     "mode2:ratio": {
+      "value": 0.317205,
+      "sem": 0.011853
+     },
+     "mode2:width": {
+      "value": 0.931241,
+      "sem": 0.00913
+     },
+     "mode3": {
+      "value": 0.81771,
+      "sem": 0.004261
+     },
+     "mode3:position": {
+      "value": 0.96197,
+      "sem": 0.000784
+     },
+     "mode3:ratio": {
+      "value": 0.599557,
+      "sem": 0.010301
+     },
+     "mode3:width": {
+      "value": 0.891604,
+      "sem": 0.004302
+     }
+    },
+    "friction": {
+     "combined": {
+      "value": 0.6425,
+      "sem": 0.004752
+     },
+     "curve": {
+      "value": 0.587548,
+      "sem": 0.005805
+     },
+     "scalar": {
+      "value": 0.697452,
+      "sem": 0.007525
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 76.39598333333333
+  },
+  {
+   "id": "RPA",
+   "display": "RPA/TZ",
+   "color": "#8a8a8a",
+   "family": "RPA",
+   "dispersion": "none",
+   "d": {
+    "rdf": 0.935039,
+    "vdos": 0.859479,
+    "density": 0.940296,
+    "orientation": 0.572703,
+    "sfg": 0.754872,
+    "friction": 0.726807
+   },
+   "sem": {
+    "rdf": 8.9e-05,
+    "vdos": 0.000129,
+    "density": 0.004777,
+    "orientation": 0.007325,
+    "sfg": 0.001627,
+    "friction": 0.003078
+   },
+   "kappa": {
+    "rdf": 2.4378,
+    "vdos": 3.1933,
+    "density": 0.9714,
+    "orientation": 5.6779,
+    "sfg": 5.4157,
+    "friction": 1.805
+   },
+   "submetrics": {
+    "rdf": {
+     "bulk:H-H": {
+      "value": 0.952305,
+      "sem": 0.0
+     },
+     "bulk:H-O": {
+      "value": 0.955827,
+      "sem": 0.0
+     },
+     "bulk:O-O": {
+      "value": 0.881374,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.929835,
+      "sem": 0.0
+     },
+     "interfacial:H-H": {
+      "value": 0.952137,
+      "sem": 0.000297
+     },
+     "interfacial:H-O": {
+      "value": 0.955019,
+      "sem": 0.00022
+     },
+     "interfacial:O-O": {
+      "value": 0.913572,
+      "sem": 0.000385
+     },
+     "interfacial:combined": {
+      "value": 0.940243,
+      "sem": 0.000178
+     },
+     "overall:H-H": {
+      "value": 0.952221,
+      "sem": 0.000148
+     },
+     "overall:H-O": {
+      "value": 0.955423,
+      "sem": 0.00011
+     },
+     "overall:O-O": {
+      "value": 0.897473,
+      "sem": 0.000192
+     },
+     "overall:combined": {
+      "value": 0.935039,
+      "sem": 8.9e-05
+     }
+    },
+    "vdos": {
+     "bulk:H": {
+      "value": 0.797905,
+      "sem": 0.0
+     },
+     "bulk:O": {
+      "value": 0.892084,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.844995,
+      "sem": 0.0
+     },
+     "interfacial:H": {
+      "value": 0.824835,
+      "sem": 0.000342
+     },
+     "interfacial:O": {
+      "value": 0.923094,
+      "sem": 0.000387
+     },
+     "interfacial:combined": {
+      "value": 0.873964,
+      "sem": 0.000258
+     },
+     "overall:H": {
+      "value": 0.81137,
+      "sem": 0.000171
+     },
+     "overall:O": {
+      "value": 0.907589,
+      "sem": 0.000193
+     },
+     "overall:combined": {
+      "value": 0.859479,
+      "sem": 0.000129
+     }
+    },
+    "density": {
+     "H": {
+      "value": 0.916337,
+      "sem": 0.000676
+     },
+     "O": {
+      "value": 0.898186,
+      "sem": 0.001032
+     },
+     "combined": {
+      "value": 0.907261,
+      "sem": 0.000828
+     },
+     "density_and_ratio": {
+      "value": 0.940296,
+      "sem": 0.004777
+     },
+     "ratio": {
+      "value": 0.973331,
+      "sem": 0.009517
+     }
+    },
+    "orientation": {
+     "water": {
+      "value": 0.572703,
+      "sem": 0.007325
+     }
+    },
+    "sfg": {
+     "combined": {
+      "value": 0.754872,
+      "sem": 0.001627
+     },
+     "mode2": {
+      "value": 0.68479,
+      "sem": 0.00202
+     },
+     "mode2:position": {
+      "value": 0.986213,
+      "sem": 0.000136
+     },
+     "mode2:ratio": {
+      "value": 0.36519,
+      "sem": 0.005794
+     },
+     "mode2:width": {
+      "value": 0.702969,
+      "sem": 0.007332
+     },
+     "mode3": {
+      "value": 0.824953,
+      "sem": 0.002491
+     },
+     "mode3:position": {
+      "value": 0.991324,
+      "sem": 0.000278
+     },
+     "mode3:ratio": {
+      "value": 0.73222,
+      "sem": 0.008384
+     },
+     "mode3:width": {
+      "value": 0.751315,
+      "sem": 0.004122
+     }
+    },
+    "friction": {
+     "combined": {
+      "value": 0.726807,
+      "sem": 0.003078
+     },
+     "curve": {
+      "value": 0.736896,
+      "sem": 0.004872
+     },
+     "scalar": {
+      "value": 0.716717,
+      "sem": 0.003763
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 79.81993333333332
+  },
+  {
+   "id": "RPA-QZ",
+   "display": "RPA/QZ",
+   "color": "#323232",
+   "family": "RPA",
+   "dispersion": "none",
+   "d": {
+    "rdf": 0.917284,
+    "vdos": 0.809079,
+    "density": 0.975509,
+    "orientation": 0.567682,
+    "sfg": 0.68959,
+    "friction": 0.882646
+   },
+   "sem": {
+    "rdf": 5e-05,
+    "vdos": 0.000133,
+    "density": 0.004768,
+    "orientation": 0.004743,
+    "sfg": 0.002772,
+    "friction": 0.002722
+   },
+   "kappa": {
+    "rdf": 3.1042,
+    "vdos": 4.3386,
+    "density": 0.3985,
+    "orientation": 5.7446,
+    "sfg": 6.8579,
+    "friction": 0.7754
+   },
+   "submetrics": {
+    "rdf": {
+     "bulk:H-H": {
+      "value": 0.930538,
+      "sem": 0.0
+     },
+     "bulk:H-O": {
+      "value": 0.929959,
+      "sem": 0.0
+     },
+     "bulk:O-O": {
+      "value": 0.846018,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.902172,
+      "sem": 0.0
+     },
+     "interfacial:H-H": {
+      "value": 0.948723,
+      "sem": 0.000133
+     },
+     "interfacial:H-O": {
+      "value": 0.950168,
+      "sem": 0.000133
+     },
+     "interfacial:O-O": {
+      "value": 0.898296,
+      "sem": 0.000233
+     },
+     "interfacial:combined": {
+      "value": 0.932396,
+      "sem": 0.0001
+     },
+     "overall:H-H": {
+      "value": 0.939631,
+      "sem": 6.7e-05
+     },
+     "overall:H-O": {
+      "value": 0.940064,
+      "sem": 6.7e-05
+     },
+     "overall:O-O": {
+      "value": 0.872157,
+      "sem": 0.000117
+     },
+     "overall:combined": {
+      "value": 0.917284,
+      "sem": 5e-05
+     }
+    },
+    "vdos": {
+     "bulk:H": {
+      "value": 0.765114,
+      "sem": 0.0
+     },
+     "bulk:O": {
+      "value": 0.849439,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.807276,
+      "sem": 0.0
+     },
+     "interfacial:H": {
+      "value": 0.760305,
+      "sem": 0.000358
+     },
+     "interfacial:O": {
+      "value": 0.861459,
+      "sem": 0.000395
+     },
+     "interfacial:combined": {
+      "value": 0.810882,
+      "sem": 0.000267
+     },
+     "overall:H": {
+      "value": 0.762709,
+      "sem": 0.000179
+     },
+     "overall:O": {
+      "value": 0.855449,
+      "sem": 0.000198
+     },
+     "overall:combined": {
+      "value": 0.809079,
+      "sem": 0.000133
+     }
+    },
+    "density": {
+     "H": {
+      "value": 0.967985,
+      "sem": 0.000511
+     },
+     "O": {
+      "value": 0.953374,
+      "sem": 0.000649
+     },
+     "combined": {
+      "value": 0.96068,
+      "sem": 0.000572
+     },
+     "density_and_ratio": {
+      "value": 0.975509,
+      "sem": 0.004768
+     },
+     "ratio": {
+      "value": 0.990339,
+      "sem": 0.009519
+     }
+    },
+    "orientation": {
+     "water": {
+      "value": 0.567682,
+      "sem": 0.004743
+     }
+    },
+    "sfg": {
+     "combined": {
+      "value": 0.68959,
+      "sem": 0.002772
+     },
+     "mode2": {
+      "value": 0.633917,
+      "sem": 0.003878
+     },
+     "mode2:position": {
+      "value": 0.986994,
+      "sem": 0.000332
+     },
+     "mode2:ratio": {
+      "value": 0.227155,
+      "sem": 0.003851
+     },
+     "mode2:width": {
+      "value": 0.687601,
+      "sem": 0.012328
+     },
+     "mode3": {
+      "value": 0.745264,
+      "sem": 0.003711
+     },
+     "mode3:position": {
+      "value": 0.989188,
+      "sem": 0.000299
+     },
+     "mode3:ratio": {
+      "value": 0.55398,
+      "sem": 0.011043
+     },
+     "mode3:width": {
+      "value": 0.692623,
+      "sem": 0.010382
+     }
+    },
+    "friction": {
+     "combined": {
+      "value": 0.882646,
+      "sem": 0.002722
+     },
+     "curve": {
+      "value": 0.921742,
+      "sem": 0.004667
+     },
+     "scalar": {
+      "value": 0.84355,
+      "sem": 0.002801
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 80.69649999999999
+  },
+  {
+   "id": "optB88-DRSLL",
+   "display": "optB88-vdW",
+   "color": "#3182bd",
+   "family": "GGAs",
+   "dispersion": "DRSLL",
+   "d": {
+    "rdf": 0.920435,
+    "vdos": 0.851441,
+    "density": 0.848252,
+    "orientation": 0.416676,
+    "sfg": 0.813531,
+    "friction": 0.697419
+   },
+   "sem": {
+    "rdf": 7.3e-05,
+    "vdos": 8.9e-05,
+    "density": 0.00448,
+    "orientation": 0.005596,
+    "sfg": 0.001458,
+    "friction": 0.003644
+   },
+   "kappa": {
+    "rdf": 2.9859,
+    "vdos": 3.3759,
+    "density": 2.469,
+    "orientation": 7.7511,
+    "sfg": 4.1197,
+    "friction": 1.9992
+   },
+   "submetrics": {
+    "rdf": {
+     "bulk:H-H": {
+      "value": 0.968983,
+      "sem": 0.0
+     },
+     "bulk:H-O": {
+      "value": 0.908785,
+      "sem": 0.0
+     },
+     "bulk:O-O": {
+      "value": 0.93391,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.937226,
+      "sem": 0.0
+     },
+     "interfacial:H-H": {
+      "value": 0.921408,
+      "sem": 0.000245
+     },
+     "interfacial:H-O": {
+      "value": 0.890532,
+      "sem": 0.000157
+     },
+     "interfacial:O-O": {
+      "value": 0.898994,
+      "sem": 0.000331
+     },
+     "interfacial:combined": {
+      "value": 0.903644,
+      "sem": 0.000147
+     },
+     "overall:H-H": {
+      "value": 0.945195,
+      "sem": 0.000122
+     },
+     "overall:H-O": {
+      "value": 0.899659,
+      "sem": 7.9e-05
+     },
+     "overall:O-O": {
+      "value": 0.916452,
+      "sem": 0.000166
+     },
+     "overall:combined": {
+      "value": 0.920435,
+      "sem": 7.3e-05
+     }
+    },
+    "vdos": {
+     "bulk:H": {
+      "value": 0.770717,
+      "sem": 0.0
+     },
+     "bulk:O": {
+      "value": 0.923861,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.847289,
+      "sem": 0.0
+     },
+     "interfacial:H": {
+      "value": 0.76657,
+      "sem": 0.000174
+     },
+     "interfacial:O": {
+      "value": 0.944614,
+      "sem": 0.00031
+     },
+     "interfacial:combined": {
+      "value": 0.855592,
+      "sem": 0.000178
+     },
+     "overall:H": {
+      "value": 0.768643,
+      "sem": 8.7e-05
+     },
+     "overall:O": {
+      "value": 0.934238,
+      "sem": 0.000155
+     },
+     "overall:combined": {
+      "value": 0.851441,
+      "sem": 8.9e-05
+     }
+    },
+    "density": {
+     "H": {
+      "value": 0.825667,
+      "sem": 0.000659
+     },
+     "O": {
+      "value": 0.788693,
+      "sem": 0.001304
+     },
+     "combined": {
+      "value": 0.80718,
+      "sem": 0.000899
+     },
+     "density_and_ratio": {
+      "value": 0.848252,
+      "sem": 0.00448
+     },
+     "ratio": {
+      "value": 0.889325,
+      "sem": 0.008914
+     }
+    },
+    "orientation": {
+     "water": {
+      "value": 0.416676,
+      "sem": 0.005596
+     }
+    },
+    "sfg": {
+     "combined": {
+      "value": 0.813531,
+      "sem": 0.001458
+     },
+     "mode2": {
+      "value": 0.777599,
+      "sem": 0.001375
+     },
+     "mode2:position": {
+      "value": 0.975466,
+      "sem": 0.000378
+     },
+     "mode2:ratio": {
+      "value": 0.381665,
+      "sem": 0.007957
+     },
+     "mode2:width": {
+      "value": 0.975666,
+      "sem": 0.00505
+     },
+     "mode3": {
+      "value": 0.849463,
+      "sem": 0.002303
+     },
+     "mode3:position": {
+      "value": 0.966135,
+      "sem": 0.000615
+     },
+     "mode3:ratio": {
+      "value": 0.595665,
+      "sem": 0.007164
+     },
+     "mode3:width": {
+      "value": 0.98659,
+      "sem": 0.00205
+     }
+    },
+    "friction": {
+     "combined": {
+      "value": 0.697419,
+      "sem": 0.003644
+     },
+     "curve": {
+      "value": 0.686942,
+      "sem": 0.005277
+     },
+     "scalar": {
+      "value": 0.707896,
+      "sem": 0.005025
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 75.7959
+  },
+  {
+   "id": "r2SCAN",
+   "display": "r2SCAN",
+   "color": "#c5cae9",
+   "family": "Meta-GGAs",
+   "dispersion": "none",
+   "d": {
+    "rdf": 0.959278,
+    "vdos": 0.920454,
+    "density": 0.942218,
+    "orientation": 0.617886,
+    "sfg": 0.835672,
+    "friction": 0.923537
+   },
+   "sem": {
+    "rdf": 0.000157,
+    "vdos": 0.000106,
+    "density": 0.005792,
+    "orientation": 0.009125,
+    "sfg": 0.003694,
+    "friction": 0.003839
+   },
+   "kappa": {
+    "rdf": 1.5282,
+    "vdos": 1.8076,
+    "density": 0.9402,
+    "orientation": 5.0775,
+    "sfg": 3.6305,
+    "friction": 0.5052
+   },
+   "submetrics": {
+    "rdf": {
+     "bulk:H-H": {
+      "value": 0.977168,
+      "sem": 0.0
+     },
+     "bulk:H-O": {
+      "value": 0.960777,
+      "sem": 0.0
+     },
+     "bulk:O-O": {
+      "value": 0.939239,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.959061,
+      "sem": 0.0
+     },
+     "interfacial:H-H": {
+      "value": 0.968962,
+      "sem": 0.000459
+     },
+     "interfacial:H-O": {
+      "value": 0.955524,
+      "sem": 0.000319
+     },
+     "interfacial:O-O": {
+      "value": 0.953996,
+      "sem": 0.000757
+     },
+     "interfacial:combined": {
+      "value": 0.959494,
+      "sem": 0.000314
+     },
+     "overall:H-H": {
+      "value": 0.973065,
+      "sem": 0.00023
+     },
+     "overall:H-O": {
+      "value": 0.958151,
+      "sem": 0.000159
+     },
+     "overall:O-O": {
+      "value": 0.946618,
+      "sem": 0.000379
+     },
+     "overall:combined": {
+      "value": 0.959278,
+      "sem": 0.000157
+     }
+    },
+    "vdos": {
+     "bulk:H": {
+      "value": 0.891137,
+      "sem": 0.0
+     },
+     "bulk:O": {
+      "value": 0.936865,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.914001,
+      "sem": 0.0
+     },
+     "interfacial:H": {
+      "value": 0.894934,
+      "sem": 0.000226
+     },
+     "interfacial:O": {
+      "value": 0.958879,
+      "sem": 0.000359
+     },
+     "interfacial:combined": {
+      "value": 0.926907,
+      "sem": 0.000212
+     },
+     "overall:H": {
+      "value": 0.893035,
+      "sem": 0.000113
+     },
+     "overall:O": {
+      "value": 0.947872,
+      "sem": 0.000179
+     },
+     "overall:combined": {
+      "value": 0.920454,
+      "sem": 0.000106
+     }
+    },
+    "density": {
+     "H": {
+      "value": 0.938592,
+      "sem": 0.000798
+     },
+     "O": {
+      "value": 0.937473,
+      "sem": 0.00107
+     },
+     "combined": {
+      "value": 0.938033,
+      "sem": 0.000917
+     },
+     "density_and_ratio": {
+      "value": 0.942218,
+      "sem": 0.005792
+     },
+     "ratio": {
+      "value": 0.946403,
+      "sem": 0.011547
+     }
+    },
+    "orientation": {
+     "water": {
+      "value": 0.617886,
+      "sem": 0.009125
+     }
+    },
+    "sfg": {
+     "combined": {
+      "value": 0.835672,
+      "sem": 0.003694
+     },
+     "mode2": {
+      "value": 0.795618,
+      "sem": 0.003996
+     },
+     "mode2:position": {
+      "value": 0.991796,
+      "sem": 0.000318
+     },
+     "mode2:ratio": {
+      "value": 0.415773,
+      "sem": 0.010591
+     },
+     "mode2:width": {
+      "value": 0.979286,
+      "sem": 0.004408
+     },
+     "mode3": {
+      "value": 0.875725,
+      "sem": 0.00511
+     },
+     "mode3:position": {
+      "value": 0.988297,
+      "sem": 0.000507
+     },
+     "mode3:ratio": {
+      "value": 0.667764,
+      "sem": 0.01261
+     },
+     "mode3:width": {
+      "value": 0.971114,
+      "sem": 0.00536
+     }
+    },
+    "friction": {
+     "combined": {
+      "value": 0.923537,
+      "sem": 0.003839
+     },
+     "curve": {
+      "value": 0.901525,
+      "sem": 0.005672
+     },
+     "scalar": {
+      "value": 0.945549,
+      "sem": 0.005176
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 86.65075
+  },
+  {
+   "id": "r2SCAN-D3-BJ",
+   "display": "r2SCAN-D3(BJ)",
+   "color": "#9fa8da",
+   "family": "Meta-GGAs",
+   "dispersion": "D3-BJ",
+   "d": {
+    "rdf": 0.921854,
+    "vdos": 0.923602,
+    "density": 0.864319,
+    "orientation": 0.546131,
+    "sfg": 0.85988,
+    "friction": 0.556944
+   },
+   "sem": {
+    "rdf": 0.000134,
+    "vdos": 0.000219,
+    "density": 0.004456,
+    "orientation": 0.008428,
+    "sfg": 0.002168,
+    "friction": 0.003245
+   },
+   "kappa": {
+    "rdf": 2.9326,
+    "vdos": 1.7361,
+    "density": 2.2076,
+    "orientation": 6.0309,
+    "sfg": 3.0957,
+    "friction": 2.9274
+   },
+   "submetrics": {
+    "rdf": {
+     "bulk:combined": {
+      "value": null,
+      "sem": null
+     },
+     "interfacial:H-H": {
+      "value": 0.9296,
+      "sem": 0.000202
+     },
+     "interfacial:H-O": {
+      "value": 0.926532,
+      "sem": 0.00018
+     },
+     "interfacial:O-O": {
+      "value": 0.90943,
+      "sem": 0.000296
+     },
+     "interfacial:combined": {
+      "value": 0.921854,
+      "sem": 0.000134
+     },
+     "overall:H-H": {
+      "value": 0.9296,
+      "sem": 0.000202
+     },
+     "overall:H-O": {
+      "value": 0.926532,
+      "sem": 0.00018
+     },
+     "overall:O-O": {
+      "value": 0.90943,
+      "sem": 0.000296
+     },
+     "overall:combined": {
+      "value": 0.921854,
+      "sem": 0.000134
+     }
+    },
+    "vdos": {
+     "bulk:combined": {
+      "value": null,
+      "sem": null
+     },
+     "interfacial:H": {
+      "value": 0.888229,
+      "sem": 0.00015
+     },
+     "interfacial:O": {
+      "value": 0.958974,
+      "sem": 0.000411
+     },
+     "interfacial:combined": {
+      "value": 0.923602,
+      "sem": 0.000219
+     },
+     "overall:H": {
+      "value": 0.888229,
+      "sem": 0.00015
+     },
+     "overall:O": {
+      "value": 0.958974,
+      "sem": 0.000411
+     },
+     "overall:combined": {
+      "value": 0.923602,
+      "sem": 0.000219
+     }
+    },
+    "density": {
+     "H": {
+      "value": 0.824964,
+      "sem": 0.000737
+     },
+     "O": {
+      "value": 0.793745,
+      "sem": 0.000949
+     },
+     "combined": {
+      "value": 0.809354,
+      "sem": 0.000815
+     },
+     "density_and_ratio": {
+      "value": 0.864319,
+      "sem": 0.004456
+     },
+     "ratio": {
+      "value": 0.919283,
+      "sem": 0.008875
+     }
+    },
+    "orientation": {
+     "water": {
+      "value": 0.546131,
+      "sem": 0.008428
+     }
+    },
+    "sfg": {
+     "combined": {
+      "value": 0.85988,
+      "sem": 0.002168
+     },
+     "mode2": {
+      "value": 0.803195,
+      "sem": 0.004371
+     },
+     "mode2:position": {
+      "value": 0.989451,
+      "sem": 0.000441
+     },
+     "mode2:ratio": {
+      "value": 0.444187,
+      "sem": 0.011016
+     },
+     "mode2:width": {
+      "value": 0.975946,
+      "sem": 0.003989
+     },
+     "mode3": {
+      "value": 0.916565,
+      "sem": 0.002771
+     },
+     "mode3:position": {
+      "value": 0.98383,
+      "sem": 0.000666
+     },
+     "mode3:ratio": {
+      "value": 0.812857,
+      "sem": 0.007008
+     },
+     "mode3:width": {
+      "value": 0.95301,
+      "sem": 0.003423
+     }
+    },
+    "friction": {
+     "combined": {
+      "value": 0.556944,
+      "sem": 0.003245
+     },
+     "curve": {
+      "value": 0.502619,
+      "sem": 0.004326
+     },
+     "scalar": {
+      "value": 0.611268,
+      "sem": 0.004838
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 77.87883333333333
+  },
+  {
+   "id": "r2SCAN-D4",
+   "display": "r2SCAN-D4",
+   "color": "#5e60ce",
+   "family": "Meta-GGAs",
+   "dispersion": "D4",
+   "d": {
+    "rdf": 0.926077,
+    "vdos": 0.926493,
+    "density": 0.873236,
+    "orientation": 0.528417,
+    "sfg": 0.865634,
+    "friction": 0.601553
+   },
+   "sem": {
+    "rdf": 0.000133,
+    "vdos": 0.000142,
+    "density": 0.00501,
+    "orientation": 0.006812,
+    "sfg": 0.002521,
+    "friction": 0.0032
+   },
+   "kappa": {
+    "rdf": 2.7742,
+    "vdos": 1.6704,
+    "density": 2.0625,
+    "orientation": 6.2663,
+    "sfg": 2.9686,
+    "friction": 2.6326
+   },
+   "submetrics": {
+    "rdf": {
+     "bulk:combined": {
+      "value": null,
+      "sem": null
+     },
+     "interfacial:H-H": {
+      "value": 0.933128,
+      "sem": 0.000215
+     },
+     "interfacial:H-O": {
+      "value": 0.9294,
+      "sem": 0.000156
+     },
+     "interfacial:O-O": {
+      "value": 0.915703,
+      "sem": 0.000296
+     },
+     "interfacial:combined": {
+      "value": 0.926077,
+      "sem": 0.000133
+     },
+     "overall:H-H": {
+      "value": 0.933128,
+      "sem": 0.000215
+     },
+     "overall:H-O": {
+      "value": 0.9294,
+      "sem": 0.000156
+     },
+     "overall:O-O": {
+      "value": 0.915703,
+      "sem": 0.000296
+     },
+     "overall:combined": {
+      "value": 0.926077,
+      "sem": 0.000133
+     }
+    },
+    "vdos": {
+     "bulk:combined": {
+      "value": null,
+      "sem": null
+     },
+     "interfacial:H": {
+      "value": 0.891026,
+      "sem": 0.000121
+     },
+     "interfacial:O": {
+      "value": 0.961959,
+      "sem": 0.000257
+     },
+     "interfacial:combined": {
+      "value": 0.926493,
+      "sem": 0.000142
+     },
+     "overall:H": {
+      "value": 0.891026,
+      "sem": 0.000121
+     },
+     "overall:O": {
+      "value": 0.961959,
+      "sem": 0.000257
+     },
+     "overall:combined": {
+      "value": 0.926493,
+      "sem": 0.000142
+     }
+    },
+    "density": {
+     "H": {
+      "value": 0.835205,
+      "sem": 0.000741
+     },
+     "O": {
+      "value": 0.808199,
+      "sem": 0.001021
+     },
+     "combined": {
+      "value": 0.821702,
+      "sem": 0.000861
+     },
+     "density_and_ratio": {
+      "value": 0.873236,
+      "sem": 0.00501
+     },
+     "ratio": {
+      "value": 0.92477,
+      "sem": 0.009984
+     }
+    },
+    "orientation": {
+     "water": {
+      "value": 0.528417,
+      "sem": 0.006812
+     }
+    },
+    "sfg": {
+     "combined": {
+      "value": 0.865634,
+      "sem": 0.002521
+     },
+     "mode2": {
+      "value": 0.808006,
+      "sem": 0.003642
+     },
+     "mode2:position": {
+      "value": 0.989777,
+      "sem": 0.000575
+     },
+     "mode2:ratio": {
+      "value": 0.455357,
+      "sem": 0.010222
+     },
+     "mode2:width": {
+      "value": 0.978886,
+      "sem": 0.002856
+     },
+     "mode3": {
+      "value": 0.923261,
+      "sem": 0.002995
+     },
+     "mode3:position": {
+      "value": 0.983855,
+      "sem": 0.000639
+     },
+     "mode3:ratio": {
+      "value": 0.828213,
+      "sem": 0.007992
+     },
+     "mode3:width": {
+      "value": 0.957715,
+      "sem": 0.004152
+     }
+    },
+    "friction": {
+     "combined": {
+      "value": 0.601553,
+      "sem": 0.0032
+     },
+     "curve": {
+      "value": 0.543906,
+      "sem": 0.004427
+     },
+     "scalar": {
+      "value": 0.6592,
+      "sem": 0.004622
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 78.69016666666667
+  },
+  {
+   "id": "revPBE-D3-0",
+   "display": "revPBE-D3(0)",
+   "color": "#2171b5",
+   "family": "GGAs",
+   "dispersion": "D3-0",
+   "d": {
+    "rdf": 0.928927,
+    "vdos": 0.851491,
+    "density": 0.943562,
+    "orientation": 0.497134,
+    "sfg": 0.804584,
+    "friction": 0.744734
+   },
+   "sem": {
+    "rdf": 6.7e-05,
+    "vdos": 9.1e-05,
+    "density": 0.004941,
+    "orientation": 0.009512,
+    "sfg": 0.001344,
+    "friction": 0.003206
+   },
+   "kappa": {
+    "rdf": 2.6672,
+    "vdos": 3.3748,
+    "density": 0.9183,
+    "orientation": 6.682,
+    "sfg": 4.3174,
+    "friction": 1.6866
+   },
+   "submetrics": {
+    "rdf": {
+     "bulk:H-H": {
+      "value": 0.957901,
+      "sem": 0.0
+     },
+     "bulk:H-O": {
+      "value": 0.930857,
+      "sem": 0.0
+     },
+     "bulk:O-O": {
+      "value": 0.868951,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.919237,
+      "sem": 0.0
+     },
+     "interfacial:H-H": {
+      "value": 0.968098,
+      "sem": 0.000236
+     },
+     "interfacial:H-O": {
+      "value": 0.935951,
+      "sem": 0.000154
+     },
+     "interfacial:O-O": {
+      "value": 0.911806,
+      "sem": 0.000287
+     },
+     "interfacial:combined": {
+      "value": 0.938618,
+      "sem": 0.000134
+     },
+     "overall:H-H": {
+      "value": 0.963,
+      "sem": 0.000118
+     },
+     "overall:H-O": {
+      "value": 0.933404,
+      "sem": 7.7e-05
+     },
+     "overall:O-O": {
+      "value": 0.890378,
+      "sem": 0.000143
+     },
+     "overall:combined": {
+      "value": 0.928927,
+      "sem": 6.7e-05
+     }
+    },
+    "vdos": {
+     "bulk:H": {
+      "value": 0.809346,
+      "sem": 0.0
+     },
+     "bulk:O": {
+      "value": 0.881096,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.845221,
+      "sem": 0.0
+     },
+     "interfacial:H": {
+      "value": 0.812858,
+      "sem": 0.00014
+     },
+     "interfacial:O": {
+      "value": 0.902664,
+      "sem": 0.000338
+     },
+     "interfacial:combined": {
+      "value": 0.857761,
+      "sem": 0.000183
+     },
+     "overall:H": {
+      "value": 0.811102,
+      "sem": 7e-05
+     },
+     "overall:O": {
+      "value": 0.89188,
+      "sem": 0.000169
+     },
+     "overall:combined": {
+      "value": 0.851491,
+      "sem": 9.1e-05
+     }
+    },
+    "density": {
+     "H": {
+      "value": 0.923872,
+      "sem": 0.000892
+     },
+     "O": {
+      "value": 0.897637,
+      "sem": 0.001157
+     },
+     "combined": {
+      "value": 0.910754,
+      "sem": 0.00101
+     },
+     "density_and_ratio": {
+      "value": 0.943562,
+      "sem": 0.004941
+     },
+     "ratio": {
+      "value": 0.97637,
+      "sem": 0.009829
+     }
+    },
+    "orientation": {
+     "water": {
+      "value": 0.497134,
+      "sem": 0.009512
+     }
+    },
+    "sfg": {
+     "combined": {
+      "value": 0.804584,
+      "sem": 0.001344
+     },
+     "mode2": {
+      "value": 0.751884,
+      "sem": 0.002368
+     },
+     "mode2:position": {
+      "value": 0.986346,
+      "sem": 0.000258
+     },
+     "mode2:ratio": {
+      "value": 0.356137,
+      "sem": 0.004708
+     },
+     "mode2:width": {
+      "value": 0.913169,
+      "sem": 0.007201
+     },
+     "mode3": {
+      "value": 0.857285,
+      "sem": 0.002253
+     },
+     "mode3:position": {
+      "value": 0.983203,
+      "sem": 0.000293
+     },
+     "mode3:ratio": {
+      "value": 0.606344,
+      "sem": 0.006372
+     },
+     "mode3:width": {
+      "value": 0.982307,
+      "sem": 0.002907
+     }
+    },
+    "friction": {
+     "combined": {
+      "value": 0.744734,
+      "sem": 0.003206
+     },
+     "curve": {
+      "value": 0.76856,
+      "sem": 0.004912
+     },
+     "scalar": {
+      "value": 0.720908,
+      "sem": 0.004122
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 79.50719999999998
+  },
+  {
+   "id": "revPBE-D3-BJ",
+   "display": "revPBE-D3(BJ)",
+   "color": "#08519c",
+   "family": "GGAs",
+   "dispersion": "D3-BJ",
+   "d": {
+    "rdf": 0.958946,
+    "vdos": 0.886915,
+    "density": 0.981647,
+    "orientation": 0.618198,
+    "sfg": 0.788764,
+    "friction": 0.860924
+   },
+   "sem": {
+    "rdf": 9.9e-05,
+    "vdos": 0.000149,
+    "density": 0.005267,
+    "orientation": 0.011469,
+    "sfg": 0.003417,
+    "friction": 0.003199
+   },
+   "kappa": {
+    "rdf": 1.5407,
+    "vdos": 2.5698,
+    "density": 0.2986,
+    "orientation": 5.0733,
+    "sfg": 4.6669,
+    "friction": 0.9189
+   },
+   "submetrics": {
+    "rdf": {
+     "bulk:H-H": {
+      "value": 0.978715,
+      "sem": 0.0
+     },
+     "bulk:H-O": {
+      "value": 0.935499,
+      "sem": 0.0
+     },
+     "bulk:O-O": {
+      "value": 0.942263,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.952159,
+      "sem": 0.0
+     },
+     "interfacial:H-H": {
+      "value": 0.985673,
+      "sem": 0.000188
+     },
+     "interfacial:H-O": {
+      "value": 0.946229,
+      "sem": 0.000145
+     },
+     "interfacial:O-O": {
+      "value": 0.965295,
+      "sem": 0.000541
+     },
+     "interfacial:combined": {
+      "value": 0.965732,
+      "sem": 0.000197
+     },
+     "overall:H-H": {
+      "value": 0.982194,
+      "sem": 9.4e-05
+     },
+     "overall:H-O": {
+      "value": 0.940864,
+      "sem": 7.2e-05
+     },
+     "overall:O-O": {
+      "value": 0.953779,
+      "sem": 0.000271
+     },
+     "overall:combined": {
+      "value": 0.958946,
+      "sem": 9.9e-05
+     }
+    },
+    "vdos": {
+     "bulk:H": {
+      "value": 0.831225,
+      "sem": 0.0
+     },
+     "bulk:O": {
+      "value": 0.938661,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.884943,
+      "sem": 0.0
+     },
+     "interfacial:H": {
+      "value": 0.833047,
+      "sem": 0.000273
+     },
+     "interfacial:O": {
+      "value": 0.944727,
+      "sem": 0.000531
+     },
+     "interfacial:combined": {
+      "value": 0.888887,
+      "sem": 0.000299
+     },
+     "overall:H": {
+      "value": 0.832136,
+      "sem": 0.000136
+     },
+     "overall:O": {
+      "value": 0.941694,
+      "sem": 0.000266
+     },
+     "overall:combined": {
+      "value": 0.886915,
+      "sem": 0.000149
+     }
+    },
+    "density": {
+     "H": {
+      "value": 0.971073,
+      "sem": 0.000861
+     },
+     "O": {
+      "value": 0.957247,
+      "sem": 0.001338
+     },
+     "combined": {
+      "value": 0.96416,
+      "sem": 0.001072
+     },
+     "density_and_ratio": {
+      "value": 0.981647,
+      "sem": 0.005267
+     },
+     "ratio": {
+      "value": 0.999134,
+      "sem": 0.010479
+     }
+    },
+    "orientation": {
+     "water": {
+      "value": 0.618198,
+      "sem": 0.011469
+     }
+    },
+    "sfg": {
+     "combined": {
+      "value": 0.788764,
+      "sem": 0.003417
+     },
+     "mode2": {
+      "value": 0.752943,
+      "sem": 0.002685
+     },
+     "mode2:position": {
+      "value": 0.983728,
+      "sem": 0.000417
+     },
+     "mode2:ratio": {
+      "value": 0.29062,
+      "sem": 0.005673
+     },
+     "mode2:width": {
+      "value": 0.98448,
+      "sem": 0.004827
+     },
+     "mode3": {
+      "value": 0.824585,
+      "sem": 0.004648
+     },
+     "mode3:position": {
+      "value": 0.981329,
+      "sem": 0.00041
+     },
+     "mode3:ratio": {
+      "value": 0.529013,
+      "sem": 0.009317
+     },
+     "mode3:width": {
+      "value": 0.963413,
+      "sem": 0.007026
+     }
+    },
+    "friction": {
+     "combined": {
+      "value": 0.860924,
+      "sem": 0.003199
+     },
+     "curve": {
+      "value": 0.878887,
+      "sem": 0.004815
+     },
+     "scalar": {
+      "value": 0.84296,
+      "sem": 0.004214
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 84.92323333333333
+  },
+  {
+   "id": "revPBE-D4",
+   "display": "revPBE-D4",
+   "color": "#08306b",
+   "family": "GGAs",
+   "dispersion": "D4",
+   "d": {
+    "rdf": 0.971224,
+    "vdos": 0.90383,
+    "density": 0.969416,
+    "orientation": 0.576735,
+    "sfg": 0.779365,
+    "friction": 0.777129
+   },
+   "sem": {
+    "rdf": 0.000283,
+    "vdos": 0.000358,
+    "density": 0.005664,
+    "orientation": 0.024542,
+    "sfg": 0.002412,
+    "friction": 0.003203
+   },
+   "kappa": {
+    "rdf": 1.0799,
+    "vdos": 2.1854,
+    "density": 0.4976,
+    "orientation": 5.6243,
+    "sfg": 4.8745,
+    "friction": 1.4726
+   },
+   "submetrics": {
+    "rdf": {
+     "bulk:combined": {
+      "value": null,
+      "sem": null
+     },
+     "interfacial:H-H": {
+      "value": 0.985419,
+      "sem": 0.000548
+     },
+     "interfacial:H-O": {
+      "value": 0.947433,
+      "sem": 0.000411
+     },
+     "interfacial:O-O": {
+      "value": 0.980822,
+      "sem": 0.000503
+     },
+     "interfacial:combined": {
+      "value": 0.971224,
+      "sem": 0.000283
+     },
+     "overall:H-H": {
+      "value": 0.985419,
+      "sem": 0.000548
+     },
+     "overall:H-O": {
+      "value": 0.947433,
+      "sem": 0.000411
+     },
+     "overall:O-O": {
+      "value": 0.980822,
+      "sem": 0.000503
+     },
+     "overall:combined": {
+      "value": 0.971224,
+      "sem": 0.000283
+     }
+    },
+    "vdos": {
+     "bulk:combined": {
+      "value": null,
+      "sem": null
+     },
+     "interfacial:H": {
+      "value": 0.840708,
+      "sem": 0.000564
+     },
+     "interfacial:O": {
+      "value": 0.966952,
+      "sem": 0.00044
+     },
+     "interfacial:combined": {
+      "value": 0.90383,
+      "sem": 0.000358
+     },
+     "overall:H": {
+      "value": 0.840708,
+      "sem": 0.000564
+     },
+     "overall:O": {
+      "value": 0.966952,
+      "sem": 0.00044
+     },
+     "overall:combined": {
+      "value": 0.90383,
+      "sem": 0.000358
+     }
+    },
+    "density": {
+     "H": {
+      "value": 0.967394,
+      "sem": 0.001224
+     },
+     "O": {
+      "value": 0.951824,
+      "sem": 0.000819
+     },
+     "combined": {
+      "value": 0.959609,
+      "sem": 0.000925
+     },
+     "density_and_ratio": {
+      "value": 0.969416,
+      "sem": 0.005664
+     },
+     "ratio": {
+      "value": 0.979223,
+      "sem": 0.01129
+     }
+    },
+    "orientation": {
+     "water": {
+      "value": 0.576735,
+      "sem": 0.024542
+     }
+    },
+    "sfg": {
+     "combined": {
+      "value": 0.779365,
+      "sem": 0.002412
+     },
+     "mode2": {
+      "value": 0.73806,
+      "sem": 0.002649
+     },
+     "mode2:position": {
+      "value": 0.980984,
+      "sem": 0.000445
+     },
+     "mode2:ratio": {
+      "value": 0.259645,
+      "sem": 0.008861
+     },
+     "mode2:width": {
+      "value": 0.973553,
+      "sem": 0.003652
+     },
+     "mode3": {
+      "value": 0.820669,
+      "sem": 0.004931
+     },
+     "mode3:position": {
+      "value": 0.979051,
+      "sem": 0.00051
+     },
+     "mode3:ratio": {
+      "value": 0.52404,
+      "sem": 0.011265
+     },
+     "mode3:width": {
+      "value": 0.958916,
+      "sem": 0.003703
+     }
+    },
+    "friction": {
+     "combined": {
+      "value": 0.777129,
+      "sem": 0.003203
+     },
+     "curve": {
+      "value": 0.763347,
+      "sem": 0.004792
+     },
+     "scalar": {
+      "value": 0.790911,
+      "sem": 0.004252
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 82.96165
+  },
+  {
+   "id": "revPBE-DRSLL",
+   "display": "revPBE-DRSLL",
+   "color": "#6baed6",
+   "family": "GGAs",
+   "dispersion": "DRSLL",
+   "d": {
+    "rdf": 0.929755,
+    "vdos": 0.862997,
+    "density": 0.849267,
+    "orientation": 0.511992,
+    "sfg": 0.797507,
+    "friction": 0.566794
+   },
+   "sem": {
+    "rdf": 5.1e-05,
+    "vdos": 9.5e-05,
+    "density": 0.004765,
+    "orientation": 0.012846,
+    "sfg": 0.002307,
+    "friction": 0.002996
+   },
+   "kappa": {
+    "rdf": 2.6361,
+    "vdos": 3.1133,
+    "density": 2.4525,
+    "orientation": 6.4846,
+    "sfg": 4.4737,
+    "friction": 2.8623
+   },
+   "submetrics": {
+    "rdf": {
+     "bulk:H-H": {
+      "value": 0.97793,
+      "sem": 0.0
+     },
+     "bulk:H-O": {
+      "value": 0.911931,
+      "sem": 0.0
+     },
+     "bulk:O-O": {
+      "value": 0.969521,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.953127,
+      "sem": 0.0
+     },
+     "interfacial:H-H": {
+      "value": 0.919637,
+      "sem": 0.000163
+     },
+     "interfacial:H-O": {
+      "value": 0.887041,
+      "sem": 0.000127
+     },
+     "interfacial:O-O": {
+      "value": 0.912472,
+      "sem": 0.000221
+     },
+     "interfacial:combined": {
+      "value": 0.906383,
+      "sem": 0.000101
+     },
+     "overall:H-H": {
+      "value": 0.948783,
+      "sem": 8.2e-05
+     },
+     "overall:H-O": {
+      "value": 0.899486,
+      "sem": 6.4e-05
+     },
+     "overall:O-O": {
+      "value": 0.940996,
+      "sem": 0.000111
+     },
+     "overall:combined": {
+      "value": 0.929755,
+      "sem": 5.1e-05
+     }
+    },
+    "vdos": {
+     "bulk:H": {
+      "value": 0.78659,
+      "sem": 0.0
+     },
+     "bulk:O": {
+      "value": 0.943805,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.865197,
+      "sem": 0.0
+     },
+     "interfacial:H": {
+      "value": 0.779923,
+      "sem": 0.000132
+     },
+     "interfacial:O": {
+      "value": 0.941671,
+      "sem": 0.000358
+     },
+     "interfacial:combined": {
+      "value": 0.860797,
+      "sem": 0.000191
+     },
+     "overall:H": {
+      "value": 0.783257,
+      "sem": 6.6e-05
+     },
+     "overall:O": {
+      "value": 0.942738,
+      "sem": 0.000179
+     },
+     "overall:combined": {
+      "value": 0.862997,
+      "sem": 9.5e-05
+     }
+    },
+    "density": {
+     "H": {
+      "value": 0.817104,
+      "sem": 0.000949
+     },
+     "O": {
+      "value": 0.78043,
+      "sem": 0.001687
+     },
+     "combined": {
+      "value": 0.798767,
+      "sem": 0.001273
+     },
+     "density_and_ratio": {
+      "value": 0.849267,
+      "sem": 0.004765
+     },
+     "ratio": {
+      "value": 0.899768,
+      "sem": 0.009445
+     }
+    },
+    "orientation": {
+     "water": {
+      "value": 0.511992,
+      "sem": 0.012846
+     }
+    },
+    "sfg": {
+     "combined": {
+      "value": 0.797507,
+      "sem": 0.002307
+     },
+     "mode2": {
+      "value": 0.756687,
+      "sem": 0.003208
+     },
+     "mode2:position": {
+      "value": 0.974201,
+      "sem": 0.000671
+     },
+     "mode2:ratio": {
+      "value": 0.335283,
+      "sem": 0.008569
+     },
+     "mode2:width": {
+      "value": 0.960578,
+      "sem": 0.00547
+     },
+     "mode3": {
+      "value": 0.838326,
+      "sem": 0.00202
+     },
+     "mode3:position": {
+      "value": 0.963019,
+      "sem": 0.00071
+     },
+     "mode3:ratio": {
+      "value": 0.626288,
+      "sem": 0.005373
+     },
+     "mode3:width": {
+      "value": 0.92567,
+      "sem": 0.003199
+     }
+    },
+    "friction": {
+     "combined": {
+      "value": 0.566794,
+      "sem": 0.002996
+     },
+     "curve": {
+      "value": 0.519877,
+      "sem": 0.004507
+     },
+     "scalar": {
+      "value": 0.613711,
+      "sem": 0.00395
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 75.3052
+  },
+  {
+   "id": "revPBE-rVV10",
+   "display": "revPBE-rVV10",
+   "color": "#c6dbef",
+   "family": "GGAs",
+   "dispersion": "rVV10",
+   "d": {
+    "rdf": 0.954944,
+    "vdos": 0.87379,
+    "density": 0.915611,
+    "orientation": 0.586751,
+    "sfg": 0.772196,
+    "friction": 0.661355
+   },
+   "sem": {
+    "rdf": 9.1e-05,
+    "vdos": 0.000215,
+    "density": 0.005076,
+    "orientation": 0.02113,
+    "sfg": 0.002618,
+    "friction": 0.003088
+   },
+   "kappa": {
+    "rdf": 1.6908,
+    "vdos": 2.8681,
+    "density": 1.3731,
+    "orientation": 5.4912,
+    "sfg": 5.0329,
+    "friction": 2.2375
+   },
+   "submetrics": {
+    "rdf": {
+     "bulk:H-H": {
+      "value": 0.981957,
+      "sem": 0.0
+     },
+     "bulk:H-O": {
+      "value": 0.925909,
+      "sem": 0.0
+     },
+     "bulk:O-O": {
+      "value": 0.965731,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.957866,
+      "sem": 0.0
+     },
+     "interfacial:H-H": {
+      "value": 0.969869,
+      "sem": 0.000351
+     },
+     "interfacial:H-O": {
+      "value": 0.929627,
+      "sem": 0.000308
+     },
+     "interfacial:O-O": {
+      "value": 0.956572,
+      "sem": 0.000283
+     },
+     "interfacial:combined": {
+      "value": 0.952023,
+      "sem": 0.000182
+     },
+     "overall:H-H": {
+      "value": 0.975913,
+      "sem": 0.000175
+     },
+     "overall:H-O": {
+      "value": 0.927768,
+      "sem": 0.000154
+     },
+     "overall:O-O": {
+      "value": 0.961151,
+      "sem": 0.000141
+     },
+     "overall:combined": {
+      "value": 0.954944,
+      "sem": 9.1e-05
+     }
+    },
+    "vdos": {
+     "bulk:H": {
+      "value": 0.817007,
+      "sem": 0.0
+     },
+     "bulk:O": {
+      "value": 0.925358,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.871182,
+      "sem": 0.0
+     },
+     "interfacial:H": {
+      "value": 0.817827,
+      "sem": 0.000337
+     },
+     "interfacial:O": {
+      "value": 0.934969,
+      "sem": 0.000793
+     },
+     "interfacial:combined": {
+      "value": 0.876398,
+      "sem": 0.000431
+     },
+     "overall:H": {
+      "value": 0.817417,
+      "sem": 0.000168
+     },
+     "overall:O": {
+      "value": 0.930163,
+      "sem": 0.000397
+     },
+     "overall:combined": {
+      "value": 0.87379,
+      "sem": 0.000215
+     }
+    },
+    "density": {
+     "H": {
+      "value": 0.928073,
+      "sem": 0.000731
+     },
+     "O": {
+      "value": 0.915396,
+      "sem": 0.001035
+     },
+     "combined": {
+      "value": 0.921735,
+      "sem": 0.000812
+     },
+     "density_and_ratio": {
+      "value": 0.915611,
+      "sem": 0.005076
+     },
+     "ratio": {
+      "value": 0.909487,
+      "sem": 0.010119
+     }
+    },
+    "orientation": {
+     "water": {
+      "value": 0.586751,
+      "sem": 0.02113
+     }
+    },
+    "sfg": {
+     "combined": {
+      "value": 0.772196,
+      "sem": 0.002618
+     },
+     "mode2": {
+      "value": 0.733468,
+      "sem": 0.002196
+     },
+     "mode2:position": {
+      "value": 0.982019,
+      "sem": 0.000392
+     },
+     "mode2:ratio": {
+      "value": 0.242431,
+      "sem": 0.004654
+     },
+     "mode2:width": {
+      "value": 0.975954,
+      "sem": 0.007546
+     },
+     "mode3": {
+      "value": 0.810924,
+      "sem": 0.004195
+     },
+     "mode3:position": {
+      "value": 0.98075,
+      "sem": 0.00045
+     },
+     "mode3:ratio": {
+      "value": 0.47289,
+      "sem": 0.010301
+     },
+     "mode3:width": {
+      "value": 0.97913,
+      "sem": 0.00349
+     }
+    },
+    "friction": {
+     "combined": {
+      "value": 0.661355,
+      "sem": 0.003088
+     },
+     "curve": {
+      "value": 0.601733,
+      "sem": 0.004549
+     },
+     "scalar": {
+      "value": 0.720977,
+      "sem": 0.004177
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 79.41078333333334
+  },
+  {
+   "id": "revPBE0-D3-0",
+   "display": "revPBE0-D3(0)",
+   "color": "#e34a33",
+   "family": "Hybrids",
+   "dispersion": "D3-0",
+   "d": {
+    "rdf": 0.915385,
+    "vdos": 0.82216,
+    "density": 0.957235,
+    "orientation": 0.422852,
+    "sfg": 0.819084,
+    "friction": 0.688891
+   },
+   "sem": {
+    "rdf": 6.3e-05,
+    "vdos": 0.000148,
+    "density": 0.004778,
+    "orientation": 0.007779,
+    "sfg": 0.003477,
+    "friction": 0.002878
+   },
+   "kappa": {
+    "rdf": 3.1754,
+    "vdos": 4.0413,
+    "density": 0.6958,
+    "orientation": 7.6691,
+    "sfg": 3.997,
+    "friction": 2.0556
+   },
+   "submetrics": {
+    "rdf": {
+     "bulk:H-H": {
+      "value": 0.934973,
+      "sem": 0.0
+     },
+     "bulk:H-O": {
+      "value": 0.912764,
+      "sem": 0.0
+     },
+     "bulk:O-O": {
+      "value": 0.854635,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.900791,
+      "sem": 0.0
+     },
+     "interfacial:H-H": {
+      "value": 0.955425,
+      "sem": 0.000125
+     },
+     "interfacial:H-O": {
+      "value": 0.927214,
+      "sem": 0.000192
+     },
+     "interfacial:O-O": {
+      "value": 0.9073,
+      "sem": 0.000297
+     },
+     "interfacial:combined": {
+      "value": 0.92998,
+      "sem": 0.000125
+     },
+     "overall:H-H": {
+      "value": 0.945199,
+      "sem": 6.2e-05
+     },
+     "overall:H-O": {
+      "value": 0.919989,
+      "sem": 9.6e-05
+     },
+     "overall:O-O": {
+      "value": 0.880968,
+      "sem": 0.000149
+     },
+     "overall:combined": {
+      "value": 0.915385,
+      "sem": 6.3e-05
+     }
+    },
+    "vdos": {
+     "bulk:H": {
+      "value": 0.763464,
+      "sem": 0.0
+     },
+     "bulk:O": {
+      "value": 0.852973,
+      "sem": 0.0
+     },
+     "bulk:combined": {
+      "value": 0.808219,
+      "sem": 0.0
+     },
+     "interfacial:H": {
+      "value": 0.79135,
+      "sem": 0.000421
+     },
+     "interfacial:O": {
+      "value": 0.880853,
+      "sem": 0.000414
+     },
+     "interfacial:combined": {
+      "value": 0.836101,
+      "sem": 0.000295
+     },
+     "overall:H": {
+      "value": 0.777407,
+      "sem": 0.000211
+     },
+     "overall:O": {
+      "value": 0.866913,
+      "sem": 0.000207
+     },
+     "overall:combined": {
+      "value": 0.82216,
+      "sem": 0.000148
+     }
+    },
+    "density": {
+     "H": {
+      "value": 0.931712,
+      "sem": 0.000733
+     },
+     "O": {
+      "value": 0.902949,
+      "sem": 0.001069
+     },
+     "combined": {
+      "value": 0.91733,
+      "sem": 0.000891
+     },
+     "density_and_ratio": {
+      "value": 0.957235,
+      "sem": 0.004778
+     },
+     "ratio": {
+      "value": 0.99714,
+      "sem": 0.009515
+     }
+    },
+    "orientation": {
+     "water": {
+      "value": 0.422852,
+      "sem": 0.007779
+     }
+    },
+    "sfg": {
+     "combined": {
+      "value": 0.819084,
+      "sem": 0.003477
+     },
+     "mode2": {
+      "value": 0.774688,
+      "sem": 0.005846
+     },
+     "mode2:position": {
+      "value": 0.992095,
+      "sem": 0.000417
+     },
+     "mode2:ratio": {
+      "value": 0.47737,
+      "sem": 0.013886
+     },
+     "mode2:width": {
+      "value": 0.854598,
+      "sem": 0.00812
+     },
+     "mode3": {
+      "value": 0.86348,
+      "sem": 0.003442
+     },
+     "mode3:position": {
+      "value": 0.993468,
+      "sem": 0.000398
+     },
+     "mode3:ratio": {
+      "value": 0.731263,
+      "sem": 0.007234
+     },
+     "mode3:width": {
+      "value": 0.865709,
+      "sem": 0.006484
+     }
+    },
+    "friction": {
+     "combined": {
+      "value": 0.688891,
+      "sem": 0.002878
+     },
+     "curve": {
+      "value": 0.696288,
+      "sem": 0.004803
+     },
+     "scalar": {
+      "value": 0.681495,
+      "sem": 0.003172
+     }
+    }
+   },
+   "sem_is_estimated": false,
+   "overall_equal_weight": 77.09345
+  }
+ ]
+}

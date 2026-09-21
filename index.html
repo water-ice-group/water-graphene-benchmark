@@ -1,5 +1,5 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style></head><body>
-<title>Multi-Observable Scoring Framework</title>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>XC-graphene-water</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
 
@@ -20,6 +20,7 @@
   --accent:#12806c;
   --accent-soft:#e2f2ee;
   --shadow:0 1px 2px rgba(18,32,30,.05), 0 8px 24px -16px rgba(18,32,30,.18);
+  --shadow-hover:0 2px 4px rgba(18,32,30,.08), 0 16px 34px -14px rgba(18,32,30,.28);
   --grid:#e4e9e9;
   --nodata:#e8ecec;
 
@@ -53,6 +54,7 @@
     --accent:#35baa0;
     --accent-soft:#16302b;
     --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.7);
+    --shadow-hover:0 2px 5px rgba(0,0,0,.5), 0 18px 40px -16px rgba(0,0,0,.8);
     --grid:#242d2e;
     --nodata:#222a2b;
     --struct:#5cc98a;
@@ -72,6 +74,7 @@
   --accent:#35baa0;
   --accent-soft:#16302b;
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.7);
+  --shadow-hover:0 2px 5px rgba(0,0,0,.5), 0 18px 40px -16px rgba(0,0,0,.8);
   --grid:#242d2e;
   --nodata:#222a2b;
   --struct:#5cc98a;
@@ -109,8 +112,8 @@ button{font-family:inherit;font-size:inherit;color:inherit;cursor:pointer}
   font-family:var(--font-num);font-size:10px;letter-spacing:.14em;
   text-transform:uppercase;color:var(--accent);font-weight:500;
 }
-.brand h1{font-family:var(--font-head);font-size:25px;font-weight:600;letter-spacing:-.01em;line-height:1.15}
-.brand .sub{font-size:12.5px;color:var(--muted);margin-top:5px}
+.brand h1{font-family:var(--font-head);font-size:22px;font-weight:600;letter-spacing:-.01em;line-height:1.2}
+.brand .sub{font-size:12.5px;line-height:1.5;color:var(--muted);margin-top:7px}
 
 .block{padding:18px 0;border-bottom:1px solid var(--rule)}
 .block:last-child{border-bottom:none}
@@ -182,7 +185,11 @@ input[type=range]::-moz-range-thumb{
 .gitem:hover s{color:var(--accent)}
 
 /* reference list */
-.refs{display:flex;flex-direction:column;gap:1px}
+.refs{
+  display:flex;flex-direction:column;gap:1px;
+  max-height:236px;overflow-y:auto;overscroll-behavior:contain;
+  scrollbar-width:thin;padding-right:2px;
+}
 .ref{
   display:flex;align-items:center;gap:8px;width:100%;text-align:left;
   padding:7px 8px;border:1px solid transparent;border-radius:3px;background:none;font-size:12.5px;
@@ -196,6 +203,21 @@ input[type=range]::-moz-range-thumb{
   margin-left:auto;font-family:var(--font-num);font-size:9px;letter-spacing:.08em;
   text-transform:uppercase;color:var(--faint);
 }
+.ref .tag[data-state=loading]{color:var(--accent)}
+.ref[data-state=missing]{opacity:.6}
+.ref[data-state=cached] .tag{color:var(--accent)}
+.reffilter{
+  width:100%;margin-bottom:6px;padding:6px 8px;border:1px solid var(--rule);
+  border-radius:3px;background:var(--surface-sunk);color:var(--ink);
+  font-family:var(--font-ui);font-size:12px;
+}
+.reffilter:focus{outline:none;border-color:var(--accent)}
+.refempty{font-size:11.5px;color:var(--faint);padding:6px 8px;margin:0}
+.refstatus{margin:9px 0 0;font-size:11.5px;line-height:1.5;color:var(--muted)}
+.refstatus:empty{display:none}
+.refstatus.err{color:var(--ink-2)}
+.refstatus code{font-family:var(--font-num);font-size:10.5px;color:var(--accent)}
+.refcite{display:block;margin-top:5px;color:var(--faint);font-size:11px;line-height:1.45}
 .refnote{margin-top:10px;font-size:11.5px;line-height:1.5;color:var(--faint)}
 .refnote code{font-family:var(--font-num);font-size:10.5px;color:var(--muted)}
 .filedrop{margin-top:10px;font-size:11.5px;color:var(--muted)}
@@ -211,19 +233,29 @@ input[type=range]::-moz-range-thumb{
    ============================================================ */
 .main{flex:1 1 auto;min-width:0;padding:26px 30px 90px;display:flex;flex-direction:column;gap:22px}
 
-.intro{max-width:70ch;display:flex;flex-direction:column;gap:9px}
-.intro .papertitle{
-  font-family:var(--font-head);font-style:italic;font-size:13px;line-height:1.45;
-  color:var(--muted);max-width:62ch;
+.intro{
+  max-width:70ch;display:flex;flex-direction:column;gap:9px;
+  padding-bottom:20px;margin-bottom:4px;border-bottom:1px solid var(--rule);
 }
-.intro h2{font-family:var(--font-head);font-size:20px;font-weight:600;margin-top:1px}
+.intro .kicker{
+  font-family:var(--font-num);font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent);font-weight:500;
+}
+.intro h1{
+  font-family:var(--font-head);font-size:28px;font-weight:600;
+  letter-spacing:-.01em;line-height:1.25;margin-top:5px;max-width:64ch;
+}
+.intro .lede{font-size:14.5px;color:var(--ink-2);line-height:1.6;margin-top:4px}
 .intro p{color:var(--muted);font-size:13.5px}
 .intro code{font-family:var(--font-num);font-size:12.5px;color:var(--ink-2);background:var(--surface-sunk);padding:1px 4px;border-radius:2px}
+.eq{font-family:var(--font-num);font-size:12.5px;color:var(--ink-2);white-space:nowrap}
 
 .panel{
   background:var(--surface);border:1px solid var(--rule);border-radius:4px;
   box-shadow:var(--shadow);overflow:hidden;
+  transition:box-shadow .18s ease, transform .18s ease;
 }
+.panel:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
 .panel > .bar{height:2px;background:var(--accent)}
 .phead{display:flex;align-items:flex-start;gap:12px;padding:15px 18px 12px}
 .plet{
@@ -317,9 +349,11 @@ td.delta{
 
 .themebtn{
   position:fixed;right:14px;top:12px;z-index:40;background:var(--surface);
-  border:1px solid var(--rule);border-radius:3px;padding:5px 9px;font-size:11px;color:var(--muted);
+  border:1px solid var(--rule);border-radius:3px;padding:5px 10px;font-size:11px;color:var(--muted);
+  display:flex;align-items:center;gap:6px;
 }
 .themebtn:hover{color:var(--accent);border-color:var(--accent)}
+.themebtn svg{flex:0 0 auto}
 
 svg text{font-family:var(--font-num)}
 .axis{fill:var(--muted);font-size:10px}
@@ -344,7 +378,7 @@ svg text{font-family:var(--font-num)}
 }
 </style>
 
-<button class="themebtn" id="themebtn">theme</button>
+<button class="themebtn" id="themebtn"><svg id="themeicon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"></svg><span>theme</span></button>
 <div id="tip" role="status" aria-live="polite"></div>
 
 <div class="layout">
@@ -352,8 +386,11 @@ svg text{font-family:var(--font-num)}
     <div class="brand">
       <span class="kicker">Graphene-water interface</span>
       <h1>Multi-Observable Scoring Framework</h1>
-      <p class="sub">Weight the six observables and every score on the page
-      follows.</p>
+      <p class="sub">In the paper we rank XC functionals against RPA by
+      averaging six observables with equal weight, which is a convenient
+      choice, not a principled one. Reweight them here for whichever
+      property matters most to you, structure, dynamics, or spectroscopy,
+      and every score on the page follows.</p>
     </div>
 
     <div class="consolegrid">
@@ -381,12 +418,17 @@ svg text{font-family:var(--font-num)}
       <div class="block">
         <div class="block-head">
           <span class="block-title">Reference</span>
+          <span class="block-note" id="refcount"></span>
         </div>
+        <input class="reffilter" id="reffilter" type="search"
+               placeholder="Filter references" aria-label="Filter references">
         <div class="refs" id="refs"></div>
+        <p class="refstatus" id="refstatus"></p>
         <p class="refnote">Each score is computed directly from the simulated
-        observables, so scoring against a different reference requires the
-        analysis to be re-run. Use <code>export_web_data.py</code> and load the
-        <code>scores.json</code> it writes.</p>
+        observables, so a different reference means the analysis is re-run
+        against it. <code>export_web_data.py --refs &lt;name&gt;</code> writes one
+        <code>data/scores_&lt;name&gt;.json</code> per reference, and this list
+        loads them. Experiment is a VSFG-only reference.</p>
         <div class="filedrop">
           <label for="jsonfile" id="jsonlabel">Load a <code>scores.json</code></label>
           <input type="file" id="jsonfile" accept=".json,application/json">
@@ -397,18 +439,35 @@ svg text{font-family:var(--font-num)}
 
   <main class="main">
     <section class="intro">
-      <p class="papertitle">How Good Is DFT for Solid-Liquid Interfaces? A
-      Comparison With the Random-Phase Approximation for Water on Graphene</p>
-      <h2>Interactive companion to Figure 4</h2>
-      <p>The overall score for a given XC approximation is obtained by
-      averaging its individual scores across all six categories of observables,
-      each entering with equal weight. Equal weighting is a deliberate choice
-      rather than a result. In many applications one may only be interested in
-      a functional's ability to reproduce a particular structural, dynamical,
-      or spectroscopic property, and the ranking shifts accordingly. Setting
-      the weights in the console recomputes the individual scores, the overall
-      score, and the structure and dynamics scores, reproducing Figure 4B, 4C,
-      4D and Figure S11 of the Supporting Information.</p>
+      <p class="kicker">Interactive companion to Figure 4</p>
+      <h1>How Good Is DFT for Solid-Liquid Interfaces? A Comparison With the
+      Random-Phase Approximation for Water on Graphene</h1>
+      <p class="lede">Solid-liquid interfaces are notoriously hard to
+      simulate accurately. Different force fields and DFT functionals can
+      give very different pictures of how water structures, wets, and moves
+      near a surface, and until now there has been no high-accuracy
+      reference to say which picture is closer to right. In the paper we use
+      RPA as that reference at the graphene-water interface, folding
+      structural, dynamical, and spectroscopic agreement into one overall
+      score by averaging six observables with equal weight. That weighting
+      is convenient rather than principled, so this page lets you set it
+      yourself, for whichever kind of agreement you are actually after.</p>
+      <span class="block-title" style="margin-top:8px">How scoring works</span>
+      <p>Setting the weights in the console recomputes the individual
+      scores, the overall score, and the structure and dynamics scores,
+      reproducing Figure 4B, 4C, 4D and Figure S11 of the Supporting
+      Information. Everything on the page is scored against
+      <span class="refname">RPA/QZ</span>. The reference can be changed in
+      the console, including to experiment, which is measured for the VSFG
+      spectra alone.</p>
+      <p>All six observables share one measure of agreement. For a profile or
+      a spectrum it compares the two curves point by point,
+      <span class="eq">d = 1 &minus; &Sigma;|a &minus; b| / &Sigma;(|a| + |b|)</span>,
+      and for a scalar such as the friction coefficient or a VSFG peak
+      position it is the same expression on a single pair of numbers. It is
+      symmetric in the two arguments and bounded by 0 and 1, so no observable
+      is scored on a scale of its own and swapping which level of theory plays
+      the reference does not change the size of the disagreement.</p>
     </section>
 
     <!-- ===== fig 4c : overall score ===== -->
@@ -494,13 +553,19 @@ svg text{font-family:var(--font-num)}
     </section>
 
     <footer class="foot">
-      <p>Supporting material for <i>How Good Is DFT for Solid-Liquid
-      Interfaces? A Comparison With the Random-Phase Approximation for Water on
-      Graphene</i>. Individual scores as published for the graphene-water
-      interface, with RPA/QZ as the reference throughout. Weights are
-      normalised, so the overall score stays on the same 0 to 100 scale
-      whatever the sliders read, and an observable at zero weight also drops
-      out of its group mean.</p>
+      <p>Xavier R. Advincula, Yair Litman, Jiuyang Shi, Flaviano Della Pia,
+      Christoph Schran, and Angelos Michaelides, <i>How Good Is DFT for
+      Solid-Liquid Interfaces? A Comparison With the Random-Phase
+      Approximation for Water on Graphene</i>.</p>
+      <p style="margin-top:8px">Individual scores for the graphene-water
+      interface, with <span class="refname">RPA/QZ</span> as the reference.
+      Every score here is recomputed from the simulated observables by the
+      all-vs-all run behind this page rather than transcribed from the
+      figure, so it does not reproduce the printed value exactly and a
+      ranking can shift by a place or two. Weights are normalised, so the
+      overall score stays on the same 0 to 100 scale whatever the sliders
+      read, and an observable at zero weight also drops out of its group
+      mean.</p>
     </footer>
   </main>
 </div>
@@ -509,13 +574,164 @@ svg text{font-family:var(--font-num)}
 "use strict";
 
 /* =========================================================================
-   Baseline data, transcribed from the executed sanity-check tables in
-   plots-V2.ipynb and plots-2d-main-V2.ipynb.  Replaced wholesale when the
-   user loads a scores.json written by export_web_data.py.
+   Baseline data: the RPA/QZ column of benchmark_all_references.py's all-vs-all
+   matrix, exported by export_web_data.py.  Inlined so the page works opened
+   straight from disk; replaced wholesale when another reference is picked, or
+   when a scores.json is loaded by hand.
    ========================================================================= */
-const BASELINE = {"schema":"solliq-scores/1","reference":{"id":"RPA-QZ","display":"RPA/QZ","note":"Reference by construction; pinned at 100."},"provenance":{"source":"executed cell outputs of plots-V2.ipynb and plots-2d-main-V2.ipynb (sanity-check tables)","system":"19A","n_tag":"n100","graphene":"frozen","scoring_dirs":{"rdf":"scoring_rdf_19A","vdos":"scoring_vdos_19A","density":"scoring_density_19A","orientation":"scoring_orientation_19A","sfg":"scoring_sfgphys_19A","friction":"scoring_friction_19A"},"preferred_metric_per_dir":{"rdf":"combined","vdos":"combined","density":"density_and_ratio","orientation":"water","sfg":"combined","friction":"combined"},"sem_note":"Standard errors are distributed equally across the six observables, which reproduces the published error bar exactly at equal weighting.","excluded":["PBE-DRSLL","SCAN"]},"metrics":[{"id":"rdf","label":"RDF","color":"#9ad83c","group":"structure","detail":"Radial distribution functions among the liquid atoms, evaluated in bulk water and in interfacial water and averaged over the O-O, O-H and H-H species pairs."},{"id":"vdos","label":"VDOS","color":"#47c06e","group":"dynamics","detail":"Vibrational density of states, evaluated in bulk water and in interfacial water."},{"id":"density","label":"Density","color":"#1ea087","group":"structure","detail":"Density profiles of the liquid at the interface, including the wetting proxy rho2/rho1."},{"id":"orientation","label":"Orientation","color":"#267f8e","group":"structure","detail":"Orientational profiles of the liquid as a function of distance from the surface."},{"id":"sfg","label":"VSFG","color":"#355c8c","group":"dynamics","detail":"VSFG spectra for the graphene-water and air-water interfaces, scored on the hydrogen-bonded and dangling O-H peak positions, their intensity ratio and the width of the hydrogen-bonded band."},{"id":"friction","label":"Friction","color":"#45347f","group":"dynamics","detail":"Solid-liquid friction, scored on the plateau value of the friction coefficient and on the full Green-Kubo running integral."}],"families":[{"id":"RPA","marker":"star"},{"id":"Hybrids","marker":"diamond"},{"id":"Meta-GGAs","marker":"square"},{"id":"GGAs","marker":"circle"}],"dispersion_hatches":{"none":"","D3-0":"fwd","D3-BJ":"back","D3m-BJ":"back","D4":"fwd-dense","DRSLL":"horiz","rVV10":"horiz"},"panel_groups":[{"label":"Hybrids","members":["HSE06-D3-0","B3LYP-D3-0","revPBE0-D3-0"]},{"label":"Meta-GGAs","members":["M06L-D3-0","r2SCAN-D4","r2SCAN-D3-BJ","r2SCAN"]},{"label":"Meta-GGAs","members":["B97M-rV"]},{"label":"GGAs","members":["revPBE-D4","revPBE-D3-0","PBE-D3-BJ","PBE-rVV10","BLYP-D3-BJ","optB88-DRSLL"]}],"available_references":[{"id":"RPA-QZ","display":"RPA/QZ","status":"loaded"},{"id":"RPA","display":"RPA/TZ","status":"needs-export"},{"id":"revPBE-D3-BJ","display":"revPBE-D3(BJ)","status":"needs-export"},{"id":"expt","display":"Experiment (SFG only)","status":"needs-export"}],"functionals":[{"id":"RPA","display":"RPA/TZ","color":"#8a8a8a","family":"RPA","dispersion":"none","d":{"rdf":0.9549,"vdos":0.9082,"density":0.9449,"orientation":0.6435,"sfg":0.8406,"friction":0.8393},"sem":{"rdf":0.00472752,"vdos":0.00472752,"density":0.00472752,"orientation":0.00472752,"sfg":0.00472752,"friction":0.00472752},"sem_is_estimated":true,"published_overall":85.522,"published_overall_sem":0.193},{"id":"B3LYP-D3-0","display":"B3LYP-D3(0)","color":"#b22222","family":"Hybrids","dispersion":"D3-0","d":{"rdf":0.9555,"vdos":0.8685,"density":0.9326,"orientation":0.6186,"sfg":0.6892,"friction":0.8882},"sem":{"rdf":0.00445807,"vdos":0.00445807,"density":0.00445807,"orientation":0.00445807,"sfg":0.00445807,"friction":0.00445807},"sem_is_estimated":true,"published_overall":82.544,"published_overall_sem":0.182},{"id":"revPBE0-D3-0","display":"revPBE0-D3(0)","color":"#e34a33","family":"Hybrids","dispersion":"D3-0","d":{"rdf":0.9813,"vdos":0.921,"density":0.968,"orientation":0.5791,"sfg":0.5793,"friction":0.7993},"sem":{"rdf":0.00516842,"vdos":0.00516842,"density":0.00516842,"orientation":0.00516842,"sfg":0.00516842,"friction":0.00516842},"sem_is_estimated":true,"published_overall":80.468,"published_overall_sem":0.211},{"id":"revPBE-D3-BJ","display":"revPBE-D3(BJ)","color":"#08519c","family":"GGAs","dispersion":"D3-BJ","d":{"rdf":0.9355,"vdos":0.7839,"density":0.98,"orientation":0.4664,"sfg":0.6456,"friction":0.9777},"sem":{"rdf":0.00749544,"vdos":0.00749544,"density":0.00749544,"orientation":0.00749544,"sfg":0.00749544,"friction":0.00749544},"sem_is_estimated":true,"published_overall":79.819,"published_overall_sem":0.306},{"id":"B97M-rV","display":"B97M-rV","color":"#3f007d","family":"Meta-GGAs","dispersion":"rVV10","d":{"rdf":0.9205,"vdos":0.9335,"density":0.8621,"orientation":0.446,"sfg":0.7428,"friction":0.8542},"sem":{"rdf":0.00602574,"vdos":0.00602574,"density":0.00602574,"orientation":0.00602574,"sfg":0.00602574,"friction":0.00602574},"sem_is_estimated":true,"published_overall":79.32,"published_overall_sem":0.246},{"id":"revPBE-D3-0","display":"revPBE-D3(0)","color":"#2171b5","family":"GGAs","dispersion":"D3-0","d":{"rdf":0.9612,"vdos":0.8373,"density":0.9493,"orientation":0.4532,"sfg":0.6821,"friction":0.8579},"sem":{"rdf":0.0033803,"vdos":0.0033803,"density":0.0033803,"orientation":0.0033803,"sfg":0.0033803,"friction":0.0033803},"sem_is_estimated":true,"published_overall":79.015,"published_overall_sem":0.138},{"id":"r2SCAN","display":"r2SCAN","color":"#c5cae9","family":"Meta-GGAs","dispersion":"none","d":{"rdf":0.9351,"vdos":0.8225,"density":0.9361,"orientation":0.4854,"sfg":0.5727,"friction":0.9273},"sem":{"rdf":0.0052664,"vdos":0.0052664,"density":0.0052664,"orientation":0.0052664,"sfg":0.0052664,"friction":0.0052664},"sem_is_estimated":true,"published_overall":77.983,"published_overall_sem":0.215},{"id":"revPBE-D4","display":"revPBE-D4","color":"#08306b","family":"GGAs","dispersion":"D4","d":{"rdf":0.9178,"vdos":0.7505,"density":0.9698,"orientation":0.4279,"sfg":0.6463,"friction":0.8921},"sem":{"rdf":0.00651564,"vdos":0.00651564,"density":0.00651564,"orientation":0.00651564,"sfg":0.00651564,"friction":0.00651564},"sem_is_estimated":true,"published_overall":76.741,"published_overall_sem":0.266},{"id":"HSE06-D3-0","display":"HSE06-D3(0)","color":"#8c1d18","family":"Hybrids","dispersion":"D3-0","d":{"rdf":0.9323,"vdos":0.8109,"density":0.9725,"orientation":0.5097,"sfg":0.4746,"friction":0.8826},"sem":{"rdf":0.00771589,"vdos":0.00771589,"density":0.00771589,"orientation":0.00771589,"sfg":0.00771589,"friction":0.00771589},"sem_is_estimated":true,"published_overall":76.379,"published_overall_sem":0.315},{"id":"BLYP-D3-BJ","display":"BLYP-D3(BJ)","color":"#a63603","family":"GGAs","dispersion":"D3-BJ","d":{"rdf":0.9117,"vdos":0.7172,"density":0.9638,"orientation":0.4682,"sfg":0.6817,"friction":0.8108},"sem":{"rdf":0.00771589,"vdos":0.00771589,"density":0.00771589,"orientation":0.00771589,"sfg":0.00771589,"friction":0.00771589},"sem_is_estimated":true,"published_overall":75.89,"published_overall_sem":0.315},{"id":"BLYP-D4","display":"BLYP-D4","color":"#7f2704","family":"GGAs","dispersion":"D4","d":{"rdf":0.9073,"vdos":0.7048,"density":0.9717,"orientation":0.4616,"sfg":0.6737,"friction":0.8262},"sem":{"rdf":0.00896513,"vdos":0.00896513,"density":0.00896513,"orientation":0.00896513,"sfg":0.00896513,"friction":0.00896513},"sem_is_estimated":true,"published_overall":75.754,"published_overall_sem":0.366},{"id":"BLYP-D3-0","display":"BLYP-D3(0)","color":"#d94801","family":"GGAs","dispersion":"D3-0","d":{"rdf":0.9183,"vdos":0.7718,"density":0.8749,"orientation":0.493,"sfg":0.683,"friction":0.7109},"sem":{"rdf":0.00494797,"vdos":0.00494797,"density":0.00494797,"orientation":0.00494797,"sfg":0.00494797,"friction":0.00494797},"sem_is_estimated":true,"published_overall":74.199,"published_overall_sem":0.202},{"id":"PBE-D3-0","display":"PBE-D3(0)","color":"#41ab5d","family":"GGAs","dispersion":"D3-0","d":{"rdf":0.8844,"vdos":0.6736,"density":0.9351,"orientation":0.373,"sfg":0.611,"friction":0.8889},"sem":{"rdf":0.00683408,"vdos":0.00683408,"density":0.00683408,"orientation":0.00683408,"sfg":0.00683408,"friction":0.00683408},"sem_is_estimated":true,"published_overall":72.767,"published_overall_sem":0.279},{"id":"optB88-DRSLL","display":"optB88-vdW","color":"#3182bd","family":"GGAs","dispersion":"DRSLL","d":{"rdf":0.8968,"vdos":0.7452,"density":0.8555,"orientation":0.3856,"sfg":0.6248,"friction":0.8086},"sem":{"rdf":0.00315984,"vdos":0.00315984,"density":0.00315984,"orientation":0.00315984,"sfg":0.00315984,"friction":0.00315984},"sem_is_estimated":true,"published_overall":71.943,"published_overall_sem":0.129},{"id":"M06L-D3-0","display":"M06-L-D3(0)","color":"#6a1b9a","family":"Meta-GGAs","dispersion":"D3-0","d":{"rdf":0.8886,"vdos":0.8953,"density":0.8008,"orientation":0.3488,"sfg":0.6918,"friction":0.6827},"sem":{"rdf":0.00644216,"vdos":0.00644216,"density":0.00644216,"orientation":0.00644216,"sfg":0.00644216,"friction":0.00644216},"sem_is_estimated":true,"published_overall":71.799,"published_overall_sem":0.263},{"id":"r2SCAN-D4","display":"r2SCAN-D4","color":"#5e60ce","family":"Meta-GGAs","dispersion":"D4","d":{"rdf":0.9127,"vdos":0.8136,"density":0.8786,"orientation":0.4681,"sfg":0.5105,"friction":0.7067},"sem":{"rdf":0.00646665,"vdos":0.00646665,"density":0.00646665,"orientation":0.00646665,"sfg":0.00646665,"friction":0.00646665},"sem_is_estimated":true,"published_overall":71.504,"published_overall_sem":0.264},{"id":"revPBE-rVV10","display":"revPBE-rVV10","color":"#c6dbef","family":"GGAs","dispersion":"rVV10","d":{"rdf":0.922,"vdos":0.7715,"density":0.9024,"orientation":0.4638,"sfg":0.6629,"friction":0.5603},"sem":{"rdf":0.00531539,"vdos":0.00531539,"density":0.00531539,"orientation":0.00531539,"sfg":0.00531539,"friction":0.00531539},"sem_is_estimated":true,"published_overall":71.381,"published_overall_sem":0.217},{"id":"PBE-D4","display":"PBE-D4","color":"#00441b","family":"GGAs","dispersion":"D4","d":{"rdf":0.8771,"vdos":0.6576,"density":0.9119,"orientation":0.298,"sfg":0.6058,"friction":0.9079},"sem":{"rdf":0.01129215,"vdos":0.01129215,"density":0.01129215,"orientation":0.01129215,"sfg":0.01129215,"friction":0.01129215},"sem_is_estimated":true,"published_overall":70.973,"published_overall_sem":0.461},{"id":"r2SCAN-D3-BJ","display":"r2SCAN-D3(BJ)","color":"#9fa8da","family":"Meta-GGAs","dispersion":"D3-BJ","d":{"rdf":0.9113,"vdos":0.8171,"density":0.8701,"orientation":0.4827,"sfg":0.5067,"friction":0.6583},"sem":{"rdf":0.0043356,"vdos":0.0043356,"density":0.0043356,"orientation":0.0043356,"sfg":0.0043356,"friction":0.0043356},"sem_is_estimated":true,"published_overall":70.77,"published_overall_sem":0.177},{"id":"PBE-D3-BJ","display":"PBE-D3(BJ)","color":"#006d2c","family":"GGAs","dispersion":"D3-BJ","d":{"rdf":0.8744,"vdos":0.6534,"density":0.9209,"orientation":0.2956,"sfg":0.5727,"friction":0.9235},"sem":{"rdf":0.00715251,"vdos":0.00715251,"density":0.00715251,"orientation":0.00715251,"sfg":0.00715251,"friction":0.00715251},"sem_is_estimated":true,"published_overall":70.676,"published_overall_sem":0.292},{"id":"PBE-D3m-BJ","display":"PBE-D3M(BJ)","color":"#238b45","family":"GGAs","dispersion":"D3m-BJ","d":{"rdf":0.8757,"vdos":0.6552,"density":0.9312,"orientation":0.2564,"sfg":0.566,"friction":0.9314},"sem":{"rdf":0.00908761,"vdos":0.00908761,"density":0.00908761,"orientation":0.00908761,"sfg":0.00908761,"friction":0.00908761},"sem_is_estimated":true,"published_overall":70.265,"published_overall_sem":0.371},{"id":"revPBE-DRSLL","display":"revPBE-DRSLL","color":"#6baed6","family":"GGAs","dispersion":"DRSLL","d":{"rdf":0.8876,"vdos":0.7259,"density":0.8558,"orientation":0.4753,"sfg":0.5616,"friction":0.6689},"sem":{"rdf":0.00509494,"vdos":0.00509494,"density":0.00509494,"orientation":0.00509494,"sfg":0.00509494,"friction":0.00509494},"sem_is_estimated":true,"published_overall":69.584,"published_overall_sem":0.208},{"id":"PBE-rVV10","display":"PBE-rVV10","color":"#c7e9c0","family":"GGAs","dispersion":"rVV10","d":{"rdf":0.8671,"vdos":0.6508,"density":0.9023,"orientation":0.3606,"sfg":0.5753,"friction":0.7507},"sem":{"rdf":0.00827928,"vdos":0.00827928,"density":0.00827928,"orientation":0.00827928,"sfg":0.00827928,"friction":0.00827928},"sem_is_estimated":true,"published_overall":68.447,"published_overall_sem":0.338}]};
+const BASELINE = {"schema":"solliq-scores/1","reference":{"id":"RPA-QZ","display":"RPA/QZ","note":"Reference by construction; pinned at 100."},"provenance":{"source":"benchmark_all_references.py, read back from benchmark_all_references","generated":"2026-09-19","system":"19A","n_tag":"n100","graphene":"frozen","reference_kind":"rpa","orientation_weighting":{"weight_source":"ref","min_frac":0.0,"weight_power":1.0,"x_max":11.0},"interf_root":"17_FINAL_PROD_out","bulk_root":"12_analyse_final_prods","scoring_dirs":{},"preferred_metric_per_dir":{"rdf":"combined","vdos":"combined","density":"density_and_ratio","orientation":"water","sfg":"combined","friction":"combined"},"sem_is_exact":true,"sem_note":"Standard errors are the per-observable values the scoring wrote out, propagated in quadrature under the chosen weights. They are per-observable, so they no longer share one value the way the hand-transcribed baseline did.","excluded":["PBE-DRSLL","SCAN"],"inline_note":"Sub-metric breakdowns are dropped from the inline copy; data/scores_RPA-QZ.json carries them."},"metrics":[{"id":"rdf","label":"RDF","color":"#9ad83c","group":"structure","detail":"Radial distribution functions among the liquid atoms, evaluated in bulk water and in interfacial water and averaged over the O-O, O-H and H-H species pairs."},{"id":"vdos","label":"VDOS","color":"#47c06e","group":"dynamics","detail":"Vibrational density of states, evaluated in bulk water and in interfacial water."},{"id":"density","label":"Density","color":"#1ea087","group":"structure","detail":"Density profiles of the liquid at the interface, including the wetting proxy rho2/rho1."},{"id":"orientation","label":"Orientation","color":"#267f8e","group":"structure","detail":"Orientational profiles of the liquid as a function of distance from the surface, compared out to 11 Å from the sheet, with every bin weighted by the water population N(z) sitting in it, so the sparse regions cannot outvote the water that is actually there."},{"id":"sfg","label":"VSFG","color":"#355c8c","group":"dynamics","detail":"VSFG spectra for the graphene-water and air-water interfaces, scored on the hydrogen-bonded and dangling O-H peak positions, their intensity ratio and the width of the hydrogen-bonded band."},{"id":"friction","label":"Friction","color":"#45347f","group":"dynamics","detail":"Solid-liquid friction, scored on the plateau value of the friction coefficient and on the full Green-Kubo running integral."}],"families":[{"id":"RPA","marker":"star"},{"id":"Hybrids","marker":"diamond"},{"id":"Meta-GGAs","marker":"square"},{"id":"GGAs","marker":"circle"}],"dispersion_hatches":{"none":"","D3-0":"fwd","D3-BJ":"back","D3m-BJ":"back","D4":"fwd-dense","DRSLL":"horiz","rVV10":"horiz"},"panel_groups":[{"label":"Hybrids","members":["HSE06-D3-0","B3LYP-D3-0","revPBE0-D3-0"]},{"label":"Meta-GGAs","members":["M06L-D3-0","r2SCAN-D4","r2SCAN-D3-BJ","r2SCAN"]},{"label":"Meta-GGAs","members":["B97M-rV"]},{"label":"GGAs","members":["revPBE-D4","revPBE-D3-0","PBE-D3-BJ","PBE-rVV10","BLYP-D3-BJ","optB88-DRSLL"]}],"available_references":[{"id":"RPA-QZ","display":"RPA/QZ","status":"loaded"},{"id":"RPA","display":"RPA/TZ","file":"data/scores_RPA.json","status":"needs-export"},{"id":"HSE06-D3-0","display":"HSE06-D3(0)","file":"data/scores_HSE06-D3-0.json","status":"needs-export"},{"id":"B3LYP-D3-0","display":"B3LYP-D3(0)","file":"data/scores_B3LYP-D3-0.json","status":"needs-export"},{"id":"revPBE0-D3-0","display":"revPBE0-D3(0)","file":"data/scores_revPBE0-D3-0.json","status":"needs-export"},{"id":"M06L-D3-0","display":"M06-L-D3(0)","file":"data/scores_M06L-D3-0.json","status":"needs-export"},{"id":"r2SCAN-D4","display":"r2SCAN-D4","file":"data/scores_r2SCAN-D4.json","status":"needs-export"},{"id":"r2SCAN-D3-BJ","display":"r2SCAN-D3(BJ)","file":"data/scores_r2SCAN-D3-BJ.json","status":"needs-export"},{"id":"r2SCAN","display":"r2SCAN","file":"data/scores_r2SCAN.json","status":"needs-export"},{"id":"B97M-rV","display":"B97M-rV","file":"data/scores_B97M-rV.json","status":"needs-export"},{"id":"revPBE-D4","display":"revPBE-D4","file":"data/scores_revPBE-D4.json","status":"needs-export"},{"id":"revPBE-D3-BJ","display":"revPBE-D3(BJ)","file":"data/scores_revPBE-D3-BJ.json","status":"needs-export"},{"id":"revPBE-D3-0","display":"revPBE-D3(0)","file":"data/scores_revPBE-D3-0.json","status":"needs-export"},{"id":"revPBE-DRSLL","display":"revPBE-DRSLL","file":"data/scores_revPBE-DRSLL.json","status":"needs-export"},{"id":"revPBE-rVV10","display":"revPBE-rVV10","file":"data/scores_revPBE-rVV10.json","status":"needs-export"},{"id":"PBE-D4","display":"PBE-D4","file":"data/scores_PBE-D4.json","status":"needs-export"},{"id":"PBE-D3-BJ","display":"PBE-D3(BJ)","file":"data/scores_PBE-D3-BJ.json","status":"needs-export"},{"id":"PBE-D3m-BJ","display":"PBE-D3M(BJ)","file":"data/scores_PBE-D3m-BJ.json","status":"needs-export"},{"id":"PBE-D3-0","display":"PBE-D3(0)","file":"data/scores_PBE-D3-0.json","status":"needs-export"},{"id":"PBE-rVV10","display":"PBE-rVV10","file":"data/scores_PBE-rVV10.json","status":"needs-export"},{"id":"BLYP-D4","display":"BLYP-D4","file":"data/scores_BLYP-D4.json","status":"needs-export"},{"id":"BLYP-D3-BJ","display":"BLYP-D3(BJ)","file":"data/scores_BLYP-D3-BJ.json","status":"needs-export"},{"id":"BLYP-D3-0","display":"BLYP-D3(0)","file":"data/scores_BLYP-D3-0.json","status":"needs-export"},{"id":"optB88-DRSLL","display":"optB88-vdW","file":"data/scores_optB88-DRSLL.json","status":"needs-export"},{"id":"Experimental","display":"Experiment (VSFG)","file":"data/scores_Experimental.json","status":"needs-export","metrics":["sfg"]}],"functionals":[{"id":"B3LYP-D3-0","display":"B3LYP-D3(0)","color":"#b22222","family":"Hybrids","dispersion":"D3-0","d":{"rdf":0.956013,"vdos":0.880394,"density":0.932579,"orientation":0.752123,"sfg":0.82747,"friction":0.888243},"sem":{"rdf":6.1e-05,"vdos":0.000182,"density":0.002208,"orientation":0.011424,"sfg":0.001975,"friction":0.002559},"kappa":{"rdf":1.0505,"vdos":1.2617,"density":1.1433,"orientation":1.756,"sfg":3.0519,"friction":0.7649},"sem_is_estimated":false,"overall_equal_weight":87.28036666666667},{"id":"B97M-rV","display":"B97M-rV","color":"#3f007d","family":"Meta-GGAs","dispersion":"rVV10","d":{"rdf":0.946693,"vdos":0.918502,"density":0.862115,"orientation":0.662203,"sfg":0.797246,"friction":0.854209},"sem":{"rdf":5.1e-05,"vdos":0.000214,"density":0.00182,"orientation":0.009293,"sfg":0.001066,"friction":0.00257},"kappa":{"rdf":1.2731,"vdos":0.8597,"density":2.3382,"orientation":2.393,"sfg":3.5865,"friction":0.9978},"sem_is_estimated":false,"overall_equal_weight":84.01613333333334},{"id":"BLYP-D3-0","display":"BLYP-D3(0)","color":"#d94801","family":"GGAs","dispersion":"D3-0","d":{"rdf":0.930115,"vdos":0.794974,"density":0.874928,"orientation":0.698211,"sfg":0.859373,"friction":0.710911},"sem":{"rdf":9e-05,"vdos":0.000334,"density":0.002727,"orientation":0.008056,"sfg":0.002116,"friction":0.003106},"kappa":{"rdf":1.669,"vdos":2.1628,"density":2.1209,"orientation":2.1379,"sfg":2.4875,"friction":1.9785},"sem_is_estimated":false,"overall_equal_weight":81.14186666666666},{"id":"BLYP-D3-BJ","display":"BLYP-D3(BJ)","color":"#a63603","family":"GGAs","dispersion":"D3-BJ","d":{"rdf":0.896446,"vdos":0.71993,"density":0.963774,"orientation":0.633972,"sfg":0.872747,"friction":0.810796},"sem":{"rdf":0.000192,"vdos":0.00045,"density":0.005884,"orientation":0.032733,"sfg":0.002946,"friction":0.003347},"kappa":{"rdf":2.4731,"vdos":2.9544,"density":0.6143,"orientation":2.593,"sfg":2.251,"friction":1.2949},"sem_is_estimated":false,"overall_equal_weight":81.62774999999999},{"id":"BLYP-D4","display":"BLYP-D4","color":"#7f2704","family":"GGAs","dispersion":"D4","d":{"rdf":0.907311,"vdos":0.704797,"density":0.971663,"orientation":0.547749,"sfg":0.877214,"friction":0.826201},"sem":{"rdf":0.000601,"vdos":0.001135,"density":0.005406,"orientation":0.021816,"sfg":0.003209,"friction":0.003127},"kappa":{"rdf":2.2136,"vdos":3.1141,"density":0.4805,"orientation":3.2038,"sfg":2.172,"friction":1.1895},"sem_is_estimated":false,"overall_equal_weight":80.58225},{"id":"HSE06-D3-0","display":"HSE06-D3(0)","color":"#8c1d18","family":"Hybrids","dispersion":"D3-0","d":{"rdf":0.917257,"vdos":0.809082,"density":0.972529,"orientation":0.543739,"sfg":0.693497,"friction":0.882646},"sem":{"rdf":0.000175,"vdos":0.000325,"density":0.004889,"orientation":0.0182,"sfg":0.002522,"friction":0.002722},"kappa":{"rdf":1.9761,"vdos":2.014,"density":0.4659,"orientation":3.2322,"sfg":5.4217,"friction":0.8032},"sem_is_estimated":false,"overall_equal_weight":80.3125},{"id":"M06L-D3-0","display":"M06-L-D3(0)","color":"#6a1b9a","family":"Meta-GGAs","dispersion":"D3-0","d":{"rdf":0.932791,"vdos":0.922202,"density":0.800763,"orientation":0.607135,"sfg":0.790576,"friction":0.682716},"sem":{"rdf":4.7e-05,"vdos":0.000186,"density":0.001739,"orientation":0.006086,"sfg":0.00203,"friction":0.002549},"kappa":{"rdf":1.6051,"vdos":0.8207,"density":3.3786,"orientation":2.7831,"sfg":3.7045,"friction":2.1715},"sem_is_estimated":false,"overall_equal_weight":78.93638333333332},{"id":"PBE-D3-0","display":"PBE-D3(0)","color":"#41ab5d","family":"GGAs","dispersion":"D3-0","d":{"rdf":0.852191,"vdos":0.656539,"density":0.935103,"orientation":0.465997,"sfg":0.847218,"friction":0.888858},"sem":{"rdf":0.000312,"vdos":0.000577,"density":0.007493,"orientation":0.019685,"sfg":0.002867,"friction":0.002719},"kappa":{"rdf":3.53,"vdos":3.6231,"density":1.1005,"orientation":3.783,"sfg":2.7026,"friction":0.7606},"sem_is_estimated":false,"overall_equal_weight":77.43176666666668},{"id":"PBE-D3-BJ","display":"PBE-D3(BJ)","color":"#006d2c","family":"GGAs","dispersion":"D3-BJ","d":{"rdf":0.844651,"vdos":0.644277,"density":0.920925,"orientation":0.362889,"sfg":0.823923,"friction":0.923518},"sem":{"rdf":0.000333,"vdos":0.000832,"density":0.009052,"orientation":0.02425,"sfg":0.00358,"friction":0.003596},"kappa":{"rdf":3.7101,"vdos":3.7525,"density":1.3409,"orientation":4.5134,"sfg":3.1146,"friction":0.5234},"sem_is_estimated":false,"overall_equal_weight":75.33638333333333},{"id":"PBE-D3m-BJ","display":"PBE-D3M(BJ)","color":"#238b45","family":"GGAs","dispersion":"D3m-BJ","d":{"rdf":0.847849,"vdos":0.645825,"density":0.931162,"orientation":0.28901,"sfg":0.822147,"friction":0.93143},"sem":{"rdf":0.000203,"vdos":0.000434,"density":0.011388,"orientation":0.024764,"sfg":0.006055,"friction":0.004872},"kappa":{"rdf":3.6337,"vdos":3.7361,"density":1.1673,"orientation":5.0368,"sfg":3.146,"friction":0.4693},"sem_is_estimated":false,"overall_equal_weight":74.45705000000001},{"id":"PBE-D4","display":"PBE-D4","color":"#00441b","family":"GGAs","dispersion":"D4","d":{"rdf":0.87714,"vdos":0.657587,"density":0.911893,"orientation":0.347527,"sfg":0.843762,"friction":0.907901},"sem":{"rdf":0.000698,"vdos":0.001655,"density":0.008714,"orientation":0.040863,"sfg":0.003693,"friction":0.00349},"kappa":{"rdf":2.9342,"vdos":3.6121,"density":1.4941,"orientation":4.6222,"sfg":2.7637,"friction":0.6303},"sem_is_estimated":false,"overall_equal_weight":75.76350000000001},{"id":"PBE-rVV10","display":"PBE-rVV10","color":"#c7e9c0","family":"GGAs","dispersion":"rVV10","d":{"rdf":0.849676,"vdos":0.653026,"density":0.902313,"orientation":0.481372,"sfg":0.821124,"friction":0.750651},"sem":{"rdf":0.000206,"vdos":0.000445,"density":0.009152,"orientation":0.022868,"sfg":0.003418,"friction":0.004224},"kappa":{"rdf":3.5901,"vdos":3.6602,"density":1.6566,"orientation":3.674,"sfg":3.1641,"friction":1.7065},"sem_is_estimated":false,"overall_equal_weight":74.3027},{"id":"RPA","display":"RPA/TZ","color":"#8a8a8a","family":"RPA","dispersion":"none","d":{"rdf":0.962768,"vdos":0.894468,"density":0.944893,"orientation":0.803048,"sfg":0.903236,"friction":0.839277},"sem":{"rdf":6.6e-05,"vdos":0.000133,"density":0.00223,"orientation":0.015061,"sfg":0.002509,"friction":0.002431},"kappa":{"rdf":0.8892,"vdos":1.1132,"density":0.9345,"orientation":1.3952,"sfg":1.7117,"friction":1.1},"sem_is_estimated":false,"overall_equal_weight":89.12816666666666},{"id":"optB88-DRSLL","display":"optB88-vdW","color":"#3182bd","family":"GGAs","dispersion":"DRSLL","d":{"rdf":0.903246,"vdos":0.76105,"density":0.855535,"orientation":0.620788,"sfg":0.834814,"friction":0.808577},"sem":{"rdf":6.3e-05,"vdos":0.000242,"density":0.002275,"orientation":0.009508,"sfg":0.002213,"friction":0.003073},"kappa":{"rdf":2.3107,"vdos":2.5206,"density":2.4498,"orientation":2.6864,"sfg":2.922,"friction":1.3101},"sem_is_estimated":false,"overall_equal_weight":79.7335},{"id":"r2SCAN","display":"r2SCAN","color":"#c5cae9","family":"Meta-GGAs","dispersion":"none","d":{"rdf":0.931006,"vdos":0.831996,"density":0.936089,"orientation":0.599336,"sfg":0.810709,"friction":0.92726},"sem":{"rdf":7.7e-05,"vdos":0.000223,"density":0.00411,"orientation":0.014844,"sfg":0.003143,"friction":0.003032},"kappa":{"rdf":1.6477,"vdos":1.7723,"density":1.0838,"orientation":2.8384,"sfg":3.3484,"friction":0.4978},"sem_is_estimated":false,"overall_equal_weight":83.93993333333333},{"id":"r2SCAN-D3-BJ","display":"r2SCAN-D3(BJ)","color":"#9fa8da","family":"Meta-GGAs","dispersion":"D3-BJ","d":{"rdf":0.911322,"vdos":0.817052,"density":0.870123,"orientation":0.714806,"sfg":0.772918,"friction":0.65829},"sem":{"rdf":0.000131,"vdos":0.000454,"density":0.001993,"orientation":0.010076,"sfg":0.001758,"friction":0.0028},"kappa":{"rdf":2.1178,"vdos":1.9299,"density":2.2024,"orientation":2.0204,"sfg":4.0169,"friction":2.3386},"sem_is_estimated":false,"overall_equal_weight":79.07518333333333},{"id":"r2SCAN-D4","display":"r2SCAN-D4","color":"#5e60ce","family":"Meta-GGAs","dispersion":"D4","d":{"rdf":0.91275,"vdos":0.813565,"density":0.878574,"orientation":0.69692,"sfg":0.770538,"friction":0.706723},"sem":{"rdf":0.000103,"vdos":0.000319,"density":0.003011,"orientation":0.013077,"sfg":0.002374,"friction":0.002704},"kappa":{"rdf":2.0837,"vdos":1.9667,"density":2.0591,"orientation":2.1471,"sfg":4.059,"friction":2.0072},"sem_is_estimated":false,"overall_equal_weight":79.65116666666667},{"id":"revPBE-D3-0","display":"revPBE-D3(0)","color":"#2171b5","family":"GGAs","dispersion":"D3-0","d":{"rdf":0.961973,"vdos":0.852681,"density":0.949265,"orientation":0.680889,"sfg":0.856325,"friction":0.857876},"sem":{"rdf":6.4e-05,"vdos":0.000163,"density":0.002548,"orientation":0.01308,"sfg":0.00145,"friction":0.002535},"kappa":{"rdf":0.9082,"vdos":1.554,"density":0.8603,"orientation":2.2606,"sfg":2.5415,"friction":0.9727},"sem_is_estimated":false,"overall_equal_weight":85.98348333333334},{"id":"revPBE-D3-BJ","display":"revPBE-D3(BJ)","color":"#08519c","family":"GGAs","dispersion":"D3-BJ","d":{"rdf":0.925011,"vdos":0.78839,"density":0.980016,"orientation":0.594046,"sfg":0.861475,"friction":0.97774},"sem":{"rdf":0.000111,"vdos":0.00026,"density":0.003009,"orientation":0.024005,"sfg":0.002484,"friction":0.002384},"kappa":{"rdf":1.7909,"vdos":2.2322,"density":0.3389,"orientation":2.8758,"sfg":2.4504,"friction":0.1523},"sem_is_estimated":false,"overall_equal_weight":85.44463333333333},{"id":"revPBE-D4","display":"revPBE-D4","color":"#08306b","family":"GGAs","dispersion":"D4","d":{"rdf":0.91783,"vdos":0.750466,"density":0.96984,"orientation":0.517047,"sfg":0.867281,"friction":0.892099},"sem":{"rdf":0.000402,"vdos":0.00094,"density":0.003612,"orientation":0.02491,"sfg":0.003027,"friction":0.002485},"kappa":{"rdf":1.9624,"vdos":2.6323,"density":0.5115,"orientation":3.4213,"sfg":2.3477,"friction":0.7385},"sem_is_estimated":false,"overall_equal_weight":81.90938333333334},{"id":"revPBE-DRSLL","display":"revPBE-DRSLL","color":"#6baed6","family":"GGAs","dispersion":"DRSLL","d":{"rdf":0.887086,"vdos":0.738019,"density":0.855751,"orientation":0.707433,"sfg":0.8196,"friction":0.668912},"sem":{"rdf":4.7e-05,"vdos":0.000203,"density":0.00272,"orientation":0.017741,"sfg":0.002846,"friction":0.002572},"kappa":{"rdf":2.6967,"vdos":2.7636,"density":2.4462,"orientation":2.0726,"sfg":3.1911,"friction":2.2659},"sem_is_estimated":false,"overall_equal_weight":77.94668333333334},{"id":"revPBE-rVV10","display":"revPBE-rVV10","color":"#c6dbef","family":"GGAs","dispersion":"rVV10","d":{"rdf":0.908273,"vdos":0.77371,"density":0.902397,"orientation":0.527378,"sfg":0.872178,"friction":0.56031},"sem":{"rdf":0.00024,"vdos":0.000536,"density":0.003222,"orientation":0.015256,"sfg":0.002773,"friction":0.002045},"kappa":{"rdf":2.1907,"vdos":2.3871,"density":1.6551,"orientation":3.3481,"sfg":2.261,"friction":3.0092},"sem_is_estimated":false,"overall_equal_weight":75.73743333333334},{"id":"revPBE0-D3-0","display":"revPBE0-D3(0)","color":"#e34a33","family":"Hybrids","dispersion":"D3-0","d":{"rdf":0.982659,"vdos":0.913136,"density":0.96803,"orientation":0.64763,"sfg":0.683163,"friction":0.799252},"sem":{"rdf":6.4e-05,"vdos":0.000104,"density":0.001984,"orientation":0.010767,"sfg":0.001258,"friction":0.002275},"kappa":{"rdf":0.4141,"vdos":0.9163,"density":0.5421,"orientation":2.4962,"sfg":5.6045,"friction":1.3739},"sem_is_estimated":false,"overall_equal_weight":83.23116666666665}]};
 
 let DATA = BASELINE;
+
+/* =========================================================================
+   References
+   -------------------------------------------------------------------------
+   Any level of theory in the study can play the reference: the six scores are
+   recomputed from the simulated observables against it, which is what
+   `export_web_data.py --refs <name>` does, one `data/scores_<name>.json` per
+   reference.  Experiment is a reference too, but only the VSFG spectra are
+   measured, so that payload carries a single observable and the page falls
+   back to scoring on it alone.
+   ========================================================================= */
+const REF_ROSTER = [
+  {id:"RPA-QZ",        display:"RPA/QZ",        family:"RPA"},
+  {id:"RPA",           display:"RPA/TZ",        family:"RPA"},
+  {id:"HSE06-D3-0",    display:"HSE06-D3(0)",   family:"Hybrids"},
+  {id:"B3LYP-D3-0",    display:"B3LYP-D3(0)",   family:"Hybrids"},
+  {id:"revPBE0-D3-0",  display:"revPBE0-D3(0)", family:"Hybrids"},
+  {id:"M06L-D3-0",     display:"M06-L-D3(0)",   family:"Meta-GGAs"},
+  {id:"r2SCAN-D4",     display:"r2SCAN-D4",     family:"Meta-GGAs"},
+  {id:"r2SCAN-D3-BJ",  display:"r2SCAN-D3(BJ)", family:"Meta-GGAs"},
+  {id:"r2SCAN",        display:"r2SCAN",        family:"Meta-GGAs"},
+  {id:"B97M-rV",       display:"B97M-rV",       family:"Meta-GGAs"},
+  {id:"revPBE-D4",     display:"revPBE-D4",     family:"GGAs"},
+  {id:"revPBE-D3-BJ",  display:"revPBE-D3(BJ)", family:"GGAs"},
+  {id:"revPBE-D3-0",   display:"revPBE-D3(0)",  family:"GGAs"},
+  {id:"revPBE-DRSLL",  display:"revPBE-DRSLL",  family:"GGAs"},
+  {id:"revPBE-rVV10",  display:"revPBE-rVV10",  family:"GGAs"},
+  {id:"PBE-D4",        display:"PBE-D4",        family:"GGAs"},
+  {id:"PBE-D3-BJ",     display:"PBE-D3(BJ)",    family:"GGAs"},
+  {id:"PBE-D3m-BJ",    display:"PBE-D3M(BJ)",   family:"GGAs"},
+  {id:"PBE-D3-0",      display:"PBE-D3(0)",     family:"GGAs"},
+  {id:"PBE-rVV10",     display:"PBE-rVV10",     family:"GGAs"},
+  {id:"BLYP-D4",       display:"BLYP-D4",       family:"GGAs"},
+  {id:"BLYP-D3-BJ",    display:"BLYP-D3(BJ)",   family:"GGAs"},
+  {id:"BLYP-D3-0",     display:"BLYP-D3(0)",    family:"GGAs"},
+  {id:"optB88-DRSLL",  display:"optB88-vdW",    family:"GGAs"},
+  {id:"Experimental",  display:"Experiment (VSFG)", family:"Experiment",
+   note:"VSFG only", only:["sfg"]},
+];
+const refFile = r => r.file || `data/scores_${r.id}.json`;
+
+/** Roster plus anything a loaded payload knows about that we do not. */
+function refRoster(){
+  const known = new Set(REF_ROSTER.map(r=>r.id));
+  const extra = (DATA.available_references || [])
+    .filter(r=>r && r.id && !known.has(r.id));
+  return [...REF_ROSTER, ...extra];
+}
+function refEntry(id){ return refRoster().find(r=>r.id === id) || {id, display:id}; }
+
+/** Payloads already parsed this session, so switching back is instant. */
+const refCache = new Map([[BASELINE.reference.id, BASELINE]]);
+const refState = {};     // id -> "loading" | "missing"
+let refFilter = "";
+
+function validatePayload(j){
+  if(!j || !Array.isArray(j.functionals) || !Array.isArray(j.metrics) || !j.reference)
+    throw new Error("missing functionals / metrics / reference");
+  if(!j.metrics.length) throw new Error("no observables in that file");
+  return j;
+}
+
+/** Swap in a payload and rebuild everything that depends on it. */
+function adoptPayload(j, note){
+  DATA = validatePayload(j);
+  refCache.set(DATA.reference.id, DATA);
+  initState(); computeHeatLo(); computeBaselineRanks(); buildConsole(); render();
+  setRefStatus((note || "") + subsetNote() + refNote(), false);
+}
+
+/** Warn when a reference does not define all six observables (experiment). */
+function subsetNote(){
+  const n = DATA.metrics.length;
+  if(n >= 6) return "";
+  const names = DATA.metrics.map(m=>m.label).join(", ");
+  return ` Only ${names} ${n === 1 ? "is" : "are"} defined against this `+
+         `reference, so every score on the page is built from `+
+         `${n === 1 ? "that observable" : "those observables"} alone.`;
+}
+
+/** A reference may explain itself (experiment names the measurement it is). */
+function refNote(){
+  const n = DATA.reference && DATA.reference.note;
+  return n && !/^Reference by construction/.test(n)
+    ? ` <span class="refcite">${n}</span>` : "";
+}
+
+function setRefStatus(html, isError){
+  const el = document.getElementById("refstatus");
+  if(!el) return;
+  el.className = "refstatus" + (isError ? " err" : "");
+  el.innerHTML = html || "";
+}
+
+async function loadReference(r){
+  if(r.id === DATA.reference.id) return;
+  if(refCache.has(r.id)){
+    adoptPayload(refCache.get(r.id), `Scoring against ${refEntry(r.id).display}.`);
+    return;
+  }
+  refState[r.id] = "loading"; buildRefs();
+  setRefStatus(`Fetching <code>${refFile(r)}</code> \u2026`, false);
+  try{
+    const res = await fetch(refFile(r), {cache:"no-store"});
+    if(!res.ok) throw new Error(`HTTP ${res.status}`);
+    const j = validatePayload(await res.json());
+    delete refState[r.id];
+    adoptPayload(j, `Scoring against ${j.reference.display}, `+
+                    `from <code>${refFile(r)}</code>.`);
+  }catch(err){
+    refState[r.id] = "missing"; buildRefs();
+    setRefStatus(
+      location.protocol === "file:"
+        ? `This page is open straight from the filesystem, so it is not allowed `+
+          `to fetch <code>${refFile(r)}</code>. Serve the folder `+
+          `(<code>python -m http.server</code>) or pick the file by hand below.`
+        : `No scores against ${r.display} yet (${err.message}). Write them with `+
+          `<code>python export_web_data.py --refs ${r.id}</code> and drop the `+
+          `JSON into <code>data/</code>.`,
+      true);
+  }
+}
+
+/** export_web_data.py writes data/manifest.json next to the payloads. When it
+    is there the list can say up front which references exist, instead of the
+    reader finding out through a failed fetch. Absent, nothing is lost: the
+    fetch on click still decides. */
+async function loadManifest(){
+  try{
+    const res = await fetch("data/manifest.json", {cache:"no-store"});
+    if(!res.ok) return;
+    const m = await res.json();
+    if(!m || !Array.isArray(m.references)) return;
+    const have = new Set();
+    for(const r of m.references){
+      have.add(r.id);
+      const known = REF_ROSTER.find(x=>x.id === r.id);
+      if(known && r.file) known.file = r.file;
+    }
+    for(const r of REF_ROSTER)
+      if(!have.has(r.id) && !refCache.has(r.id)) refState[r.id] = "missing";
+    buildRefs();
+  }catch(err){ /* no manifest, or no server: leave every reference clickable */ }
+}
+
+/** Reference name wherever the prose names it. */
+function syncRefNames(){
+  for(const el of document.querySelectorAll(".refname"))
+    el.textContent = DATA.reference.display;
+}
 
 /* ---------- state ---------- */
 const state = {
@@ -556,6 +772,14 @@ function isDark(){
   const t = document.documentElement.getAttribute("data-theme");
   return t ? t === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
 }
+/* Sun when the page is dark (click to lighten it), moon when it is light
+   (click to darken it), so the icon always shows where the button takes you. */
+const ICON_SUN = `<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>`;
+const ICON_MOON = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`;
+function syncThemeIcon(){
+  const icon = document.getElementById("themeicon");
+  if(icon) icon.innerHTML = isDark() ? ICON_SUN : ICON_MOON;
+}
 /* The paper's family palette is built for a white page: its darkest navies and
    greens vanish on a dark ground, its palest blues vanish on a white one.
    `readable` walks a colour's luminance into a legible band for the current
@@ -584,7 +808,28 @@ function ylgn(t){
   const x = t*(YLGN.length-1), i = Math.min(YLGN.length-2,Math.floor(x)), f = x-i;
   return YLGN[i].map((v,k)=>v+(YLGN[i+1][k]-v)*f);
 }
-const HEAT_LO = 50, HEAT_HI = 100;
+/* The ramp floor follows the data. A fixed floor of 50 silently clamped every
+   cell below it to one colour -- with RPA/QZ as the reference the orientation
+   column runs down to 29, and against some references a third of the cells sit
+   under 50 -- so the worst performers all read as the same pale yellow and the
+   legend claimed a range the data left. The floor is taken from the payload's
+   own individual scores, so nothing is clamped; it stays at 50 when the data
+   allows, which is the common case and the paper's look. Group-mean cells are
+   weighted averages of those same scores, so they cannot fall outside it. */
+let HEAT_LO = 50;
+const HEAT_HI = 100;
+function computeHeatLo(){
+  let mn = Infinity;
+  for(const f of DATA.functionals)
+    for(const m of DATA.metrics){
+      const v = f.d[m.id];
+      if(isFinite(v)) mn = Math.min(mn, v*100);
+    }
+  HEAT_LO = isFinite(mn) ? Math.max(0, Math.min(50, Math.floor((mn-1)/5)*5)) : 50;
+}
+/* The overall-score bar in the table is a separate scale that happened to
+   share the old constant; it keeps its own origin so the ramp can move. */
+const OBAR_LO = 50;
 function heatFill(v){
   if(!isFinite(v)) return "var(--nodata)";
   return rgb2css(ylgn((Math.max(HEAT_LO,Math.min(HEAT_HI,v))-HEAT_LO)/(HEAT_HI-HEAT_LO)));
@@ -1056,7 +1301,7 @@ function drawTable(ctx){
 
     html += `<td class="sep"></td>`;
     if(isFinite(r.overall)){
-      const pct = Math.max(0, Math.min(100, (r.overall - HEAT_LO)/(maxOverall - HEAT_LO)*100));
+      const pct = Math.max(0, Math.min(100, (r.overall - OBAR_LO)/(maxOverall - OBAR_LO)*100));
       html += `<td class="obar"><div class="ob">`+
               `<div class="track"><div class="fill" style="width:${pct}%;background:${fillOf(r.color)}"></div></div>`+
               `<div class="val" style="color:${nameCol}">${r.overall.toFixed(1)}</div></div></td>`;
@@ -1084,6 +1329,53 @@ function drawTable(ctx){
 /* =========================================================================
    Console
    ========================================================================= */
+/** The reference list: one row per level of theory, filtered by the search box. */
+function buildRefs(){
+  const rb = document.getElementById("refs");
+  if(!rb) return;
+  rb.innerHTML = "";
+  const q = refFilter.trim().toLowerCase();
+  const all = refRoster();
+  const list = q
+    ? all.filter(r=>(r.display + " " + r.id).toLowerCase().includes(q))
+    : all;
+
+  const count = document.getElementById("refcount");
+  if(count) count.textContent = q ? `${list.length} of ${all.length}`
+                                  : `${all.length} available`;
+
+  if(!list.length){
+    rb.innerHTML = `<p class="refempty">Nothing matches that.</p>`;
+    return;
+  }
+
+  for(const r of list){
+    const active = r.id === DATA.reference.id;
+    const st = active ? null : refState[r.id];
+    const cached = !active && !st && refCache.has(r.id);
+    const b = document.createElement("button");
+    b.className = "ref";
+    b.setAttribute("aria-pressed", active ? "true" : "false");
+    if(st) b.dataset.state = st;
+    else if(cached) b.dataset.state = "cached";
+    b.disabled = active || st === "loading";
+
+    const tag = active ? "active"
+              : st === "loading" ? "loading"
+              : st === "missing" ? "not exported"
+              : cached ? "loaded"
+              : (r.note || "score against");
+    b.innerHTML = `<span class="dot"></span><span>${r.display}</span>`+
+                  `<span class="tag">${tag}</span>`;
+    b.title = active
+      ? `${r.display} is the reference: identical to itself, so it is pinned at 100.`
+      : `Score every XC approximation against ${r.display} `+
+        `(reads ${refFile(r)}).`;
+    b.addEventListener("click", ()=>loadReference(r));
+    rb.appendChild(b);
+  }
+}
+
 function buildConsole(){
   // sliders
   const box = document.getElementById("sliders");
@@ -1109,6 +1401,9 @@ function buildConsole(){
   const pb = document.getElementById("presets");
   pb.innerHTML = "";
   for(const p of PRESETS){
+    // a preset that zeroes every observable a reference defines (e.g.
+    // "Structure only" against the VSFG-only experiment) has nothing to say
+    if(!DATA.metrics.some(m=>(p.w[m.id] ?? 0) > 0)) continue;
     const b = document.createElement("button");
     b.className = "chip"; b.textContent = p.label; b.dataset.preset = p.id;
     b.addEventListener("click", ()=>applyPreset(p));
@@ -1116,27 +1411,8 @@ function buildConsole(){
   }
 
   // references
-  const rb = document.getElementById("refs");
-  rb.innerHTML = "";
-  for(const r of (DATA.available_references || [])){
-    const b = document.createElement("button");
-    b.className = "ref";
-    const active = r.id === DATA.reference.id;
-    b.setAttribute("aria-pressed", active ? "true" : "false");
-    if(!active) b.disabled = true;
-    // "available" means export_web_data.py already wrote a sibling JSON for
-    // this reference, so the user only has to load that file.
-    const tag = active ? "active"
-              : (r.status === "available" ? "load file" : "re-run needed");
-    b.innerHTML = `<span class="dot"></span><span>${r.display}</span>`+
-      `<span class="tag">${tag}</span>`;
-    if(!active) b.title = r.status === "available"
-      ? `Already exported. Load ${r.file || ("scores_"+r.id+".json")} with the `+
-        `control below to score against this reference.`
-      : "Re-run the analysis against this reference with export_web_data.py, "+
-        "then load the scores.json it writes.";
-    rb.appendChild(b);
-  }
+  buildRefs();
+  syncRefNames();
 
   // panel tools
   const tools = [
@@ -1266,11 +1542,8 @@ document.getElementById("jsonfile").addEventListener("change", ev=>{
   const rd = new FileReader();
   rd.onload = () => {
     try{
-      const j = JSON.parse(rd.result);
-      if(!j.functionals || !j.metrics || !j.reference)
-        throw new Error("missing functionals / metrics / reference");
-      DATA = j;
-      initState(); computeBaselineRanks(); buildConsole(); render();
+      adoptPayload(JSON.parse(rd.result),
+                   `Loaded <code>${f.name}</code>.`);
       lbl.innerHTML = `Loaded <code>${f.name}</code>, reference ${DATA.reference.display}`;
     }catch(err){
       lbl.innerHTML = `Could not read that file: ${err.message}. `+
@@ -1286,14 +1559,23 @@ document.getElementById("themebtn").addEventListener("click", ()=>{
   const sysDark = matchMedia("(prefers-color-scheme: dark)").matches;
   const next = cur ? (cur === "dark" ? "light" : "dark") : (sysDark ? "light" : "dark");
   r.setAttribute("data-theme", next);
+  syncThemeIcon();
   render();   // SVG picks up token colours at draw time
+});
+
+/* ---------- reference filter ---------- */
+document.getElementById("reffilter").addEventListener("input", ev=>{
+  refFilter = ev.target.value; buildRefs();
 });
 
 /* ---------- boot ---------- */
 initState();
+computeHeatLo();
 computeBaselineRanks();
 buildConsole();
+syncThemeIcon();
 render();
+loadManifest();
 addEventListener("resize", ()=>{ /* SVGs are viewBox-scaled; nothing to do */ });
 </script>
 
