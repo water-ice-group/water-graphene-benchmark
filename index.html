@@ -1143,20 +1143,34 @@ function drawIndiv(ctx){
     .filter(g=>g.members.length);
 
   const SPAN = 92, GAP = 26, BLOCKGAP = 40, ML = 50, MR = 14, MT = 26, PH = 190, MB = 48;
+  const ROWGAP = 30;
+
+  /* Two bands rather than one long strip. The SVG is scaled to the panel's
+     width, so halving the width draws every bar about twice as large. A
+     family block is never split across bands: the groups are dealt out in
+     order and the cut is taken where the running count first reaches half. */
+  const NBANDS = 2;
   const nF = groups.reduce((s,g)=>s+g.members.length, 0);
-  const W = ML + nF*SPAN + (nF-1)*GAP + (groups.length-1)*(BLOCKGAP-GAP) + MR;
-  const H = MT + PH + MB;
+  const bands = [];
+  let cur = [], run = 0;
+  for(const g of groups){
+    cur.push(g); run += g.members.length;
+    if(bands.length < NBANDS-1 && run >= nF/NBANDS && nF - run > 0){
+      bands.push(cur); cur = [];
+    }
+  }
+  if(cur.length) bands.push(cur);
+
+  const bandW = b => {
+    const n = b.reduce((s,g)=>s+g.members.length, 0);
+    return ML + n*SPAN + (n-1)*GAP + (b.length-1)*(BLOCKGAP-GAP) + MR;
+  };
+  const BH = MT + PH + MB;
+  const W = Math.max(...bands.map(bandW));
+  const H = bands.length*BH + (bands.length-1)*ROWGAP;
   svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
   svg.setAttribute("width", W); svg.setAttribute("height", H);
   svg.style.maxWidth = "100%"; svg.style.height = "auto";
-
-  const y = v => MT + PH - v/110*PH;
-  for(let v = 0; v <= 100; v += 20){
-    el("line", {x1:ML-6, x2:W-MR, y1:y(v), y2:y(v), class:"gridline"}, svg);
-    txt(svg, ML-10, y(v)+3.5, String(v), {class:"ticklab", "text-anchor":"end"});
-  }
-  const lab = txt(svg, 0, 0, "Individual score  [%]", {class:"axislab", "text-anchor":"middle"});
-  lab.setAttribute("transform", `translate(13,${MT+PH/2}) rotate(-90)`);
 
   // bar widths ∝ weight; a zero-weight metric keeps a 2px hairline so the
   // column stays legible as "present but excluded".
@@ -1168,53 +1182,64 @@ function drawIndiv(ctx){
   for(const m of DATA.metrics)
     bw[m.id] = ctx.w[m.id] > 0 ? Math.max(3, avail*(ctx.w[m.id]/wsum)) : HAIR;
 
-  let x = ML;
-  groups.forEach((grp, gi)=>{
-    const x0 = x;
-    grp.members.forEach(id=>{
-      const r = byId[id];
-      let bx = x;
-      for(const m of DATA.metrics){
-        const d = r.d[m.id], w = bw[m.id];
-        if(isFinite(d)){
-          const h = Math.max(0, y(0) - y(d*100));
-          el("rect", {x:bx, y:y(d*100), width:w, height:h, fill:m.color,
-                      "fill-opacity": ctx.w[m.id] > 0 ? 1 : .3}, svg);
-          if(w > 14 && h > 30){
-            const t = txt(svg, 0, 0, (d*100).toFixed(1),
-              {class:"barval", "text-anchor":"start", "font-size":9.5});
-            t.setAttribute("transform", `translate(${bx+w/2+3.4},${y(0)-6}) rotate(-90)`);
+  bands.forEach((band, bi)=>{
+    const top = bi*(BH + ROWGAP), RW = bandW(band);
+    const y = v => top + MT + PH - v/110*PH;
+
+    for(let v = 0; v <= 100; v += 20){
+      el("line", {x1:ML-6, x2:RW-MR, y1:y(v), y2:y(v), class:"gridline"}, svg);
+      txt(svg, ML-10, y(v)+3.5, String(v), {class:"ticklab", "text-anchor":"end"});
+    }
+    const lab = txt(svg, 0, 0, "Individual score  [%]", {class:"axislab", "text-anchor":"middle"});
+    lab.setAttribute("transform", `translate(13,${top+MT+PH/2}) rotate(-90)`);
+
+    let x = ML;
+    band.forEach(grp=>{
+      const x0 = x;
+      grp.members.forEach(id=>{
+        const r = byId[id];
+        let bx = x;
+        for(const m of DATA.metrics){
+          const d = r.d[m.id], w = bw[m.id];
+          if(isFinite(d)){
+            const h = Math.max(0, y(0) - y(d*100));
+            el("rect", {x:bx, y:y(d*100), width:w, height:h, fill:m.color,
+                        "fill-opacity": ctx.w[m.id] > 0 ? 1 : .3}, svg);
+            if(w > 14 && h > 30){
+              const t = txt(svg, 0, 0, (d*100).toFixed(1),
+                {class:"barval", "text-anchor":"start", "font-size":9.5});
+              t.setAttribute("transform", `translate(${bx+w/2+3.4},${y(0)-6}) rotate(-90)`);
+            }
+          } else {
+            txt(svg, bx+w/2, y(0)-4, "×", {"text-anchor":"middle", fill:"var(--faint)", "font-size":12});
           }
-        } else {
-          txt(svg, bx+w/2, y(0)-4, "×", {"text-anchor":"middle", fill:"var(--faint)", "font-size":12});
+          const hit = el("rect", {x:bx, y:top+MT, width:w, height:PH, class:"hit"}, svg);
+          hit.addEventListener("mousemove", e=>showTip(e,
+            `<div class="t">${r.display}</div>`+
+            `<div class="r"><span style="color:${m.color}">${m.label}</span>`+
+            `<span>${isFinite(d)?(d*100).toFixed(2):"—"}</span></div>`+
+            `<div class="r"><span>Weight</span><span>${(ctx.w[m.id]*100).toFixed(1)}%</span></div>`+
+            `<div class="r"><span>Overall score</span><span>${isFinite(r.overall)?r.overall.toFixed(1):"n/a"}</span></div>`));
+          hit.addEventListener("mouseleave", hideTip);
+          bx += w;
         }
-        const hit = el("rect", {x:bx, y:MT, width:w, height:PH, class:"hit"}, svg);
-        hit.addEventListener("mousemove", e=>showTip(e,
-          `<div class="t">${r.display}</div>`+
-          `<div class="r"><span style="color:${m.color}">${m.label}</span>`+
-          `<span>${isFinite(d)?(d*100).toFixed(2):"—"}</span></div>`+
-          `<div class="r"><span>Weight</span><span>${(ctx.w[m.id]*100).toFixed(1)}%</span></div>`+
-          `<div class="r"><span>Overall score</span><span>${isFinite(r.overall)?r.overall.toFixed(1):"n/a"}</span></div>`));
-        hit.addEventListener("mouseleave", hideTip);
-        bx += w;
-      }
-      txt(svg, x + SPAN/2, y(0)+18, r.display,
-          {"text-anchor":"middle", "font-size":11, fill:readable(r.color), "font-weight":600});
-      x += SPAN + GAP;
+        txt(svg, x + SPAN/2, y(0)+18, r.display,
+            {"text-anchor":"middle", "font-size":11, fill:readable(r.color), "font-weight":600});
+        x += SPAN + GAP;
+      });
+      x += BLOCKGAP - GAP;
+      // family bracket over the block
+      const right = x0 + grp.members.length*SPAN + (grp.members.length-1)*GAP;
+      el("path", {d:`M${x0-6},${top+MT-8} L${x0-6},${top+MT-14} L${right+6},${top+MT-14} L${right+6},${top+MT-8}`,
+                  fill:"none", stroke:"var(--rule)", "stroke-width":1.2}, svg);
+      txt(svg, (x0+right)/2, top+MT-19, grp.label,
+          {"text-anchor":"middle", "font-size":10.5, fill:"var(--ink-2)",
+           "letter-spacing":"0.1em", "font-weight":600});
     });
-    x += BLOCKGAP - GAP;
-    // family bracket over the block
-    const right = x0 + grp.members.length*SPAN + (grp.members.length-1)*GAP;
-    el("path", {d:`M${x0-6},${MT-8} L${x0-6},${MT-14} L${right+6},${MT-14} L${right+6},${MT-8}`,
-                fill:"none", stroke:"var(--rule)", "stroke-width":1.2}, svg);
-    txt(svg, (x0+right)/2, MT-19, grp.label,
-        {"text-anchor":"middle", "font-size":10.5, fill:"var(--ink-2)",
-         "letter-spacing":"0.1em", "font-weight":600});
+
+    el("line", {x1:ML-6, x2:RW-MR, y1:y(0), y2:y(0), stroke:"var(--rule)", "stroke-width":1.2}, svg);
   });
-
-  el("line", {x1:ML-6, x2:W-MR, y1:y(0), y2:y(0), stroke:"var(--rule)", "stroke-width":1.2}, svg);
 }
-
 /* =========================================================================
    Fig. S11, full breakdown
    ========================================================================= */
