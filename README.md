@@ -24,7 +24,6 @@ It is symmetric in its two arguments and bounded by 0 and 1, so no observable is
 
 The VSFG score follows from that norm too. Each spectrum is reduced to three physical descriptors, the hydrogen-bonded and dangling O-H peak positions, their intensity ratio, and the width of the hydrogen-bonded band. The scalar form above turns each descriptor into an agreement, and the three are then averaged. This replaces an earlier, asymmetric definition of the VSFG agreement: the descriptors now use the same normalisation as friction and as the curve-based observables. VSFG scores are uniformly higher under it, so the overall scores on the page sit a few points above what the earlier export gave. `_agreement` in `benchmark_all_references.py` is the definition.
 
-Orientation is scored on the population-weighted profile. Each bin enters weighted by the water population N(z) of the reference, and the comparison stops 11 Å from the sheet, so the air-water side of the film does not dominate a score that is about the solid-liquid interface. Every score on the page, orientation included, comes from that all-vs-all run rather than from the numbers transcribed for the paper's figure, so it does not reproduce the published value exactly and a ranking can shift by a place or two.
 
 ## What is in this repository
 
@@ -66,4 +65,3 @@ It reads the analysed trajectories (`17_FINAL_PROD_out`, `12_analyse_final_prods
 
 The sync step is not optional. `index.html` carries the RPA/QZ payload inline, as a `const BASELINE = {...}` literal, so the page works opened straight from disk. It seeds its reference cache from that literal and never re-reads `data/scores_RPA-QZ.json`, so exporting without syncing leaves the default view showing the old numbers while every other reference shows the new ones. Run `python sync_inline_baseline.py --check` before publishing: it reports drift and exits non-zero without writing.
 
-`PBE-DRSLL` and `SCAN` stay out of the page, as they are out of Figure 4. `PBE-DRSLL` is in the matrix, so dropping it from `EXCLUDE` in `export_web_data.py` brings it in.
