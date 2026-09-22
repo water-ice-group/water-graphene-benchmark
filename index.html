@@ -43,28 +43,8 @@
      edge (its own width plus its offset), so panel tools can clear it. */
   --themebtn-w:100px;
 }
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --ground:#0e1314;
-    --surface:#161c1d;
-    --surface-sunk:#111718;
-    --rule:#2a3334;
-    --rule-soft:#222a2b;
-    --ink:#e7eceb;
-    --ink-2:#c3cccb;
-    --muted:#8f9b9a;
-    --faint:#6d7877;
-    --accent:#35baa0;
-    --accent-soft:#16302b;
-    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.7);
-    --shadow-hover:0 2px 5px rgba(0,0,0,.5), 0 18px 40px -16px rgba(0,0,0,.8);
-    --grid:#242d2e;
-    --nodata:#222a2b;
-    --struct:#5cc98a;
-    --dyn:#6aa9e8;
-  }
-}
 :root[data-theme="dark"]{
+  color-scheme:dark;
   --ground:#0e1314;
   --surface:#161c1d;
   --surface-sunk:#111718;
@@ -768,9 +748,10 @@ function darken(h,f){return rgb2css(mulRGB(hex2rgb(h),f));}
 function lighten(h,a){return rgb2css(toWhite(hex2rgb(h),a));}
 function lum(c){return (0.299*c[0]+0.587*c[1]+0.114*c[2])/255;}
 
+/* The page always boots light (<html data-theme="light">); the OS setting is
+   deliberately ignored, so the button is the only thing that turns it dark. */
 function isDark(){
-  const t = document.documentElement.getAttribute("data-theme");
-  return t ? t === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  return document.documentElement.getAttribute("data-theme") === "dark";
 }
 /* Sun when the page is dark (click to lighten it), moon when it is light
    (click to darken it), so the icon always shows where the button takes you. */
@@ -1607,10 +1588,8 @@ document.getElementById("jsonfile").addEventListener("change", ev=>{
 
 /* ---------- theme ---------- */
 document.getElementById("themebtn").addEventListener("click", ()=>{
-  const r = document.documentElement, cur = r.getAttribute("data-theme");
-  const sysDark = matchMedia("(prefers-color-scheme: dark)").matches;
-  const next = cur ? (cur === "dark" ? "light" : "dark") : (sysDark ? "light" : "dark");
-  r.setAttribute("data-theme", next);
+  const r = document.documentElement;
+  r.setAttribute("data-theme", r.getAttribute("data-theme") === "dark" ? "light" : "dark");
   syncThemeIcon();
   render();   // SVG picks up token colours at draw time
 });
