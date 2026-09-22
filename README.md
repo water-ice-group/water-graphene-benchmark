@@ -22,8 +22,6 @@ and for a scalar, such as the friction coefficient or a VSFG peak position, it i
 
 It is symmetric in its two arguments and bounded by 0 and 1, so no observable is scored on a scale of its own, and swapping which level of theory plays the reference does not change the size of the disagreement.
 
-The VSFG score follows from that norm too. Each spectrum is reduced to three physical descriptors, the hydrogen-bonded and dangling O-H peak positions, their intensity ratio, and the width of the hydrogen-bonded band. The scalar form above turns each descriptor into an agreement, and the three are then averaged. This replaces an earlier, asymmetric definition of the VSFG agreement: the descriptors now use the same normalisation as friction and as the curve-based observables. VSFG scores are uniformly higher under it, so the overall scores on the page sit a few points above what the earlier export gave. `_agreement` in `benchmark_all_references.py` is the definition.
-
 
 ## What is in this repository
 
@@ -55,13 +53,13 @@ python sync_inline_baseline.py
 
 Those two steps need nothing but the standard library, and they read only `benchmark_all_references/pairwise_scores.csv` and `scores_experimental.csv`, so the whole of `data/` can be rebuilt from what is committed here. `--relative-paths` keeps the recorded paths free of whichever machine did the run. Drop it and provenance records absolute ones instead.
 
-Re-running the scoring itself is the step this repository cannot reproduce on its own:
+Re-running the scoring itself needs inputs this repository does not contain:
 
 ```sh
 python benchmark_all_references.py          # writes benchmark_all_references/
 ```
 
-It reads the analysed trajectories (`17_FINAL_PROD_out`, `12_analyse_final_prods`), which are far too large to publish. The committed CSVs are its output.
+It reads the analysed trajectories (`17_FINAL_PROD_out`, `12_analyse_final_prods`), which are far too large to publish. The committed CSVs are its output, and the trajectories can be provided upon reasonable request.
 
-The sync step is not optional. `index.html` carries the RPA/QZ payload inline, as a `const BASELINE = {...}` literal, so the page works opened straight from disk. It seeds its reference cache from that literal and never re-reads `data/scores_RPA-QZ.json`, so exporting without syncing leaves the default view showing the old numbers while every other reference shows the new ones. Run `python sync_inline_baseline.py --check` before publishing: it reports drift and exits non-zero without writing.
+The sync step is not optional. `index.html` carries the RPA/QZ payload inline, as a `const BASELINE = {...}` literal, so the page works opened straight from disk. It seeds its reference cache from that literal and never re-reads `data/scores_RPA-QZ.json`, so exporting without syncing leaves the default view showing the old numbers while every other reference shows the new ones. Run `python sync_inline_baseline.py --check` before deployment: it reports drift and exits non-zero without writing.
 
